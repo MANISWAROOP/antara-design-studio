@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Room Visualizer — Antara Studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── ANTARA BRAND ───────────────────────────────────────────────── */
+:root {
+  --gold:      #E9B9A3;
+  --gold-dim:  rgba(233,185,163,.55);
+  --gold-glow: rgba(233,185,163,.12);
+  --plum:      #3B2D35;
+  --dark:      #0D0C0A;
+  --dark2:     #1A1714;
+  --dark3:     #272522;
+  --dark4:     #353230;
+  --cream:     #FFFBF4;
+  --muted:     rgba(255,251,244,.5);
+  --muted2:    rgba(255,251,244,.22);
+  --ff-h: 'Raleway', sans-serif;
+  --ff-b: 'Golos Text', sans-serif;
+  --trans: .28s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--dark);color:var(--cream);font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{text-decoration:none;color:inherit}
+
+/* ══════════════════════════════════════════════════════════════════
+   LOADING SCREEN
+══════════════════════════════════════════════════════════════════ */
+#loader{
+  position:fixed;inset:0;background:var(--dark);z-index:1000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
+  transition:opacity .6s ease;
+}
+#loader.hide{opacity:0;pointer-events:none}
+.loader-logo{font-family:var(--ff-h);font-size:22px;font-weight:700;color:var(--cream);letter-spacing:.04em}
+.loader-logo em{color:var(--gold);font-style:normal}
+.loader-bar-track{width:220px;height:2px;background:var(--dark4);border-radius:99px;overflow:hidden}
+.loader-bar-fill{height:100%;background:var(--gold);border-radius:99px;width:0%;transition:width .1s linear}
+.loader-pct{font-size:11px;color:var(--muted);font-family:var(--ff-h);letter-spacing:.1em}
+
+/* ══════════════════════════════════════════════════════════════════
+   TOP BAR
+══════════════════════════════════════════════════════════════════ */
+#topbar{
+  position:fixed;top:0;left:0;right:0;height:56px;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+  background:linear-gradient(to bottom,rgba(13,12,10,.95),transparent);
+  pointer-events:none;
+}
+#topbar>*{pointer-events:auto}
+.tb-logo{font-family:var(--ff-h);font-size:16px;font-weight:700;color:var(--cream);letter-spacing:.03em}
+.tb-logo em{color:var(--gold);font-style:normal}
+.tb-right{display:flex;gap:10px;align-items:center}
+.tb-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 18px;border-radius:99px;font-size:12px;font-weight:700;
+  font-family:var(--ff-h);letter-spacing:.06em;text-transform:uppercase;
+  transition:var(--trans);
+}
+.tb-btn-ghost{
+  border:1px solid rgba(255,251,244,.2);color:var(--cream);
+  background:rgba(255,251,244,.06);backdrop-filter:blur(8px);
+}
+.tb-btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.tb-btn-gold{background:var(--gold);color:var(--plum)}
+.tb-btn-gold:hover{background:#d9a990;transform:translateY(-1px)}
+.tb-room-name{
+  font-family:var(--ff-h);font-size:13px;font-weight:600;
+  color:rgba(255,251,244,.7);letter-spacing:.05em;text-transform:uppercase;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MAIN CANVAS — FULL SCREEN 3D ROOM
+══════════════════════════════════════════════════════════════════ */
+#canvas{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+/* The 3D room scene container */
+#scene{
+  position:relative;
+  width:100vw;height:100vh;
+  perspective:1200px;
+  cursor:grab;
+  user-select:none;
+  transition:filter .4s ease;
+}
+#scene:active{cursor:grabbing}
+#scene.blurred{filter:blur(2px) brightness(.6)}
+
+/* Room box — CSS 3D */
+#room{
+  position:absolute;
+  width:900px;height:560px;
+  top:50%;left:50%;
+  transform:translateX(-50%) translateY(-50%) rotateY(0deg);
+  transform-style:preserve-3d;
+  transition:transform .6s cubic-bezier(.4,0,.2,1);
+}
+/* walls */
+.face{
+  position:absolute;
+  transition:background .5s ease, background-image .5s ease, opacity .5s ease;
+  backface-visibility:hidden;
+}
+/* Back wall */
+#w-back{
+  width:900px;height:560px;top:0;left:0;
+  transform:translateZ(-200px);
+}
+/* Left wall */
+#w-left{
+  width:460px;height:560px;top:0;left:0;
+  transform:rotateY(90deg) translateZ(0px) translateX(-230px);
+  transform-origin:left center;
+  opacity:.82;
+}
+/* Right wall */
+#w-right{
+  width:460px;height:560px;top:0;right:0;
+  transform:rotateY(-90deg) translateZ(0px) translateX(230px);
+  transform-origin:right center;
+  opacity:.82;
+}
+/* Floor */
+#w-floor{
+  width:900px;height:460px;bottom:0;left:0;
+  transform:rotateX(90deg) translateZ(230px) translateY(0px);
+  transform-origin:bottom center;
+  opacity:.95;
+}
+/* Ceiling */
+#w-ceil{
+  width:900px;height:340px;top:0;left:0;
+  transform:rotateX(-90deg) translateZ(170px);
+  transform-origin:top center;
+  opacity:.7;
+}
+/* Ambient shading overlays */
+#w-left::after, #w-right::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to right, rgba(0,0,0,.3), transparent);
+  pointer-events:none;
+}
+#w-right::after{background:linear-gradient(to left, rgba(0,0,0,.3), transparent)}
+#w-floor::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,.15), transparent 60%);
+  pointer-events:none;
+}
+
+/* ── ROOM FURNITURE LAYER ───────────────────────────── */
+#furniture-layer{
+  position:absolute;
+  width:900px;height:560px;top:0;left:0;
+  transform:translateZ(-190px);
+  display:flex;align-items:flex-end;justify-content:center;gap:16px;
+  padding-bottom:80px;
+  pointer-events:none;
+  transition:opacity .4s;
+}
+.furn-item{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:clamp(36px,4vw,60px);
+  filter:drop-shadow(0 8px 16px rgba(0,0,0,.5));
+  transition:transform .3s ease, opacity .4s;
+  animation:furnFloat 6s ease-in-out infinite;
+}
+.furn-item:nth-child(2){animation-delay:1s}
+.furn-item:nth-child(3){animation-delay:2s}
+.furn-item:nth-child(4){animation-delay:.5s}
+@keyframes furnFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+
+/* ── LIGHTING OVERLAY ─────────────────────────────── */
+#lighting{
+  position:absolute;
+  width:900px;height:560px;top:0;left:0;
+  transform:translateZ(-185px);
+  pointer-events:none;
+  transition:opacity .5s;
+}
+.light-spot{
+  position:absolute;
+  border-radius:50%;
+  transition:opacity .5s, background .5s;
+}
+#light-main{
+  width:600px;height:300px;top:-80px;left:150px;
+  background:radial-gradient(ellipse, rgba(255,240,200,.08) 0%, transparent 70%);
+}
+#light-accent{
+  width:300px;height:200px;bottom:50px;right:100px;
+  background:radial-gradient(ellipse, rgba(233,185,163,.06) 0%, transparent 70%);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   HOTSPOTS
+══════════════════════════════════════════════════════════════════ */
+.hotspot{
+  position:absolute;
+  width:32px;height:32px;
+  transform:translateZ(-188px);
+  cursor:pointer;pointer-events:auto;
+}
+.hotspot-ring{
+  width:32px;height:32px;border-radius:50%;
+  border:1.5px solid rgba(233,185,163,.7);
+  background:rgba(233,185,163,.15);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--trans);
+  animation:pulse 2.5s ease-in-out infinite;
+}
+.hotspot:hover .hotspot-ring{background:var(--gold);border-color:var(--gold);transform:scale(1.2)}
+.hotspot-ring svg{width:12px;height:12px;fill:var(--gold)}
+.hotspot:hover .hotspot-ring svg{fill:var(--plum)}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(233,185,163,.4)}
+  50%{box-shadow:0 0 0 8px rgba(233,185,163,0)}
+}
+/* Hotspot popup */
+.hotspot-popup{
+  position:absolute;
+  bottom:42px;left:50%;transform:translateX(-50%) scale(.9);
+  background:rgba(26,23,20,.92);backdrop-filter:blur(16px);
+  border:1px solid rgba(233,185,163,.3);
+  border-radius:10px;padding:12px 16px;
+  min-width:180px;max-width:240px;
+  opacity:0;pointer-events:none;transition:var(--trans);
+  z-index:50;
+}
+.hotspot:hover .hotspot-popup, .hotspot.open .hotspot-popup{
+  opacity:1;transform:translateX(-50%) scale(1);pointer-events:auto;
+}
+.hp-title{font-family:var(--ff-h);font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px;letter-spacing:.04em;text-transform:uppercase}
+.hp-body{font-size:12px;color:var(--muted);line-height:1.5}
+.hp-tag{display:inline-block;margin-top:6px;font-size:10px;padding:2px 8px;border-radius:99px;background:rgba(233,185,163,.15);color:var(--gold);font-weight:600;font-family:var(--ff-h);letter-spacing:.04em}
+
+/* ══════════════════════════════════════════════════════════════════
+   BOTTOM CONTROL PANEL  (like MG's colour selector)
+══════════════════════════════════════════════════════════════════ */
+#bottom-panel{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:linear-gradient(to top,rgba(13,12,10,.98) 60%,transparent);
+  padding:20px 24px 28px;
+  padding-bottom:calc(28px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;gap:16px;
+  pointer-events:none;
+}
+#bottom-panel>*{pointer-events:auto}
+
+/* Room tabs — like MG's variant pills */
+.room-tabs{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+}
+.room-tab{
+  padding:7px 16px;border-radius:99px;
+  border:1px solid var(--dark4);background:rgba(255,251,244,.05);
+  font-size:11px;font-weight:700;font-family:var(--ff-h);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  transition:var(--trans);backdrop-filter:blur(8px);
+  display:flex;align-items:center;gap:6px;
+}
+.room-tab:hover{border-color:var(--gold-dim);color:var(--gold)}
+.room-tab.active{
+  background:var(--gold);color:var(--plum);border-color:var(--gold);
+  box-shadow:0 4px 16px rgba(233,185,163,.25);
+}
+
+/* Colour/finish selector row — exactly like MG */
+.selector-row{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  position:relative;
+}
+.selector-track{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,251,244,.05);backdrop-filter:blur(12px);
+  border:1px solid var(--dark4);border-radius:99px;
+  padding:8px 16px;
+}
+/* Colour dot — like MG's cmp-car-colorizer__dot */
+.color-dot{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid transparent;
+  cursor:pointer;transition:var(--trans);
+  position:relative;flex-shrink:0;
+}
+.color-dot:hover{transform:scale(1.15)}
+.color-dot.active{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(233,185,163,.3);
+  transform:scale(1.2);
+}
+.color-dot::before{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 10px);left:50%;
+  transform:translateX(-50%) scale(.8);opacity:0;
+  background:rgba(26,23,20,.9);backdrop-filter:blur(8px);
+  color:var(--cream);font-size:10px;font-family:var(--ff-h);
+  font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  padding:4px 10px;border-radius:99px;white-space:nowrap;
+  transition:var(--trans);pointer-events:none;
+  border:1px solid rgba(233,185,163,.2);
+}
+.color-dot:hover::before{opacity:1;transform:translateX(-50%) scale(1)}
+
+/* Colour name display */
+.color-name-display{
+  font-family:var(--ff-h);font-size:12px;font-weight:600;
+  color:var(--cream);letter-spacing:.08em;text-transform:uppercase;
+  min-width:140px;text-align:center;
+}
+
+/* ── SURFACE TABS (Wall / Floor / Ceiling) ── */
+.surface-tabs{
+  display:flex;gap:6px;justify-content:center;
+}
+.surf-tab{
+  padding:5px 14px;border-radius:99px;
+  border:1px solid var(--dark4);background:transparent;
+  font-size:10px;font-weight:700;font-family:var(--ff-h);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  transition:var(--trans);
+}
+.surf-tab:hover{border-color:var(--gold-dim);color:var(--gold)}
+.surf-tab.active{border-color:var(--gold);color:var(--gold);background:rgba(233,185,163,.08)}
+
+/* ══════════════════════════════════════════════════════════════════
+   LEFT PANEL — View Controls  (like MG Exterior/Interior)
+══════════════════════════════════════════════════════════════════ */
+#left-panel{
+  position:fixed;left:20px;top:50%;transform:translateY(-50%);
+  z-index:100;display:flex;flex-direction:column;gap:8px;
+}
+.view-btn{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--dark4);
+  background:rgba(13,12,10,.7);backdrop-filter:blur(8px);
+  color:var(--muted);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--trans);
+}
+.view-btn:hover{border-color:var(--gold);color:var(--gold)}
+.view-btn.active{background:var(--gold);color:var(--plum);border-color:var(--gold)}
+.view-btn-label{
+  position:absolute;left:54px;
+  background:rgba(13,12,10,.85);backdrop-filter:blur(8px);
+  color:var(--cream);font-size:10px;font-family:var(--ff-h);
+  font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 10px;border-radius:99px;white-space:nowrap;
+  opacity:0;transition:var(--trans);pointer-events:none;
+  border:1px solid var(--dark4);
+}
+.view-btn:hover .view-btn-label{opacity:1}
+
+/* ══════════════════════════════════════════════════════════════════
+   RIGHT PANEL — Style Presets  (like MG trim levels)
+══════════════════════════════════════════════════════════════════ */
+#right-panel{
+  position:fixed;right:20px;top:50%;transform:translateY(-50%);
+  z-index:100;display:flex;flex-direction:column;gap:8px;
+}
+.preset-btn{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--dark4);
+  background:rgba(13,12,10,.7);backdrop-filter:blur(8px);
+  color:var(--muted);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--trans);position:relative;
+}
+.preset-btn:hover{border-color:var(--gold);color:var(--gold)}
+.preset-btn.active{background:var(--gold);color:var(--plum);border-color:var(--gold)}
+.preset-label{
+  position:absolute;right:54px;
+  background:rgba(13,12,10,.85);backdrop-filter:blur(8px);
+  color:var(--cream);font-size:10px;font-family:var(--ff-h);
+  font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 10px;border-radius:99px;white-space:nowrap;
+  opacity:0;transition:var(--trans);pointer-events:none;
+  border:1px solid var(--dark4);
+}
+.preset-btn:hover .preset-label{opacity:1}
+
+/* ══════════════════════════════════════════════════════════════════
+   DRAG HINT
+══════════════════════════════════════════════════════════════════ */
+#drag-hint{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:90;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:1;transition:opacity .6s;pointer-events:none;
+}
+#drag-hint.hide{opacity:0}
+.drag-ring{
+  width:56px;height:56px;border-radius:50%;
+  border:1.5px solid rgba(233,185,163,.4);
+  display:flex;align-items:center;justify-content:center;
+  animation:dragPulse 1.8s ease-in-out infinite;
+}
+.drag-ring svg{width:24px;height:24px;fill:none;stroke:var(--gold);stroke-width:1.5}
+@keyframes dragPulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.12);opacity:1}}
+.drag-text{font-size:11px;color:var(--gold);font-family:var(--ff-h);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+
+/* ══════════════════════════════════════════════════════════════════
+   SPEC PANEL  (slides in from right — like MG's feature callout)
+══════════════════════════════════════════════════════════════════ */
+#spec-panel{
+  position:fixed;right:0;top:0;bottom:0;width:320px;
+  background:rgba(13,12,10,.94);backdrop-filter:blur(20px);
+  border-left:1px solid rgba(233,185,163,.15);
+  z-index:200;padding:72px 24px 32px;
+  display:flex;flex-direction:column;gap:20px;
+  transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
+}
+#spec-panel.open{transform:translateX(0)}
+.spec-close{
+  position:absolute;top:16px;right:16px;
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--dark4);background:rgba(255,251,244,.05);
+  color:var(--muted);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--trans);
+}
+.spec-close:hover{border-color:var(--gold);color:var(--gold)}
+.spec-eyebrow{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-family:var(--ff-h);margin-bottom:2px}
+.spec-title{font-family:var(--ff-h);font-size:18px;font-weight:800;color:var(--cream);line-height:1.2}
+.spec-divider{height:1px;background:var(--dark4)}
+.spec-item{display:flex;flex-direction:column;gap:3px}
+.spec-item-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-family:var(--ff-h)}
+.spec-item-val{font-size:13px;color:rgba(255,251,244,.8);line-height:1.5}
+.spec-swatch-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.spec-swatch{width:36px;height:24px;border-radius:4px;border:1px solid var(--dark4);cursor:pointer;transition:var(--trans)}
+.spec-swatch:hover{transform:scale(1.1);border-color:var(--gold)}
+.spec-swatch.active{border-color:var(--gold);box-shadow:0 0 0 1px rgba(233,185,163,.4)}
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE
+══════════════════════════════════════════════════════════════════ */
+@media(max-width:768px){
+  #room{width:640px;height:400px}
+  #w-back{width:640px;height:400px}
+  #w-left{width:340px;height:400px;transform:rotateY(90deg) translateZ(0px) translateX(-170px)}
+  #w-right{width:340px;height:400px;transform:rotateY(-90deg) translateZ(0px) translateX(170px)}
+  #w-floor{width:640px;height:340px;transform:rotateX(90deg) translateZ(170px)}
+  #w-ceil{width:640px;height:240px;transform:rotateX(-90deg) translateZ(120px)}
+  #furniture-layer{width:640px;height:400px;gap:8px;padding-bottom:50px}
+  #lighting{width:640px;height:400px}
+  #left-panel,#right-panel{display:none}
+  #spec-panel{width:100%;border-left:none;border-top:1px solid rgba(233,185,163,.15)}
+  .furn-item{font-size:32px}
+}
+@media(max-width:480px){
+  #room{width:420px;height:280px}
+  #w-back{width:420px;height:280px}
+  #w-left{width:220px;height:280px;transform:rotateY(90deg) translateZ(0px) translateX(-110px)}
+  #w-right{width:220px;height:280px;transform:rotateY(-90deg) translateZ(0px) translateX(110px)}
+  #w-floor{width:420px;height:220px;transform:rotateX(90deg) translateZ(110px)}
+  #w-ceil{width:420px;height:160px;transform:rotateX(-90deg) translateZ(80px)}
+  #furniture-layer{width:420px;height:280px;gap:6px;padding-bottom:30px}
+  #lighting{width:420px;height:280px}
+  .tb-room-name{display:none}
+  .color-name-display{min-width:80px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loader">
+  <div class="loader-logo">ANTARA <em>STUDIOS</em></div>
+  <div class="loader-bar-track"><div class="loader-bar-fill" id="loaderBar"></div></div>
+  <div class="loader-pct" id="loaderPct">Preparing your room...</div>
+</div>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <a href="index.html" class="tb-logo">ANTARA <em>STUDIOS</em></a>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="tb-room-name" id="tbRoomName">Living Room</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-btn tb-btn-ghost" onclick="toggleSpec()">✦ Details</button>
+    <a href="index.html#s-designer" class="tb-btn tb-btn-ghost">← Designer</a>
+    <button class="tb-btn tb-btn-gold" onclick="bookNow()">Book Consultation</button>
+  </div>
+</div>
+
+<!-- DRAG HINT -->
+<div id="drag-hint">
+  <div class="drag-ring">
+    <svg viewBox="0 0 24 24"><path d="M8 12h8M12 8l4 4-4 4"/></svg>
+  </div>
+  <div class="drag-text">Drag to explore</div>
+</div>
+
+<!-- MAIN 3D CANVAS -->
+<div id="canvas">
+  <div id="scene">
+    <div id="room">
+      <!-- Walls -->
+      <div class="face" id="w-back"></div>
+      <div class="face" id="w-left"></div>
+      <div class="face" id="w-right"></div>
+      <div class="face" id="w-floor"></div>
+      <div class="face" id="w-ceil"></div>
+
+      <!-- Furniture layer -->
+      <div id="furniture-layer"></div>
+
+      <!-- Lighting -->
+      <div id="lighting">
+        <div class="light-spot" id="light-main"></div>
+        <div class="light-spot" id="light-accent"></div>
+      </div>
+
+      <!-- Hotspots (injected by JS) -->
+      <div id="hotspot-layer"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LEFT PANEL — View Controls -->
+<div id="left-panel">
+  <button class="view-btn active" id="vb-overview" onclick="setView('overview')" title="Overview">
+    <span>⊡</span>
+    <span class="view-btn-label">Full View</span>
+  </button>
+  <button class="view-btn" id="vb-walls" onclick="setView('walls')" title="Walls">
+    <span>▣</span>
+    <span class="view-btn-label">Walls</span>
+  </button>
+  <button class="view-btn" id="vb-floor" onclick="setView('floor')" title="Floor">
+    <span>⬛</span>
+    <span class="view-btn-label">Floor</span>
+  </button>
+  <button class="view-btn" id="vb-details" onclick="setView('details')" title="Details">
+    <span>✦</span>
+    <span class="view-btn-label">Details</span>
+  </button>
+</div>
+
+<!-- RIGHT PANEL — Style Presets -->
+<div id="right-panel">
+  <button class="preset-btn active" id="pb-contemp" onclick="applyPreset('contemporary')" title="Contemporary">
+    <span>🏛️</span>
+    <span class="preset-label">Contemporary</span>
+  </button>
+  <button class="preset-btn" id="pb-luxury" onclick="applyPreset('luxury')" title="Luxury">
+    <span>👑</span>
+    <span class="preset-label">Luxury Classic</span>
+  </button>
+  <button class="preset-btn" id="pb-minimal" onclick="applyPreset('minimal')" title="Minimal">
+    <span>◻</span>
+    <span class="preset-label">Minimalist</span>
+  </button>
+  <button class="preset-btn" id="pb-earthy" onclick="applyPreset('earthy')" title="Earthy">
+    <span>🍂</span>
+    <span class="preset-label">Earthy Warm</span>
+  </button>
+  <button class="preset-btn" id="pb-indian" onclick="applyPreset('modern_indian')" title="Modern Indian">
+    <span>🪔</span>
+    <span class="preset-label">Modern Indian</span>
+  </button>
+</div>
+
+<!-- BOTTOM CONTROL PANEL -->
+<div id="bottom-panel">
+  <!-- Room selector tabs -->
+  <div class="room-tabs" id="roomTabs">
+    <button class="room-tab active" data-room="living"   onclick="switchRoom('living')">🛋️ Living</button>
+    <button class="room-tab"        data-room="kitchen"  onclick="switchRoom('kitchen')">🍳 Kitchen</button>
+    <button class="room-tab"        data-room="dining"   onclick="switchRoom('dining')">🍽️ Dining</button>
+    <button class="room-tab"        data-room="master"   onclick="switchRoom('master')">🛏️ Bedroom</button>
+    <button class="room-tab"        data-room="bathroom" onclick="switchRoom('bathroom')">🛁 Bathroom</button>
+    <button class="room-tab"        data-room="pooja"    onclick="switchRoom('pooja')">🪔 Pooja</button>
+  </div>
+
+  <!-- Surface selector -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div class="surface-tabs" id="surfaceTabs">
+      <button class="surf-tab active" data-surf="wall" onclick="setSurface('wall')">Walls</button>
+      <button class="surf-tab"        data-surf="floor" onclick="setSurface('floor')">Floor</button>
+      <button class="surf-tab"        data-surf="ceiling" onclick="setSurface('ceiling')">Ceiling</button>
+    </div>
+
+    <!-- Colour dots row — like MG colorizer -->
+    <div class="selector-row">
+      <div class="selector-track" id="colorTrack">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <div class="color-name-display" id="colorNameDisplay">—</div>
+  </div>
+</div>
+
+<!-- SPEC PANEL (slides in) -->
+<div id="spec-panel">
+  <button class="spec-close" onclick="closeSpec()">✕</button>
+  <div>
+    <div class="spec-eyebrow">Room Specifications</div>
+    <div class="spec-title" id="specTitle">Living Room</div>
+  </div>
+  <div class="spec-divider"></div>
+  <div id="specContent"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════════════ -->
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const WALL_FINISHES = [
+  { id:'ivory',      name:'Warm Ivory',    bg:'#EDE8DC',  cat:'wall', finish:'Smooth Plaster' },
+  { id:'taupe',      name:'Stone Taupe',   bg:'#C0B4A4',  cat:'wall', finish:'Textured' },
+  { id:'sage',       name:'Sage Green',    bg:'#8FA889',  cat:'wall', finish:'Matte Paint' },
+  { id:'charcoal',   name:'Charcoal',      bg:'#3D3B38',  cat:'wall', finish:'Matte Paint' },
+  { id:'navy',       name:'Deep Navy',     bg:'#1E2E4A',  cat:'wall', finish:'Satin Paint' },
+  { id:'terracotta', name:'Terracotta',    bg:'#C06848',  cat:'wall', finish:'Lime Wash' },
+  { id:'blush',      name:'Blush Rose',    bg:'#E0B8A8',  cat:'wall', finish:'Silk Plaster' },
+  { id:'forest',     name:'Forest Green',  bg:'#2E4A38',  cat:'wall', finish:'Matte Paint' },
+  { id:'marble',     name:'Marble',        grad:'linear-gradient(135deg,#EDE8E0,#D8D4C8 40%,#C8C4B8 60%,#D8D4C8)', cat:'wall', finish:'Stone Cladding' },
+  { id:'gold_tx',    name:'Gold Texture',  grad:'repeating-linear-gradient(45deg,#B89040 0,#B89040 2px,#D8B860 2px,#D8B860 12px)', cat:'wall', finish:'Metallic' },
+  { id:'wood_pnl',   name:'Teak Panel',    grad:'repeating-linear-gradient(0deg,#A07040 0,#A07040 18px,#886030 18px,#886030 22px)', cat:'wall', finish:'Wood Veneer' },
+  { id:'jaipur',     name:'Jaipur Pink',   bg:'#C87888',  cat:'wall', finish:'Heritage Lime' },
+];
+
+const FLOOR_FINISHES = [
+  { id:'oak',        name:'Oak Wood',      grad:'repeating-linear-gradient(90deg,#B89060 0,#B89060 32px,#A07848 32px,#A07848 34px)', cat:'floor', finish:'Solid Wood' },
+  { id:'walnut',     name:'Dark Walnut',   grad:'repeating-linear-gradient(90deg,#603820 0,#603820 32px,#4A2818 32px,#4A2818 34px)', cat:'floor', finish:'Solid Wood' },
+  { id:'marble_f',   name:'White Marble',  grad:'linear-gradient(135deg,#F0ECE6,#E4E0D8,#EEE8DE)', cat:'floor', finish:'Natural Stone' },
+  { id:'granite',    name:'Black Granite', bg:'#282420',  cat:'floor', finish:'Polished Stone' },
+  { id:'herring',    name:'Herringbone',   grad:'repeating-linear-gradient(45deg,#C0A070 0,#C0A070 10px,#A88858 10px,#A88858 12px)', cat:'floor', finish:'Parquet' },
+  { id:'cement',     name:'Micro Cement',  bg:'#A8A4A0',  cat:'floor', finish:'Micro Cement' },
+  { id:'tiles',      name:'Hex Tiles',     grad:'repeating-conic-gradient(#D8D4CE 0% 25%, #C4C0BA 0% 50%) 0 0/28px 28px', cat:'floor', finish:'Ceramic' },
+  { id:'vitrified',  name:'Vitrified',     bg:'#E4E0DA',  cat:'floor', finish:'Vitrified' },
+];
+
+const CEILING_FINISHES = [
+  { id:'white_c',    name:'Pure White',    bg:'#F4F2EC',  cat:'ceiling', finish:'Smooth Plaster' },
+  { id:'cream_c',    name:'Warm Cream',    bg:'#EAE4D8',  cat:'ceiling', finish:'Smooth Plaster' },
+  { id:'grey_c',     name:'Soft Grey',     bg:'#D0CCCA',  cat:'ceiling', finish:'Matte Paint' },
+  { id:'dark_c',     name:'Dramatic Dark', bg:'#1E1C1A',  cat:'ceiling', finish:'Matte Paint' },
+  { id:'wood_c',     name:'Wood Slat',     grad:'repeating-linear-gradient(0deg,#A07840 0,#A07840 10px,#887030 10px,#887030 13px)', cat:'ceiling', finish:'Timber Slat' },
+  { id:'coffer_c',   name:'Coffered',      grad:'repeating-conic-gradient(#E4DFD6 0% 25%, #D0CBCA 0% 50%) 0 0/40px 40px', cat:'ceiling', finish:'GRC Coffered' },
+];
+
+// Style presets — complete room looks
+const PRESETS = {
+  contemporary: {
+    name:'Contemporary',
+    wall:'ivory', floor:'oak', ceiling:'white_c',
+    accent:'#E9B9A3',
+    desc:'Clean lines, warm ivory walls, natural oak flooring',
+  },
+  luxury: {
+    name:'Luxury Classic',
+    wall:'marble', floor:'marble_f', ceiling:'cream_c',
+    accent:'#C8A050',
+    desc:'Marble surfaces, gold accents, timeless opulence',
+  },
+  minimal: {
+    name:'Minimalist',
+    wall:'charcoal', floor:'cement', ceiling:'white_c',
+    accent:'#B0ACA6',
+    desc:'Dark contrast walls, micro cement floor, restrained palette',
+  },
+  earthy: {
+    name:'Earthy & Warm',
+    wall:'terracotta', floor:'herring', ceiling:'cream_c',
+    accent:'#C06848',
+    desc:'Terracotta lime wash, herringbone parquet, warm tones',
+  },
+  modern_indian: {
+    name:'Modern Indian',
+    wall:'jaipur', floor:'vitrified', ceiling:'cream_c',
+    accent:'#C87888',
+    desc:'Heritage Jaipur pink, gold textures, Indian motifs',
+  },
+};
+
+// Room configurations
+const ROOMS = {
+  living:   {
+    name:'Living Room', ico:'🛋️',
+    furniture:['🛋️','📺','🌿','💡','🖼️'],
+    hotspots:[
+      {top:'38%',left:'50%',title:'Feature Wall',body:'Hand-applied lime plaster with organic texture. Subtle gold leaf accents catch ambient light.',tag:'Lime Plaster'},
+      {top:'60%',left:'25%',title:'Seating Area',body:'Custom low-profile sofa in natural linen. 2800mm span. Optional chaise extension.',tag:'Custom Furniture'},
+      {top:'30%',left:'75%',title:'Accent Lighting',body:'Recessed warm LED coves (2700K) with dimmable control. Complements natural light.',tag:'Lighting Design'},
+    ],
+    specs:{
+      'Room Size':       '16 ft × 14 ft (approx)',
+      'Ceiling Height':  '10 ft',
+      'Primary Finish':  'Lime Plaster Walls',
+      'Flooring':        'Oak Wood (8mm)',
+      'Lighting':        '2700K Warm LED Coves',
+      'Furniture Style': 'Contemporary Low-profile',
+      'Key Feature':     'Full-height feature wall with integrated shelving',
+    },
+  },
+  kitchen:  {
+    name:'Kitchen', ico:'🍳',
+    furniture:['🗄️','🔥','🧊','💡','🌱'],
+    hotspots:[
+      {top:'35%',left:'48%',title:'Backsplash',body:'Handmade terracotta zellige tiles. Each tile unique, 100×100mm format. Heat resistant.',tag:'Zellige Tiles'},
+      {top:'65%',left:'30%',title:'Counter Surface',body:'Calacatta marble countertop, 30mm thick. Sealed with nano-coating for stain resistance.',tag:'Marble Counters'},
+      {top:'28%',left:'70%',title:'Cabinet Finish',body:'Lacquered matte in warm white. Soft-close hinges. Integrated pull handles.',tag:'Custom Cabinetry'},
+    ],
+    specs:{
+      'Room Size':       '12 ft × 10 ft (approx)',
+      'Layout':          'U-shape modular',
+      'Countertop':      'Calacatta Marble (30mm)',
+      'Cabinet Finish':  'Matte Lacquer, Warm White',
+      'Backsplash':      'Zellige Terracotta Tiles',
+      'Flooring':        'Vitrified Tiles (60×60cm)',
+      'Lighting':        'Under-cabinet LED + pendant',
+    },
+  },
+  dining:   {
+    name:'Dining Room', ico:'🍽️',
+    furniture:['🪑','🕯️','🌿','💡','🖼️'],
+    hotspots:[
+      {top:'30%',left:'50%',title:'Pendant Light',body:'Rattan chandelier, 900mm diameter. Warm amber glow. Hand-woven by local artisans.',tag:'Statement Lighting'},
+      {top:'50%',left:'20%',title:'Dining Table',body:'Solid teak table, 2400×900mm. Live-edge option available. Seats 8 comfortably.',tag:'Custom Furniture'},
+      {top:'42%',left:'78%',title:'Accent Wall',body:'Vertical teak slat panel with integrated downlighting. Creates depth and warmth.',tag:'Feature Wall'},
+    ],
+    specs:{
+      'Room Size':       '14 ft × 12 ft (approx)',
+      'Table Size':      '2400×900mm (seats 8)',
+      'Statement Light': 'Rattan Chandelier, 900mm ∅',
+      'Feature Wall':    'Vertical Teak Slat Panel',
+      'Flooring':        'Herringbone Parquet',
+      'Ceiling':         'Coffered GRC with cove lighting',
+      'Chairs':          '8× custom upholstered chairs',
+    },
+  },
+  master:   {
+    name:'Master Bedroom', ico:'🛏️',
+    furniture:['🛏️','🚪','🪞','💡','🌿'],
+    hotspots:[
+      {top:'45%',left:'50%',title:'Headboard Wall',body:'Full-height upholstered panel in velvet sage green. Integrated bedside sconces.',tag:'Upholstered Wall'},
+      {top:'35%',left:'22%',title:'Wardrobe',body:'Floor-to-ceiling sliding wardrobe. Lacquered panels, internal LED strips, velvet-lined drawers.',tag:'Custom Wardrobe'},
+      {top:'62%',left:'75%',title:'Bedside Area',body:'Floating bedside table with cane front. Integrated charging port and reading light.',tag:'Custom Joinery'},
+    ],
+    specs:{
+      'Room Size':       '16 ft × 14 ft (approx)',
+      'Bed Size':        'King (2000×2000mm)',
+      'Headboard Wall':  'Upholstered velvet panel',
+      'Wardrobe':        'Floor-to-ceiling, 3600mm',
+      'Flooring':        'Oak Wood, 120mm plank',
+      'Ceiling':         'False ceiling with cove lighting',
+      'Colour Palette':  'Sage green + warm ivory + gold',
+    },
+  },
+  bathroom: {
+    name:'Bathroom', ico:'🛁',
+    furniture:['🛁','🪞','🧼','🌿','💡'],
+    hotspots:[
+      {top:'38%',left:'50%',title:'Feature Wall',body:'Full-height book-matched Statuario marble slabs. Natural veining creates a dramatic backdrop.',tag:'Book-matched Marble'},
+      {top:'60%',left:'25%',title:'Freestanding Bath',body:'Cast-iron soaking tub in matte white. 1700mm length. Brushed gold floor-mount filler.',tag:'Luxury Fittings'},
+      {top:'30%',left:'75%',title:'Vanity Mirror',body:'Backlit frameless mirror, 1200×800mm. Integrated demister pad and touch dimmer.',tag:'Smart Mirror'},
+    ],
+    specs:{
+      'Room Size':       '10 ft × 8 ft (approx)',
+      'Feature Wall':    'Statuario Marble, book-matched',
+      'Bath':            'Cast iron, freestanding, 1700mm',
+      'Vanity Surface':  'Calacatta marble, 20mm',
+      'Fittings':        'Brushed gold throughout',
+      'Flooring':        'Mosaic marble (slip-resistant)',
+      'Lighting':        'Backlit mirror + ceiling spots',
+    },
+  },
+  pooja:    {
+    name:'Pooja Room', ico:'🪔',
+    furniture:['🛕','🪔','🔔','🌸','🕯️'],
+    hotspots:[
+      {top:'35%',left:'50%',title:'Altar Design',body:'Teak wood mandap with intricate jali work. Gold leaf detailing on pillars. LED halo backlighting.',tag:'Custom Mandap'},
+      {top:'55%',left:'25%',title:'Floor Pattern',body:'Hand-laid Rajasthani marble inlay (rangoli pattern). Natural stone, no chemical dyes.',tag:'Stone Inlay'},
+      {top:'28%',left:'75%',title:'Wall Mural',body:'Hand-painted Madhubani artwork by local artisan. Natural pigments on textured plaster.',tag:'Artisan Mural'},
+    ],
+    specs:{
+      'Room Size':       '8 ft × 7 ft (approx)',
+      'Mandap':          'Teak wood, hand-carved, gold leaf',
+      'Feature Wall':    'Madhubani hand-painted mural',
+      'Floor':           'Rajasthani marble inlay',
+      'Lighting':        'Warm LED halo + diya niches',
+      'Material':        'All natural, chemical-free',
+      'Custom Work':     'Made-to-order, 6–8 week lead time',
+    },
+  },
+};
+
+// ── STATE ─────────────────────────────────────────────────────────
+let curRoom    = 'living';
+let curSurface = 'wall';
+let curPreset  = 'contemporary';
+let roomState  = {};  // roomId → { wall, floor, ceiling }
+let isDragging = false;
+let dragStart  = 0;
+let curRotY    = 0;
+let targetRotY = 0;
+let rafId      = null;
+let specOpen   = false;
+let dragHidden = false;
+
+// Init room state
+Object.keys(ROOMS).forEach(r => {
+  roomState[r] = { wall: PRESETS.contemporary.wall, floor: PRESETS.contemporary.floor, ceiling: PRESETS.contemporary.ceiling };
+});
+
+// ── HELPERS ───────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+function getBg(finishes, id) {
+  const f = finishes.find(x => x.id === id);
+  if (!f) return '#272522';
+  return f.grad || f.bg;
+}
+function getFinishList(surface) {
+  return surface === 'floor' ? FLOOR_FINISHES : surface === 'ceiling' ? CEILING_FINISHES : WALL_FINISHES;
+}
+function getFinish(surface, id) {
+  return getFinishList(surface).find(f => f.id === id);
+}
+
+// ── LOADING ANIMATION ─────────────────────────────────────────────
+function runLoader() {
+  let pct = 0;
+  const messages = ['Preparing your room...', 'Loading finishes...', 'Setting up lighting...', 'Almost ready...'];
+  const bar = $('loaderBar'), txt = $('loaderPct');
+  const iv = setInterval(() => {
+    pct += Math.random() * 18 + 4;
+    if (pct >= 100) { pct = 100; clearInterval(iv); setTimeout(hideLoader, 300); }
+    bar.style.width = pct + '%';
+    txt.textContent = messages[Math.floor(pct / 26)] || 'Ready!';
+  }, 120);
+}
+function hideLoader() {
+  $('loader').classList.add('hide');
+  setTimeout(() => { $('loader').style.display = 'none'; }, 600);
+}
+
+// ── ROOM RENDERING ───────────────────────────────────────────────
+function renderRoom(roomId) {
+  const room = ROOMS[roomId];
+  const rs   = roomState[roomId];
+
+  // Apply walls
+  const wallBg  = getBg(WALL_FINISHES, rs.wall);
+  const floorBg = getBg(FLOOR_FINISHES, rs.floor);
+  const ceilBg  = getBg(CEILING_FINISHES, rs.ceiling);
+
+  $('w-back').style.background  = wallBg;
+  $('w-left').style.background  = wallBg;
+  $('w-right').style.background = wallBg;
+  $('w-floor').style.background = floorBg;
+  $('w-ceil').style.background  = ceilBg;
+
+  // Furniture
+  $('furniture-layer').innerHTML = room.furniture
+    .map((e, i) => `<div class="furn-item" style="animation-delay:${i*0.4}s">${e}</div>`)
+    .join('');
+
+  // Hotspots
+  $('hotspot-layer').innerHTML = room.hotspots.map((h, i) => `
+    <div class="hotspot" style="top:${h.top};left:calc(${h.left} - 16px);transform:translateZ(-188px)" onclick="toggleHotspot(this,event)">
+      <div class="hotspot-ring">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2" fill="var(--gold)"/><circle cx="12" cy="12" r="5" stroke="var(--gold)" stroke-width="1.5" fill="none"/></svg>
+      </div>
+      <div class="hotspot-popup">
+        <div class="hp-title">${h.title}</div>
+        <div class="hp-body">${h.body}</div>
+        <div class="hp-tag">${h.tag}</div>
+      </div>
+    </div>`).join('');
+
+  // Top bar room name
+  $('tbRoomName').textContent = room.name;
+  $('specTitle').textContent  = room.name;
+
+  // Spec panel content
+  const specs = room.specs;
+  $('specContent').innerHTML = Object.entries(specs).map(([k,v]) => `
+    <div class="spec-item">
+      <div class="spec-item-label">${k}</div>
+      <div class="spec-item-val">${v}</div>
+    </div>
+    <div class="spec-divider"></div>
+  `).join('');
+}
+
+// ── COLOUR DOTS ──────────────────────────────────────────────────
+function renderColorDots(surface) {
+  const list = getFinishList(surface);
+  const rs   = roomState[curRoom];
+  const cur  = rs[surface === 'ceiling' ? 'ceiling' : surface === 'floor' ? 'floor' : 'wall'];
+
+  $('colorTrack').innerHTML = list.map(f => {
+    const bg = f.grad
+      ? `background:${f.grad.split(',').slice(0,2).join(',')},#888`
+      : `background:${f.bg}`;
+    return `<button class="color-dot ${f.id===cur?'active':''}"
+      style="${bg}"
+      data-id="${f.id}" data-tip="${f.name}"
+      onclick="pickFinish('${f.id}')"></button>`;
+  }).join('');
+
+  // Show current name
+  const cur_f = getFinish(surface, cur);
+  $('colorNameDisplay').textContent = cur_f ? cur_f.name : '—';
+}
+
+function pickFinish(id) {
+  const surface = curSurface;
+  const key = surface === 'ceiling' ? 'ceiling' : surface === 'floor' ? 'floor' : 'wall';
+  roomState[curRoom][key] = id;
+
+  // Apply immediately to scene
+  const bg = getBg(getFinishList(surface), id);
+  if (surface === 'wall') {
+    $('w-back').style.background  = bg;
+    $('w-left').style.background  = bg;
+    $('w-right').style.background = bg;
+  } else if (surface === 'floor') {
+    $('w-floor').style.background = bg;
+  } else {
+    $('w-ceil').style.background  = bg;
+  }
+
+  // Update dots
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.toggle('active', d.dataset.id === id));
+  const f = getFinish(surface, id);
+  $('colorNameDisplay').textContent = f ? f.name : '—';
+}
+
+// ── ROOM SWITCH ──────────────────────────────────────────────────
+function switchRoom(roomId) {
+  curRoom = roomId;
+  document.querySelectorAll('.room-tab').forEach(t => t.classList.toggle('active', t.dataset.room === roomId));
+  renderRoom(roomId);
+  renderColorDots(curSurface);
+  // Reset rotation
+  curRotY = 0; targetRotY = 0;
+  $('room').style.transform = `translateX(-50%) translateY(-50%) rotateY(0deg)`;
+}
+
+// ── SURFACE SWITCH ───────────────────────────────────────────────
+function setSurface(surf) {
+  curSurface = surf;
+  document.querySelectorAll('.surf-tab').forEach(t => t.classList.toggle('active', t.dataset.surf === surf));
+  renderColorDots(surf);
+}
+
+// ── PRESETS ──────────────────────────────────────────────────────
+function applyPreset(presetId) {
+  curPreset = presetId;
+  const p = PRESETS[presetId];
+
+  // Apply to ALL rooms
+  Object.keys(roomState).forEach(r => {
+    roomState[r] = { wall: p.wall, floor: p.floor, ceiling: p.ceiling };
+  });
+
+  renderRoom(curRoom);
+  renderColorDots(curSurface);
+
+  // Update preset buttons
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  const map = { contemporary:'pb-contemp', luxury:'pb-luxury', minimal:'pb-minimal', earthy:'pb-earthy', modern_indian:'pb-indian' };
+  if (map[presetId]) $(map[presetId]).classList.add('active');
+
+  // Toast
+  showToast(`✦ ${p.name} — ${p.desc}`);
+}
+
+// ── VIEW MODES ───────────────────────────────────────────────────
+function setView(v) {
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  $('vb-'+v)?.classList.add('active');
+  const scene = $('scene');
+  if (v === 'overview')  { targetRotY = 0;    scene.style.perspective = '1200px'; }
+  if (v === 'walls')     { targetRotY = -15;  scene.style.perspective = '900px'; }
+  if (v === 'floor')     { animFloor(); }
+  if (v === 'details')   { targetRotY = 12;   scene.style.perspective = '800px'; }
+}
+function animFloor() {
+  // Tilt to show floor better
+  $('room').style.transform = `translateX(-50%) translateY(-30%) rotateX(-30deg) rotateY(0deg)`;
+  setTimeout(() => {
+    $('room').style.transform = `translateX(-50%) translateY(-50%) rotateY(${curRotY}deg)`;
+  }, 2000);
+}
+
+// ── DRAG ROTATION ────────────────────────────────────────────────
+let lastX = 0;
+const scene = $('scene');
+
+function hideDragHint() {
+  if (!dragHidden) {
+    dragHidden = true;
+    $('drag-hint').classList.add('hide');
+  }
+}
+
+scene.addEventListener('mousedown', e => {
+  isDragging = true; lastX = e.clientX;
+  hideDragHint();
+});
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  const dx = e.clientX - lastX;
+  lastX = e.clientX;
+  targetRotY += dx * 0.25;
+  targetRotY = Math.max(-45, Math.min(45, targetRotY));
+});
+window.addEventListener('mouseup', () => { isDragging = false; });
+
+// Touch
+scene.addEventListener('touchstart', e => {
+  isDragging = true; lastX = e.touches[0].clientX;
+  hideDragHint();
+}, { passive: true });
+scene.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  const dx = e.touches[0].clientX - lastX;
+  lastX = e.touches[0].clientX;
+  targetRotY += dx * 0.3;
+  targetRotY = Math.max(-45, Math.min(45, targetRotY));
+}, { passive: true });
+scene.addEventListener('touchend', () => { isDragging = false; });
+
+// Smooth rotation RAF
+function animateRotation() {
+  curRotY += (targetRotY - curRotY) * 0.1;
+  if (Math.abs(targetRotY - curRotY) > 0.01) {
+    $('room').style.transform = `translateX(-50%) translateY(-50%) rotateY(${curRotY}deg)`;
+  }
+  requestAnimationFrame(animateRotation);
+}
+animateRotation();
+
+// ── HOTSPOT ──────────────────────────────────────────────────────
+function toggleHotspot(el, e) {
+  e.stopPropagation();
+  document.querySelectorAll('.hotspot.open').forEach(h => { if (h !== el) h.classList.remove('open'); });
+  el.classList.toggle('open');
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.hotspot.open').forEach(h => h.classList.remove('open'));
+});
+
+// ── SPEC PANEL ───────────────────────────────────────────────────
+function toggleSpec() {
+  specOpen = !specOpen;
+  $('spec-panel').classList.toggle('open', specOpen);
+  $('scene').classList.toggle('blurred', specOpen);
+}
+function closeSpec() {
+  specOpen = false;
+  $('spec-panel').classList.remove('open');
+  $('scene').classList.remove('blurred');
+}
+
+// ── TOAST ────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  let t = document.querySelector('.viz-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.className = 'viz-toast';
+    t.style.cssText = `
+      position:fixed;bottom:140px;left:50%;transform:translateX(-50%) translateY(20px);
+      background:rgba(26,23,20,.95);border:1px solid rgba(233,185,163,.3);
+      color:var(--cream);padding:10px 22px;border-radius:99px;
+      font-size:12px;font-weight:600;font-family:var(--ff-h);letter-spacing:.04em;
+      z-index:500;opacity:0;transition:.3s ease;white-space:nowrap;
+      backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,.5);
+    `;
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1'; t.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2800);
+}
+
+// ── BOOK ─────────────────────────────────────────────────────────
+function bookNow() {
+  showToast('Opening Antara Studios consultation booking...');
+  setTimeout(() => window.open('https://antarastudios.com', '_blank'), 700);
+}
+
+// ── KEYBOARD ─────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft')  { targetRotY = Math.max(-45, targetRotY - 15); }
+  if (e.key === 'ArrowRight') { targetRotY = Math.min(45,  targetRotY + 15); }
+  if (e.key === 'Escape')     { closeSpec(); }
+  if (e.key === 'r' || e.key === 'R') { targetRotY = 0; }
+});
+
+// ── INIT ─────────────────────────────────────────────────────────
+runLoader();
+renderRoom('living');
+renderColorDots('wall');
+
+// Auto-rotate hint after 1.5s then stop
+setTimeout(() => {
+  let dir = 1, steps = 0;
+  const hint = setInterval(() => {
+    targetRotY += dir * 3;
+    if (Math.abs(targetRotY) > 20) dir *= -1;
+    if (++steps > 14) { clearInterval(hint); targetRotY = 0; }
+  }, 200);
+}, 1500);
+
+// Check URL params for room/preset
+const params = new URLSearchParams(location.search);
+if (params.get('room'))   switchRoom(params.get('room'));
+if (params.get('preset')) setTimeout(() => applyPreset(params.get('preset')), 800);
+</script>
+</body>
+</html>

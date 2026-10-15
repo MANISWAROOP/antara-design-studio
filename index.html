@@ -557,6 +557,7 @@ body {
   </div>
   <div class="topbar-right">
     <button class="btn btn-ghost btn-sm" id="btnCompare" onclick="openCompare()" style="display:none">⚖ Compare</button>
+    <a class="btn btn-ghost btn-sm" href="visualizer.html" target="_blank" style="display:none" id="btnVisualizer">✦ 3D Visualizer</a>
     <button class="btn btn-gold btn-sm" id="btnMoodboard" onclick="goSummary()" style="display:none">View Moodboard</button>
   </div>
 </div>
@@ -585,9 +586,14 @@ body {
       <div class="hero-room-chip">🛏️ Master Bedroom</div>
       <div class="hero-room-chip">🛁 Bathroom</div>
     </div>
-    <button class="btn btn-gold btn-lg" onclick="goStyle()">
-      Begin Designing &nbsp;→
-    </button>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-gold btn-lg" onclick="goStyle()">
+        Begin Designing &nbsp;→
+      </button>
+      <a class="btn btn-outline btn-lg" href="visualizer.html" target="_blank" style="border-color:rgba(233,185,163,.4);color:var(--cream)">
+        ✦ &nbsp;3D Visualizer
+      </a>
+    </div>
     <p style="margin-top:14px;font-size:12px;color:var(--muted)">Takes 5 minutes · No account needed · Free to explore</p>
   </div>
 </div>
@@ -933,6 +939,7 @@ function startDesigning() {
   loadRoom(getRooms()[0].id);
   showScreen('s-designer');
   $('btnMoodboard').style.display = 'flex';
+  $('btnVisualizer').style.display = 'flex';
 }
 function goRoomsFromDesigner() { renderRooms(); showScreen('s-rooms'); }
 
