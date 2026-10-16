@@ -315,120 +315,130 @@ body {
   position:relative; overflow:hidden;
 }
 /* The room is the hero — fills entire viewport */
+/* ─── FULL-SCREEN 3D SCENE ─── */
+/* Perspective lives on .dz-scene */
 .dz-scene {
-  position:fixed; inset:0; z-index:0;
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden;
-  perspective:1300px; perspective-origin:50% 46%;
+  position:fixed; inset:0; z-index:0; overflow:hidden;
+  perspective:1100px;
+  perspective-origin:50% 42%;
 }
-/* Ambient room background that shifts per room */
+/* Ambient room background — shifts per room */
 .dz-ambient {
   position:absolute; inset:0;
-  transition:background 1s ease;
+  transition:background 1.2s ease;
   z-index:0;
 }
-/* The 3D room box — fills screen */
+/* ─── ROOM BOX — zero-size centred origin ───
+   W=860  H=520  D=400
+   back/front  ± D/2 = ±200px on Z
+   left/right  ± W/2 = ±430px on X  (after rotateY)
+   floor/ceil  ± H/2 = ±260px on Y  (after rotateX)
+   ─────────────────────────────────────────────── */
 .room-3d {
-  position:relative;
-  width:min(90vw, 1100px); height:min(62vh, 640px);
+  position:absolute;
+  top:50%; left:50%;
+  /* shift up so floor sits lower in viewport — more drama */
+  transform:translateX(-50%) translateY(-44%);
+  width:0; height:0;
   transform-style:preserve-3d;
-  transition:transform .7s cubic-bezier(.4,0,.2,1);
-  cursor:default;
   z-index:1;
 }
-/* Faces */
-.r-ceiling {
-  position:absolute; left:0; right:0; top:0; height:min(28vh,220px);
-  transform-origin:top center;
-  transform:rotateX(-78deg) translateZ(0);
-  transition:background .5s ease;
+/* All room faces */
+.r-back, .r-left, .r-right, .r-floor, .r-ceiling {
+  position:absolute;
   backface-visibility:hidden;
+  transition:background .55s ease, filter .25s;
+  cursor:pointer;
 }
+/* ─── BACK WALL  860×520 ─── */
 .r-back {
-  position:absolute; inset:0;
-  transform:translateZ(-1px);
-  transition:background .5s ease;
-  backface-visibility:hidden;
-  cursor:pointer;
+  width:860px; height:520px;
+  top:-260px; left:-430px;
+  transform:translateZ(-200px);
+  background:#2A2420;
 }
+/* ─── LEFT WALL  400×520 ─── */
 .r-left {
-  position:absolute; left:0; top:0; bottom:0;
-  width:min(22vw, 280px);
-  transform-origin:left center;
-  transform:rotateY(52deg);
-  transition:background .5s ease;
-  backface-visibility:hidden;
-  cursor:pointer;
+  width:400px; height:520px;
+  top:-260px; left:-430px;
+  transform:rotateY(90deg) translateZ(-200px);
+  background:#231F1B;
 }
+/* ─── RIGHT WALL  400×520 ─── */
 .r-right {
-  position:absolute; right:0; top:0; bottom:0;
-  width:min(22vw, 280px);
-  transform-origin:right center;
-  transform:rotateY(-52deg);
-  transition:background .5s ease;
-  backface-visibility:hidden;
-  cursor:pointer;
+  width:400px; height:520px;
+  top:-260px; left:30px;     /* 430 - 400 = 30 */
+  transform:rotateY(-90deg) translateZ(-200px);
+  background:#231F1B;
 }
+/* ─── FLOOR  860×400 ─── */
 .r-floor {
-  position:absolute; left:0; right:0; bottom:0; height:min(32vh, 260px);
-  transform-origin:bottom center;
-  transform:rotateX(68deg) translateZ(0);
-  transition:background .5s ease;
-  backface-visibility:hidden;
-  cursor:pointer;
+  width:860px; height:400px;
+  top:260px; left:-430px;
+  transform:rotateX(90deg) translateZ(-200px);
+  background:#1C1814;
 }
-/* Lighting overlays on faces */
-.r-left::after  { content:''; position:absolute; inset:0; background:linear-gradient(to right,rgba(0,0,0,.48),rgba(0,0,0,.1) 70%,transparent); pointer-events:none; }
-.r-right::after { content:''; position:absolute; inset:0; background:linear-gradient(to left, rgba(0,0,0,.48),rgba(0,0,0,.1) 70%,transparent); pointer-events:none; }
-.r-floor::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent 55%); pointer-events:none; }
-.r-ceiling::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.2),transparent); pointer-events:none; }
-/* Skirting + cornice */
+/* ─── CEILING  860×400 ─── */
+.r-ceiling {
+  width:860px; height:400px;
+  top:-260px; left:-430px;
+  transform:rotateX(-90deg) translateZ(200px);
+  background:#1E1B16;
+  opacity:.88;
+}
+/* ─── ATMOSPHERIC LIGHTING ─── */
+.r-left::after  { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to right, rgba(0,0,0,.55) 0%, rgba(0,0,0,.1) 65%, transparent); }
+.r-right::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to left,  rgba(0,0,0,.55) 0%, rgba(0,0,0,.1) 65%, transparent); }
+.r-floor::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to bottom, rgba(0,0,0,.5) 0%, rgba(0,0,0,.08) 60%, transparent); }
+.r-ceiling::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to top, rgba(0,0,0,.28) 0%, transparent 60%); }
+/* Cornice on back wall */
+.r-back::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:16px;
+  pointer-events:none; z-index:2;
+  background:linear-gradient(to bottom, rgba(255,255,255,.09), transparent);
+}
+/* Skirting on back wall */
 .r-back::before {
   content:''; position:absolute; bottom:0; left:0; right:0; height:12px;
-  background:linear-gradient(to bottom,rgba(255,255,255,.1),rgba(0,0,0,.15));
   pointer-events:none; z-index:2;
+  background:linear-gradient(to bottom, rgba(255,255,255,.08), rgba(0,0,0,.12));
 }
-.r-back::after {
-  content:''; position:absolute; top:0; left:0; right:0; height:14px;
-  background:linear-gradient(to bottom,rgba(255,255,255,.07),transparent);
-  pointer-events:none; z-index:2;
-}
-/* Ambient light shaft */
+/* Window light shaft */
 .dz-lightshaft {
-  position:absolute; top:0; right:18%; width:22%; height:100%;
+  position:absolute; top:0; right:22%; width:24%; height:100%;
   pointer-events:none; z-index:2;
-  background:linear-gradient(168deg, rgba(255,235,185,.055) 0%, transparent 65%);
-  clip-path:polygon(18% 0%,82% 0%,100% 100%,0% 100%);
+  background:linear-gradient(165deg, rgba(255,235,185,.065) 0%, transparent 60%);
+  clip-path:polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
   transition:opacity .6s;
 }
-/* Furniture layer */
+/* ─── FURNITURE ─── */
 .r-furniture {
-  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-  width:100%; height:100%;
-  display:flex; align-items:flex-end; justify-content:center; gap:16px;
-  padding-bottom:8%;
+  position:absolute;
+  width:860px; height:520px;
+  top:-260px; left:-430px;
+  transform:translateZ(-185px);
+  display:flex; align-items:flex-end; justify-content:center; gap:20px;
+  padding-bottom:9%;
   pointer-events:none; z-index:3;
 }
 .r-furn-item {
-  font-size:clamp(44px,5vw,72px);
-  filter:drop-shadow(0 12px 28px rgba(0,0,0,.75));
+  font-size:clamp(50px,5.5vw,80px);
+  filter:drop-shadow(0 14px 32px rgba(0,0,0,.8));
   animation:dfloat 7s ease-in-out infinite;
 }
 .r-furn-item:nth-child(2){animation-delay:1.4s}
 .r-furn-item:nth-child(3){animation-delay:2.8s}
 .r-furn-item:nth-child(4){animation-delay:.7s}
 .r-furn-item:nth-child(5){animation-delay:2.1s}
-@keyframes dfloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
-
-/* Active wall glow — click feedback */
+@keyframes dfloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+/* ─── ACTIVE / HOVER GLOW ─── */
 .r-active-glow {
-  outline:2px solid rgba(233,185,163,.7);
+  outline:2px solid rgba(233,185,163,.75);
   outline-offset:0;
-  filter:brightness(1.08);
+  filter:brightness(1.12) !important;
 }
-/* Hover cursor affordance */
-.r-back:hover,.r-left:hover,.r-right:hover,.r-floor:hover {
-  filter:brightness(1.06);
+.r-back:hover,.r-left:hover,.r-right:hover,.r-floor:hover,.r-ceiling:hover {
+  filter:brightness(1.07);
 }
 
 /* ── TOP HUD — room name + nav ── */

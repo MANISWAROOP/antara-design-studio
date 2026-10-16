@@ -240,50 +240,147 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 #room-center{
   display:flex;flex-direction:column;border-right:1px solid var(--dark4);
 }
+/* ─── 3-D ROOM PREVIEW CONTAINER ─── */
+/* Scene — where perspective lives */
+#rcScene{
+  position:absolute; inset:0;
+  perspective:1100px;
+  perspective-origin:50% 42%;
+  overflow:hidden;
+}
 .rc-preview{
   flex:1;position:relative;overflow:hidden;
   display:flex;align-items:center;justify-content:center;
-  background:var(--dark2);min-height:380px;
-  perspective:1200px;perspective-origin:50% 45%;
+  background:radial-gradient(ellipse at 50% 80%, #16120E 0%, #0A0908 70%);
+  min-height:420px;
 }
-/* 3D Room Box */
+/* The box — centred in the scene */
+/* ── DIMENSIONS: W=680 H=400 D=320
+     Each face is pushed out from the origin (box centre)
+     by half the dimension it spans:
+       back/front  → ±D/2 = ±160px  on Z
+       left/right  → ±W/2 = ±340px  on X (after rotateY)
+       floor/ceil  → ±H/2 = ±200px  on Y (after rotateX)        ── */
 .r3{
-  position:relative;
-  width:680px;height:400px;
+  position:absolute;
+  /* place origin at viewport centre */
+  top:50%; left:50%;
+  /* shift up slightly so floor is visible at the bottom */
+  transform:translateX(-50%) translateY(-46%) rotateY(0deg);
+  width:0; height:0;          /* zero-size origin point */
   transform-style:preserve-3d;
-  transform:translateX(-50%) translateY(-52%);
-  left:50%;top:50%;
-  transition:transform .6s cubic-bezier(.4,0,.2,1);
+  transition:transform .55s cubic-bezier(.4,0,.2,1);
 }
-.rf{position:absolute;backface-visibility:hidden;transition:background .5s ease}
-/* walls */
-#ri-back{width:680px;height:400px;top:0;left:0;transform:translateZ(-180px)}
-#ri-left{width:380px;height:400px;top:0;left:0;transform:rotateY(90deg) translateZ(0) translateX(-190px);transform-origin:left center}
-#ri-right{width:380px;height:400px;top:0;right:0;transform:rotateY(-90deg) translateZ(0) translateX(190px);transform-origin:right center}
-#ri-floor{width:680px;height:380px;bottom:0;left:0;transform:rotateX(90deg) translateZ(190px);transform-origin:bottom center}
-#ri-ceil{width:680px;height:260px;top:0;left:0;transform:rotateX(-90deg) translateZ(130px);transform-origin:top center;opacity:.75}
-/* Wall shadows */
-#ri-left::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.5),transparent);pointer-events:none}
-#ri-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to left,rgba(0,0,0,.5),transparent);pointer-events:none}
-#ri-floor::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent 50%);pointer-events:none}
-/* Cornice + skirting */
-.ri-cornice{position:absolute;top:0;left:0;right:0;height:14px;background:linear-gradient(to bottom,rgba(255,255,255,.08),transparent);z-index:1}
-.ri-skirting{position:absolute;bottom:0;left:0;right:0;height:10px;background:linear-gradient(to bottom,rgba(255,255,255,.1),rgba(0,0,0,.15))}
-/* Furniture layer */
+/* All faces share these base rules */
+.rf{
+  position:absolute;
+  backface-visibility:hidden;
+  transition:background .5s ease, filter .3s;
+  cursor:pointer;
+}
+.rf:hover{ filter:brightness(1.08); }
+/* ─── BACK WALL  680×400, pushed back 160px ─── */
+#ri-back{
+  width:680px; height:400px;
+  top:-200px; left:-340px;   /* centre it: -H/2, -W/2 */
+  transform:translateZ(-160px);
+  background:#2A2420;
+}
+/* ─── LEFT WALL  320×400, rotated left ─── */
+#ri-left{
+  width:320px; height:400px;
+  top:-200px; left:-340px;
+  transform:rotateY(90deg) translateZ(-160px);
+  background:#221E1A;
+}
+/* ─── RIGHT WALL  320×400, rotated right ─── */
+#ri-right{
+  width:320px; height:400px;
+  top:-200px; left:20px;       /* left + W = 340-320 → 20px */
+  transform:rotateY(-90deg) translateZ(-160px);
+  background:#221E1A;
+}
+/* ─── FLOOR  680×320, rotated down ─── */
+#ri-floor{
+  width:680px; height:320px;
+  top:200px; left:-340px;      /* starts at bottom of walls */
+  transform:rotateX(90deg) translateZ(-160px);
+  background:#1A1612;
+}
+/* ─── CEILING  680×320, rotated up ─── */
+#ri-ceil{
+  width:680px; height:320px;
+  top:-200px; left:-340px;
+  transform:rotateX(-90deg) translateZ(160px);
+  background:#1E1B16;
+  opacity:.85;
+}
+/* ─── ATMOSPHERIC LIGHTING overlays ─── */
+/* Left wall — darker on left edge (room depth shadow) */
+#ri-left::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to right, rgba(0,0,0,.55) 0%, rgba(0,0,0,.12) 60%, transparent);
+}
+/* Right wall shadow */
+#ri-right::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to left, rgba(0,0,0,.55) 0%, rgba(0,0,0,.12) 60%, transparent);
+}
+/* Floor — dark at the wall join, lighter in middle (reflected light) */
+#ri-floor::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom, rgba(0,0,0,.45) 0%, rgba(0,0,0,.08) 55%, transparent);
+}
+/* Ceiling — subtle top vignette */
+#ri-ceil::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top, rgba(0,0,0,.3) 0%, transparent 60%);
+}
+/* Back wall — window light shaft */
+#ri-back::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(168deg, rgba(255,235,185,.07) 0%, transparent 55%);
+  clip-path:polygon(55% 0%, 85% 0%, 75% 100%, 45% 100%);
+}
+/* Cornice (top of back wall) */
+#ri-back::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:14px;pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,.1), transparent);
+}
+/* Floor skirting */
+#ri-floor::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:10px;pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,.08), transparent);
+  z-index:1;
+}
+/* Active face glow */
+.rf.rf-active{
+  outline:2px solid rgba(233,185,163,.7);
+  outline-offset:0;
+  filter:brightness(1.1);
+}
+/* ─── FURNITURE ─── */
 #ri-furn{
-  position:absolute;width:680px;height:400px;top:0;left:0;
-  transform:translateZ(-168px);
-  display:flex;align-items:flex-end;justify-content:center;gap:16px;
-  padding-bottom:48px;pointer-events:none;
+  position:absolute;
+  width:680px; height:400px;
+  top:-200px; left:-340px;
+  transform:translateZ(-148px);   /* slightly in front of back wall */
+  display:flex; align-items:flex-end; justify-content:center; gap:16px;
+  padding-bottom:44px; pointer-events:none;
 }
-.ri-fi{font-size:52px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.7));animation:fi 7s ease-in-out infinite}
+.ri-fi{
+  font-size:52px;
+  filter:drop-shadow(0 10px 24px rgba(0,0,0,.8));
+  animation:fi 7s ease-in-out infinite;
+}
 .ri-fi:nth-child(2){animation-delay:1.2s}
 .ri-fi:nth-child(3){animation-delay:2.4s}
 .ri-fi:nth-child(4){animation-delay:.6s}
-@keyframes fi{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-/* Hotspots */
+@keyframes fi{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* ─── HOTSPOTS ─── */
 .rhs{
-  position:absolute;transform:translateZ(-160px);
+  position:absolute;
+  transform:translateZ(-150px);
   width:32px;height:32px;cursor:pointer;pointer-events:auto;
 }
 .rhs-ring{
@@ -614,8 +711,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         Drag to rotate
         <svg viewBox="0 0 16 16"><path d="M12 8H4M8 12L4 8l4-4"/></svg>
       </div>
-      <div id="rcScene" style="position:relative;width:100%;height:100%;perspective:1200px;perspective-origin:50% 45%;cursor:grab">
-        <div class="r3" id="r3Box" style="transform-style:preserve-3d">
+      <div id="rcScene">
+        <div class="r3" id="r3Box">
           <div class="rf" id="ri-back"></div>
           <div class="rf" id="ri-left"></div>
           <div class="rf" id="ri-right"></div>
@@ -1345,7 +1442,7 @@ scene.addEventListener('touchend',   ()=>drag=false);
 const box = $('r3Box');
 (function raf(){
   rotY+=(tgtY-rotY)*.1;
-  box.style.transform=`translateX(-50%) translateY(-52%) rotateY(${rotY.toFixed(2)}deg)`;
+  box.style.transform=`translateX(-50%) translateY(-46%) rotateY(${rotY.toFixed(2)}deg)`;
   requestAnimationFrame(raf);
 })();
 
