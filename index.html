@@ -307,138 +307,340 @@ body {
   padding:3px 9px; letter-spacing:.08em; text-transform:uppercase; font-family:var(--ff-head);
 }
 
-/* ── ═══════════════════════════════════════════════════ ── */
-/* ── SCREEN 3 — ROOM DESIGNER ─────────────────────────── */
-/* ── ═══════════════════════════════════════════════════ ── */
-#s-designer { background:var(--dark); padding:0; }
-.designer-wrap { display:grid; grid-template-columns:1fr 400px; min-height:calc(100vh - 64px); }
+/* ══════════════════════════════════════════════════════════════
+   SCREEN 3 — FULL-SCREEN IMMERSIVE ROOM DESIGNER
+══════════════════════════════════════════════════════════════ */
+#s-designer {
+  background:var(--dark); padding:0;
+  position:relative; overflow:hidden;
+}
+/* The room is the hero — fills entire viewport */
+.dz-scene {
+  position:fixed; inset:0; z-index:0;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  perspective:1300px; perspective-origin:50% 46%;
+}
+/* Ambient room background that shifts per room */
+.dz-ambient {
+  position:absolute; inset:0;
+  transition:background 1s ease;
+  z-index:0;
+}
+/* The 3D room box — fills screen */
+.room-3d {
+  position:relative;
+  width:min(90vw, 1100px); height:min(62vh, 640px);
+  transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.4,0,.2,1);
+  cursor:default;
+  z-index:1;
+}
+/* Faces */
+.r-ceiling {
+  position:absolute; left:0; right:0; top:0; height:min(28vh,220px);
+  transform-origin:top center;
+  transform:rotateX(-78deg) translateZ(0);
+  transition:background .5s ease;
+  backface-visibility:hidden;
+}
+.r-back {
+  position:absolute; inset:0;
+  transform:translateZ(-1px);
+  transition:background .5s ease;
+  backface-visibility:hidden;
+  cursor:pointer;
+}
+.r-left {
+  position:absolute; left:0; top:0; bottom:0;
+  width:min(22vw, 280px);
+  transform-origin:left center;
+  transform:rotateY(52deg);
+  transition:background .5s ease;
+  backface-visibility:hidden;
+  cursor:pointer;
+}
+.r-right {
+  position:absolute; right:0; top:0; bottom:0;
+  width:min(22vw, 280px);
+  transform-origin:right center;
+  transform:rotateY(-52deg);
+  transition:background .5s ease;
+  backface-visibility:hidden;
+  cursor:pointer;
+}
+.r-floor {
+  position:absolute; left:0; right:0; bottom:0; height:min(32vh, 260px);
+  transform-origin:bottom center;
+  transform:rotateX(68deg) translateZ(0);
+  transition:background .5s ease;
+  backface-visibility:hidden;
+  cursor:pointer;
+}
+/* Lighting overlays on faces */
+.r-left::after  { content:''; position:absolute; inset:0; background:linear-gradient(to right,rgba(0,0,0,.48),rgba(0,0,0,.1) 70%,transparent); pointer-events:none; }
+.r-right::after { content:''; position:absolute; inset:0; background:linear-gradient(to left, rgba(0,0,0,.48),rgba(0,0,0,.1) 70%,transparent); pointer-events:none; }
+.r-floor::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent 55%); pointer-events:none; }
+.r-ceiling::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.2),transparent); pointer-events:none; }
+/* Skirting + cornice */
+.r-back::before {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:12px;
+  background:linear-gradient(to bottom,rgba(255,255,255,.1),rgba(0,0,0,.15));
+  pointer-events:none; z-index:2;
+}
+.r-back::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:14px;
+  background:linear-gradient(to bottom,rgba(255,255,255,.07),transparent);
+  pointer-events:none; z-index:2;
+}
+/* Ambient light shaft */
+.dz-lightshaft {
+  position:absolute; top:0; right:18%; width:22%; height:100%;
+  pointer-events:none; z-index:2;
+  background:linear-gradient(168deg, rgba(255,235,185,.055) 0%, transparent 65%);
+  clip-path:polygon(18% 0%,82% 0%,100% 100%,0% 100%);
+  transition:opacity .6s;
+}
+/* Furniture layer */
+.r-furniture {
+  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; height:100%;
+  display:flex; align-items:flex-end; justify-content:center; gap:16px;
+  padding-bottom:8%;
+  pointer-events:none; z-index:3;
+}
+.r-furn-item {
+  font-size:clamp(44px,5vw,72px);
+  filter:drop-shadow(0 12px 28px rgba(0,0,0,.75));
+  animation:dfloat 7s ease-in-out infinite;
+}
+.r-furn-item:nth-child(2){animation-delay:1.4s}
+.r-furn-item:nth-child(3){animation-delay:2.8s}
+.r-furn-item:nth-child(4){animation-delay:.7s}
+.r-furn-item:nth-child(5){animation-delay:2.1s}
+@keyframes dfloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
 
-/* CANVAS (left) */
-.d-canvas {
-  padding:28px 28px 28px 40px;
-  display:flex; flex-direction:column; gap:18px;
+/* Active wall glow — click feedback */
+.r-active-glow {
+  outline:2px solid rgba(233,185,163,.7);
+  outline-offset:0;
+  filter:brightness(1.08);
 }
-.d-canvas-header {
-  display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+/* Hover cursor affordance */
+.r-back:hover,.r-left:hover,.r-right:hover,.r-floor:hover {
+  filter:brightness(1.06);
 }
-.d-room-title {
-  font-family:var(--ff-display); font-size:28px; font-weight:300;
-  color:var(--cream); line-height:1.15; letter-spacing:.02em;
-}
-.d-room-title em { font-style:italic; color:var(--gold); }
-.d-room-subtitle { font-size:10px; color:var(--muted); margin-top:4px; letter-spacing:.1em; text-transform:uppercase; font-family:var(--ff-head); font-weight:600; }
-.d-nav-row { display:flex; gap:8px; flex-shrink:0; }
 
-/* Wall selector tabs */
-.wall-tabs { display:flex; gap:6px; flex-wrap:wrap; }
+/* ── TOP HUD — room name + nav ── */
+.dz-hud-top {
+  position:fixed; top:64px; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 36px;
+  background:linear-gradient(to bottom,rgba(13,12,10,.88) 0%,transparent);
+  pointer-events:none;
+}
+.dz-hud-top > * { pointer-events:auto; }
+.dz-room-title {
+  font-family:var(--ff-display); font-size:clamp(22px,3vw,38px); font-weight:300;
+  color:var(--cream); line-height:1.1; letter-spacing:.02em;
+}
+.dz-room-title em { font-style:italic; color:var(--gold); }
+.dz-room-sub {
+  font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--muted2);
+  margin-top:4px;
+}
+.dz-nav { display:flex; gap:8px; }
+
+/* ── WALL ZONE SELECTOR — bottom center ── */
+.dz-zone-bar {
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  background:linear-gradient(to top,rgba(10,9,8,.97) 55%,transparent);
+  padding:16px 36px 24px;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  pointer-events:none;
+}
+.dz-zone-bar > * { pointer-events:auto; }
+
+/* Zone tabs row */
+.dz-zones {
+  display:flex; gap:0; background:rgba(255,248,240,.04);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,248,240,.08);
+  overflow:hidden;
+}
 .wall-tab {
-  padding:7px 15px; border-radius:99px;
-  border:1px solid var(--dark4); background:var(--dark2);
-  font-size:12px; font-weight:600; font-family:var(--ff-head);
-  letter-spacing:.04em; cursor:pointer; color:var(--muted);
+  padding:10px 24px;
+  font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted2); cursor:pointer;
+  transition:var(--trans);
+  border-right:1px solid rgba(255,248,240,.06);
+  background:transparent;
+  display:flex; align-items:center; gap:7px;
+  white-space:nowrap;
+}
+.wall-tab:last-child { border-right:none; }
+.wall-tab:hover { color:var(--gold-dim); background:rgba(233,185,163,.04); }
+.wall-tab.active {
+  background:var(--gold); color:var(--plum);
+  font-weight:800;
+}
+.wall-tab.done:not(.active) { color:#6ab187; }
+.wall-tab .wt-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:currentColor; opacity:.6; flex-shrink:0;
+}
+
+/* Finish dot track */
+.dz-finish-track {
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;
+}
+.dz-fin-dots { display:flex; gap:7px; align-items:center; }
+.d-opt {
+  width:32px; height:32px; border-radius:50%;
+  border:2px solid transparent;
+  outline:2.5px solid transparent; outline-offset:3px;
+  cursor:pointer; transition:var(--trans);
+  position:relative; flex-shrink:0;
+}
+.d-opt:hover { transform:scale(1.2); }
+.d-opt.sel {
+  outline-color:var(--gold); transform:scale(1.28);
+  box-shadow:0 0 14px rgba(233,185,163,.5);
+}
+/* tooltip */
+.d-opt::after {
+  content:attr(data-tip);
+  position:absolute; bottom:calc(100%+10px); left:50%;
+  transform:translateX(-50%) translateY(5px); opacity:0;
+  background:rgba(13,12,10,.95); color:var(--cream);
+  font-family:var(--ff-head); font-size:8px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  padding:4px 10px; white-space:nowrap;
+  border:1px solid var(--dark5,#3A3530);
+  pointer-events:none; transition:var(--trans);
+}
+.d-opt:hover::after { opacity:1; transform:translateX(-50%) translateY(0); }
+/* Divider */
+.dz-fin-div { width:1px; height:32px; background:rgba(255,248,240,.1); }
+/* Finish name */
+.dz-fin-name { font-family:var(--ff-display); font-size:15px; font-weight:300; font-style:italic; color:var(--cream2,#F2E8DE); letter-spacing:.04em; }
+.dz-fin-sub  { font-family:var(--ff-head); font-size:8px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-deep); margin-top:2px; }
+
+/* Progress indicator */
+.dz-progress {
+  display:flex; gap:8px; align-items:center;
+  font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted2);
+}
+.dz-prog-pip {
+  width:20px; height:3px; background:var(--dark5,#3A3530);
+  transition:background .4s;
+}
+.dz-prog-pip.done { background:#6ab187; }
+.dz-prog-pip.active { background:var(--gold); }
+
+/* ── FURNITURE PANEL — left side strip ── */
+.dz-furn-strip {
+  position:fixed; left:0; top:50%; transform:translateY(-50%);
+  z-index:100; display:flex; flex-direction:column; gap:5px;
+  padding:6px;
+  background:rgba(13,12,10,.7); backdrop-filter:blur(12px);
+  border-right:1px solid rgba(255,248,240,.06);
+}
+.furn-chip {
+  width:48px; height:48px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:1px; cursor:pointer; transition:var(--trans);
+  border:1px solid transparent;
+}
+.furn-chip:hover { background:rgba(255,248,240,.04); border-color:rgba(255,248,240,.08); }
+.furn-chip.on { background:rgba(233,185,163,.1); border-color:rgba(233,185,163,.3); }
+.furn-chip span { font-size:20px; }
+.furn-chip-lbl { font-family:var(--ff-head); font-size:7px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted2); }
+.furn-chip.on .furn-chip-lbl { color:var(--gold); }
+
+/* ── PALETTE PICKER — right strip ── */
+.dz-pal-strip {
+  position:fixed; right:0; top:50%; transform:translateY(-50%);
+  z-index:100; display:flex; flex-direction:column; gap:4px;
+  padding:6px;
+  background:rgba(13,12,10,.7); backdrop-filter:blur(12px);
+  border-left:1px solid rgba(255,248,240,.06);
+}
+.pal-item {
+  width:48px; height:36px; overflow:hidden; cursor:pointer;
+  border:2px solid transparent; transition:var(--trans);
+  display:flex;
+}
+.pal-item:hover { transform:scaleX(1.1); }
+.pal-item.sel { border-color:var(--gold); box-shadow:0 0 8px rgba(233,185,163,.4); }
+.pal-seg { flex:1; }
+.pal-item-label {
+  display:none; /* shown on active only */
+}
+
+/* Save button */
+.dz-save-btn {
+  padding:11px 32px; background:var(--gold); color:var(--plum);
+  font-family:var(--ff-head); font-size:10px; font-weight:800;
+  letter-spacing:.14em; text-transform:uppercase; border-radius:1px;
   transition:var(--trans);
 }
-.wall-tab:hover { border-color:rgba(233,185,163,.4); color:var(--gold-deep); }
-.wall-tab.active { background:var(--gold); color:var(--plum); border-color:var(--gold); }
-.wall-tab.done { border-color:#6ab187; color:#6ab187; }
-.wall-tab.done.active { background:var(--gold); color:var(--plum); border-color:var(--gold); }
+.dz-save-btn:hover { background:var(--gold-bright,#F5CBBA); box-shadow:0 8px 32px rgba(233,185,163,.3); transform:translateY(-1px); }
+.dz-save-btn.saved { background:#6ab187; color:#fff; }
 
-/* Room 3D preview */
-.room-viewer-wrap {
-  background:var(--dark2); border:1px solid var(--dark4);
-  border-radius:var(--r-lg); padding:20px;
-  flex:1; display:flex; flex-direction:column; align-items:center; gap:14px;
+/* ── ROOM THUMB SWITCHER — horizontal scroll bar ── */
+.dz-room-switcher {
+  position:fixed; left:68px; right:68px; bottom:160px; z-index:99;
+  display:flex; gap:8px; justify-content:center;
 }
-.room-3d {
-  width:100%; max-width:580px; aspect-ratio:16/10;
-  background:#222; border-radius:10px; position:relative; overflow:hidden;
-  perspective:900px;
+.dz-room-pill {
+  display:flex; align-items:center; gap:7px;
+  padding:7px 16px;
+  background:rgba(13,12,10,.75); backdrop-filter:blur(12px);
+  border:1px solid rgba(255,248,240,.08);
+  font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted2);
+  cursor:pointer; transition:var(--trans); white-space:nowrap;
 }
-.r-ceiling { position:absolute; top:0; left:0; right:0; height:14%; transition:background .4s; }
-.r-back    { position:absolute; inset:14% 18% 28% 18%; transition:background .4s; }
-.r-left    { position:absolute; left:0; top:0; bottom:28%; width:18%; transform-origin:left; transform:rotateY(28deg); transition:background .4s; box-shadow:inset -10px 0 24px rgba(0,0,0,.35); }
-.r-right   { position:absolute; right:0; top:0; bottom:28%; width:18%; transform-origin:right; transform:rotateY(-28deg); transition:background .4s; box-shadow:inset 10px 0 24px rgba(0,0,0,.35); }
-.r-floor   { position:absolute; bottom:0; left:0; right:0; height:28%; transition:background .4s; }
-.r-furniture {
-  position:absolute; bottom:28%; left:18%; right:18%;
-  display:flex; align-items:flex-end; justify-content:center; gap:8px;
-  font-size:30px; pointer-events:none; flex-wrap:wrap;
-}
-.r-label {
-  position:absolute; top:8px; left:50%; transform:translateX(-50%);
-  background:rgba(0,0,0,.6); backdrop-filter:blur(4px);
-  color:var(--cream); font-size:10px; font-weight:600;
-  padding:3px 12px; border-radius:99px; letter-spacing:.08em; text-transform:uppercase;
-  font-family:var(--ff-head); white-space:nowrap;
-}
-/* Active wall highlight */
-.r-active-glow { outline: 2px solid rgba(233,185,163,.6); outline-offset:2px; }
+.dz-room-pill:hover { border-color:var(--gold-dim); color:var(--gold); }
+.dz-room-pill.active { border-color:var(--gold); color:var(--gold); background:rgba(233,185,163,.08); }
+.dz-room-pill .rp-ico { font-size:14px; }
+.dz-room-pill .rp-done { width:6px; height:6px; border-radius:50%; background:#6ab187; }
 
-.room-legend {
-  display:flex; gap:16px; font-size:11px; color:var(--muted);
-  font-family:var(--ff-head); letter-spacing:.04em; flex-wrap:wrap; justify-content:center;
-}
+/* ── DESIGN OPTS (hidden, used by JS to feed dots) ── */
+.design-opts { display:none; }
 
-/* PANEL (right) */
-.d-panel {
-  border-left:1px solid var(--dark4);
-  overflow-y:auto; display:flex; flex-direction:column;
-  scrollbar-width:thin; scrollbar-color:var(--dark4) transparent;
-}
-.d-section { padding:18px 22px; border-bottom:1px solid var(--dark4); }
-.d-section:last-child { border-bottom:none; }
-.d-sec-label {
-  font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--gold); font-family:var(--ff-head); margin-bottom:14px;
-  display:flex; align-items:center; gap:8px;
-}
-.d-sec-label::after { content:''; flex:1; height:1px; background:var(--dark4); }
+/* ── LEGACY COMPAT ── */
+.d-sec-label { display:none; }
+.d-section   { display:none; }
+.d-save-bar  { display:none; }
+.room-viewer-wrap { display:none; }
+.d-canvas-header { display:none; }
+.wall-tabs-old   { display:none; }
+.room-legend     { display:none; }
+.furn-row        { display:none; }
+.d-panel-old     { display:none; }
 
-/* Design option grid */
-.design-opts { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
-.d-opt {
-  border-radius:var(--r-sm); overflow:hidden; cursor:pointer;
-  border:1.5px solid transparent; transition:var(--trans);
-  aspect-ratio:1; position:relative;
+/* ── RESPONSIVE ── */
+@media(max-width:768px) {
+  .dz-hud-top { padding:12px 16px; }
+  .dz-zone-bar { padding:12px 12px 20px; }
+  .wall-tab { padding:9px 14px; font-size:8px; }
+  .dz-room-switcher { left:56px; right:56px; bottom:148px; }
+  .dz-furn-strip { display:none; }
+  .dz-pal-strip { display:none; }
+  .dz-room-title { font-size:20px; }
+  .dz-nav .btn { padding:7px 14px; font-size:9px; }
 }
-.d-opt:hover { transform:scale(1.06); z-index:1; }
-.d-opt.sel { border-color:var(--gold); box-shadow:0 0 0 1px rgba(233,185,163,.4); }
-.d-opt-bg { position:absolute; inset:0; }
-.d-opt-lbl {
-  position:absolute; bottom:0; left:0; right:0;
-  background:linear-gradient(transparent, rgba(0,0,0,.75));
-  color:#fff; font-size:9px; font-weight:600;
-  padding:4px 5px 5px; text-align:center; letter-spacing:.03em;
+@media(max-width:480px) {
+  .wall-tab span.wt-txt { display:none; }
+  .dz-room-switcher { display:none; }
+  .dz-finish-track { gap:10px; }
 }
-
-/* Palette row */
-.palette-row { display:flex; gap:6px; flex-wrap:wrap; }
-.pal-item {
-  flex:1; min-width:72px; display:flex; border-radius:var(--r-sm); overflow:hidden;
-  cursor:pointer; border:1.5px solid transparent; transition:var(--trans); height:24px;
-}
-.pal-item:hover { transform:translateY(-2px); }
-.pal-item.sel { border-color:var(--gold); }
-.pal-seg { flex:1; }
-
-/* Furniture chips */
-.furn-row { display:flex; gap:7px; flex-wrap:wrap; }
-.furn-chip {
-  display:flex; flex-direction:column; align-items:center; gap:3px;
-  padding:9px 11px; border-radius:var(--r-sm); min-width:50px; text-align:center;
-  border:1px solid var(--dark4); background:var(--dark3); cursor:pointer;
-  font-size:10px; color:var(--muted); transition:var(--trans); font-family:var(--ff-head);
-}
-.furn-chip:hover { border-color:rgba(233,185,163,.4); color:var(--gold-deep); }
-.furn-chip.on { border-color:var(--gold); color:var(--gold); background:var(--gold-glow); }
-.furn-chip span { font-size:22px; }
-
-/* Room progress / save */
-.d-save-bar {
-  padding:16px 22px; background:var(--dark2); border-top:1px solid var(--dark4);
-  margin-top:auto;
-}
-.d-save-status { font-size:12px; color:var(--muted); margin-bottom:10px; font-style:italic; }
 
 /* ── ═══════════════════════════════════════════════════ ── */
 /* ── SCREEN 4 — MOODBOARD SUMMARY ─────────────────────── */
@@ -672,72 +874,73 @@ body {
   <div class="room-grid" id="roomGrid"></div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- SCREEN 3 — ROOM DESIGNER                                  -->
+<!-- SCREEN 3 — FULL-SCREEN IMMERSIVE ROOM DESIGNER            -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <div class="screen" id="s-designer">
-  <div class="designer-wrap">
 
-    <!-- LEFT: 3D CANVAS -->
-    <div class="d-canvas">
-      <div class="d-canvas-header">
-        <div>
-          <div class="d-room-title" id="dRoomTitle">Living Room</div>
-          <div class="d-room-subtitle">Tap a wall zone to customise it</div>
-        </div>
-        <div class="d-nav-row">
-          <button class="btn btn-ghost btn-sm" onclick="goRoomsFromDesigner()">← Rooms</button>
-          <button class="btn btn-gold btn-sm" id="btnNextRm" onclick="nextRoom()">Next Room →</button>
-        </div>
-      </div>
-      <!-- Wall zone tabs -->
-      <div class="wall-tabs" id="wallTabs">
-        <button class="wall-tab active" data-w="back"    onclick="selWall('back')">▣ Back Wall</button>
-        <button class="wall-tab"        data-w="left"    onclick="selWall('left')">◁ Left Wall</button>
-        <button class="wall-tab"        data-w="right"   onclick="selWall('right')">▷ Right Wall</button>
-        <button class="wall-tab"        data-w="floor"   onclick="selWall('floor')">⬛ Floor</button>
-        <button class="wall-tab"        data-w="ceiling" onclick="selWall('ceiling')">⬜ Ceiling</button>
-      </div>
-      <!-- 3D preview -->
-      <div class="room-viewer-wrap">
-        <div class="room-3d" id="room3d">
-          <div class="r-ceiling" id="rCeil"  onclick="selWall('ceiling')"></div>
-          <div class="r-back"    id="rBack"  onclick="selWall('back')"></div>
-          <div class="r-left"    id="rLeft"  onclick="selWall('left')"></div>
-          <div class="r-right"   id="rRight" onclick="selWall('right')"></div>
-          <div class="r-floor"   id="rFloor" onclick="selWall('floor')"></div>
-          <div class="r-furniture" id="rFurn"></div>
-          <div class="r-label"   id="rLabel">Living Room</div>
-        </div>
-        <div class="room-legend">
-          <span>Click any wall zone to edit</span>
-          <span>·</span>
-          <span>▣ Back</span><span>◁▷ Sides</span><span>⬛ Floor</span><span>⬜ Ceiling</span>
-        </div>
-      </div>
+  <!-- FULL-SCREEN 3D SCENE -->
+  <div class="dz-scene" id="dzScene">
+    <div class="dz-ambient" id="dzAmbient"></div>
+    <div class="dz-lightshaft"></div>
+    <div class="room-3d" id="room3d">
+      <div class="r-ceiling" id="rCeil"  onclick="selWall('ceiling')"></div>
+      <div class="r-back"    id="rBack"  onclick="selWall('back')"></div>
+      <div class="r-left"    id="rLeft"  onclick="selWall('left')"></div>
+      <div class="r-right"   id="rRight" onclick="selWall('right')"></div>
+      <div class="r-floor"   id="rFloor" onclick="selWall('floor')"></div>
+      <div class="r-furniture" id="rFurn"></div>
     </div>
-
-    <!-- RIGHT: DESIGN PANEL -->
-    <div class="d-panel" id="dPanel">
-      <div class="d-section">
-        <div class="d-sec-label" id="dWallLabel">Back Wall</div>
-        <div class="design-opts" id="dOpts"></div>
-      </div>
-      <div class="d-section">
-        <div class="d-sec-label">Colour Palette</div>
-        <div class="palette-row" id="dPals"></div>
-      </div>
-      <div class="d-section">
-        <div class="d-sec-label">Furniture &amp; Décor</div>
-        <div class="furn-row" id="dFurn"></div>
-      </div>
-      <div class="d-save-bar">
-        <div class="d-save-status" id="dSaveStatus">Customise walls, then save your room design</div>
-        <button class="btn btn-gold" style="width:100%" onclick="saveRoom()">💾 &nbsp;Save Room Design</button>
-      </div>
-    </div>
-
   </div>
+
+  <!-- TOP HUD -->
+  <div class="dz-hud-top">
+    <div>
+      <div class="dz-room-title" id="dRoomTitle">Living <em>Room</em></div>
+      <div class="dz-room-sub">Click any surface to customise</div>
+    </div>
+    <div class="dz-nav">
+      <button class="btn btn-ghost btn-sm" style="border-radius:2px" onclick="goRoomsFromDesigner()">← Rooms</button>
+      <button class="btn btn-ghost btn-sm" style="border-radius:2px" id="btnNextRm" onclick="nextRoom()">Next Room →</button>
+      <button class="dz-save-btn" id="dzSaveBtn" onclick="saveRoom()">Save Room</button>
+    </div>
+  </div>
+
+  <!-- ROOM SWITCHER -->
+  <div class="dz-room-switcher" id="dzRoomSwitcher"></div>
+
+  <!-- FURNITURE STRIP (left) -->
+  <div class="dz-furn-strip" id="dFurn"></div>
+
+  <!-- PALETTE STRIP (right) -->
+  <div class="dz-pal-strip" id="dPals"></div>
+
+  <!-- BOTTOM ZONE BAR -->
+  <div class="dz-zone-bar">
+    <div class="dz-zones" id="wallTabs">
+      <button class="wall-tab active" data-w="back"    onclick="selWall('back')"><span class="wt-dot"></span><span class="wt-txt">Back Wall</span></button>
+      <button class="wall-tab"        data-w="left"    onclick="selWall('left')"><span class="wt-dot"></span><span class="wt-txt">Left Wall</span></button>
+      <button class="wall-tab"        data-w="right"   onclick="selWall('right')"><span class="wt-dot"></span><span class="wt-txt">Right Wall</span></button>
+      <button class="wall-tab"        data-w="floor"   onclick="selWall('floor')"><span class="wt-dot"></span><span class="wt-txt">Floor</span></button>
+      <button class="wall-tab"        data-w="ceiling" onclick="selWall('ceiling')"><span class="wt-dot"></span><span class="wt-txt">Ceiling</span></button>
+    </div>
+    <div class="dz-finish-track">
+      <div class="dz-fin-dots" id="dOpts"></div>
+      <div class="dz-fin-div"></div>
+      <div>
+        <div class="dz-fin-name" id="dzFinName">—</div>
+        <div class="dz-fin-sub"  id="dzFinSub">Select a surface above</div>
+      </div>
+      <div class="dz-fin-div"></div>
+      <div class="dz-progress" id="dzProgress"></div>
+    </div>
+  </div>
+
+  <!-- Hidden legacy stubs for JS compat -->
+  <div id="dPanel" style="display:none"></div>
+  <div id="dWallLabel" style="display:none"></div>
+  <div id="dSaveStatus" style="display:none"></div>
+  <div id="rLabel" style="display:none"></div>
+
 </div>
 
 <!-- ══════════════════════════════════════════════════════════ -->
@@ -977,10 +1180,11 @@ function updateRoomBtn() {
 }
 function startDesigning() {
   S.curRoomIdx = 0;
-  loadRoom(getRooms()[0].id);
   showScreen('s-designer');
   $('btnMoodboard').style.display = 'flex';
   $('btnVisualizer').style.display = 'flex';
+  loadRoom(getRooms()[0].id);
+  renderRoomSwitcher();
 }
 function goRoomsFromDesigner() { renderRooms(); showScreen('s-rooms'); }
 
@@ -997,6 +1201,7 @@ function loadRoom(roomId) {
   document.querySelector('[data-w="back"]').classList.add('active');
   renderFurnChips(roomId);
   renderDesignPanel();
+  renderRoomSwitcher();
   applyPreview();
   updateNextRoomBtn();
   updateSaveStatus();
@@ -1013,64 +1218,100 @@ function selWall(wall) {
   const el = $(elMap[wall]);
   if (el) el.classList.add('r-active-glow');
 }
+// Room ambient backgrounds — cinematic per-room ambience
+const ROOM_AMBIENTS = {
+  living:   'radial-gradient(ellipse at 50% 80%, #1A1310 0%, #0D0C0A 55%)',
+  kitchen:  'radial-gradient(ellipse at 50% 0%,  #181410 0%, #0E0C0A 60%)',
+  dining:   'radial-gradient(ellipse at 50% 30%, #16120E 0%, #0D0C0A 55%)',
+  master:   'radial-gradient(ellipse at 50% 90%, #14100E 0%, #0C0B09 60%)',
+  bathroom: 'radial-gradient(ellipse at 50% 50%, #141216 0%, #0D0B0C 55%)',
+  pooja:    'radial-gradient(ellipse at 50% 40%, #1A1208 0%, #0E0C08 55%)',
+};
+
 function renderDesignPanel() {
   const wall = S.curWall;
   const list = wall==='floor' ? FLOOR_DESIGNS : wall==='ceiling' ? CEILING_DESIGNS : WALL_DESIGNS;
   const cur  = (S.designs[S.curRoom]||{})[wall];
 
-  $('dOpts').innerHTML = list.map(d => {
-    const bg = d.grad ? d.grad : d.bg;
-    return `<div class="d-opt ${cur===d.id?'sel':''}" onclick="pickDesign('${d.id}')" title="${d.lbl}">
-      <div class="d-opt-bg" style="background:${bg}"></div>
-      <div class="d-opt-lbl">${d.lbl}</div>
-    </div>`;
-  }).join('');
+  // Dot track — solid colour circle, tooltip on hover, like MG visualizer
+  $('dOpts').innerHTML = list.map(d =>
+    `<button class="d-opt ${cur===d.id?'sel':''}"
+      style="background:${d.bg||'#888888'}"
+      data-id="${d.id}" data-tip="${d.lbl}"
+      onclick="pickDesign('${d.id}')"></button>`
+  ).join('');
 
-  // palettes
-  const curPal = (S.designs[S.curRoom]||{}).palette;
-  $('dPals').innerHTML = PALETTES.map(p => `
-    <div class="pal-item ${curPal===p.id?'sel':''}" onclick="pickPalette('${p.id}')" title="${p.name}">
+  // Finish name label
+  const curD = list.find(d => d.id === cur);
+  $('dzFinName').textContent = curD ? curD.lbl : '—';
+  $('dzFinSub').textContent  = curD ? (wall==='floor'?'Floor Finish':wall==='ceiling'?'Ceiling Finish':'Wall Finish') : `Pick a ${wall} finish`;
+
+  // Progress pips
+  const dz = S.designs[S.curRoom]||{};
+  $('dzProgress').innerHTML = ['back','left','right','floor','ceiling'].map(w =>
+    `<div class="dz-prog-pip ${w===wall?'active':dz[w]?'done':''}" title="${w}"></div>`
+  ).join('');
+
+  // Palette strip
+  const curPal = dz.palette;
+  $('dPals').innerHTML = PALETTES.map(p =>
+    `<div class="pal-item ${curPal===p.id?'sel':''}" onclick="pickPalette('${p.id}')" title="${p.name}">
       ${p.cols.map(c=>`<div class="pal-seg" style="background:${c}"></div>`).join('')}
-    </div>`).join('');
+    </div>`
+  ).join('');
 }
+
 function pickDesign(id) {
   S.designs[S.curRoom][S.curWall] = id;
-  // mark tab done
   QA('.wall-tab').forEach(t => { if(t.dataset.w===S.curWall) t.classList.add('done'); });
-  renderDesignPanel();
+  const list = S.curWall==='floor' ? FLOOR_DESIGNS : S.curWall==='ceiling' ? CEILING_DESIGNS : WALL_DESIGNS;
+  const d = list.find(x=>x.id===id);
+  if (d) { $('dzFinName').textContent=d.lbl; $('dzFinSub').textContent=S.curWall==='floor'?'Floor Finish':S.curWall==='ceiling'?'Ceiling Finish':'Wall Finish'; }
+  QA('#dOpts .d-opt').forEach(b => b.classList.toggle('sel', b.dataset.id===id));
   applyPreview();
-  updateSaveStatus();
+  const dz = S.designs[S.curRoom]||{};
+  QA('#dzProgress .dz-prog-pip').forEach((pip,i)=>{
+    const w=['back','left','right','floor','ceiling'][i];
+    pip.className='dz-prog-pip'+(w===S.curWall?' active':dz[w]?' done':'');
+  });
 }
+
 function pickPalette(id) {
   S.designs[S.curRoom].palette = id;
-  renderDesignPanel();
-  updateSaveStatus();
+  QA('#dPals .pal-item').forEach((p,i) => p.classList.toggle('sel', PALETTES[i]?.id===id));
 }
+
 function renderFurnChips(roomId) {
   const room = ROOMS.find(r=>r.id===roomId);
   const active = S.designs[roomId]?.furniture || new Set();
-  $('dFurn').innerHTML = room.furn.map(f => `
-    <div class="furn-chip ${active.has(f)?'on':''}" onclick="toggleFurn('${f}')">
+  $('dFurn').innerHTML = room.furn.map(f =>
+    `<div class="furn-chip ${active.has(f)?'on':''}" onclick="toggleFurn('${f}')">
       <span>${FURN_ICO[f]||'🪑'}</span>
-      ${FURN_LABELS[f]||f}
-    </div>`).join('');
+      <div class="furn-chip-lbl">${FURN_LABELS[f]||f}</div>
+    </div>`
+  ).join('');
 }
+
 function toggleFurn(f) {
   const fset = S.designs[S.curRoom].furniture;
   fset.has(f) ? fset.delete(f) : fset.add(f);
   renderFurnChips(S.curRoom);
   applyFurniture();
-  updateSaveStatus();
 }
+
 function applyFurniture() {
   const room = ROOMS.find(r=>r.id===S.curRoom);
   const fset = S.designs[S.curRoom].furniture;
   const active = room.furn.filter(f=>fset.has(f));
-  $('rFurn').innerHTML = active.slice(0,6).map(f=>`<span style="font-size:28px">${FURN_ICO[f]||'🪑'}</span>`).join('');
+  $('rFurn').innerHTML = active.slice(0,5).map((f,i)=>
+    `<span class="r-furn-item" style="animation-delay:${(i*.4).toFixed(1)}s">${FURN_ICO[f]||'🪑'}</span>`
+  ).join('');
 }
+
 function applyPreview() {
   const d = S.designs[S.curRoom];
   function applyEl(el, designId, list) {
+    if (!el) return;
     if (!designId) { el.style.background=''; return; }
     const dd = list.find(x=>x.id===designId);
     if (dd) el.style.background = dd.grad||dd.bg;
@@ -1080,39 +1321,48 @@ function applyPreview() {
   applyEl($('rRight'), d.right,   WALL_DESIGNS);
   applyEl($('rFloor'), d.floor,   FLOOR_DESIGNS);
   applyEl($('rCeil'),  d.ceiling, CEILING_DESIGNS);
+  const amb = $('dzAmbient');
+  if (amb) amb.style.background = ROOM_AMBIENTS[S.curRoom]||ROOM_AMBIENTS.living;
   applyFurniture();
 }
-function updateSaveStatus() {
-  const d = S.designs[S.curRoom];
-  const n = [d.back,d.left,d.right,d.floor,d.ceiling].filter(Boolean).length;
-  $('dSaveStatus').textContent =
-    n === 0 ? 'Start by selecting a wall design on the left →' :
-    n < 3   ? `${n}/5 zones designed — keep going!` :
-    n < 5   ? `${n}/5 zones designed — almost there!` :
-    'All zones designed ✓ — save when happy!';
+
+function renderRoomSwitcher() {
+  const el = $('dzRoomSwitcher');
+  if (!el) return;
+  el.innerHTML = getRooms().map(r =>
+    `<button class="dz-room-pill ${r.id===S.curRoom?'active':''}" onclick="loadRoom('${r.id}')">
+      <span class="rp-ico">${r.ico}</span>${r.name}
+      ${S.saved.has(r.id)?'<span class="rp-done"></span>':''}
+    </button>`
+  ).join('');
 }
+
+function updateSaveStatus() { /* status shown via progress pips */ }
+
 function saveRoom() {
   S.saved.add(S.curRoom);
   const room = ROOMS.find(r=>r.id===S.curRoom);
   toast(`<span class="t-gold">✓</span> &nbsp;${room.name} saved to your moodboard`);
-  $('dSaveStatus').textContent = '✓ Room saved! Proceed to the next room or view your moodboard.';
   $('btnCompare').style.display = S.saved.size >= 2 ? 'flex' : 'none';
+  $('btnMoodboard').style.display = 'flex';
+  const sb = $('dzSaveBtn');
+  if (sb) { sb.textContent='✓ Saved'; sb.classList.add('saved'); setTimeout(()=>{sb.textContent='Save Room';sb.classList.remove('saved')},2200); }
+  renderRoomSwitcher();
+  const list = getRooms(), idx = list.findIndex(r=>r.id===S.curRoom), next = list[idx+1];
+  $('btnNextRm').textContent = next ? `Next: ${next.name} →` : 'View Moodboard →';
+  if (!next) $('btnNextRm').onclick = goSummary;
 }
+
 function nextRoom() {
   const list = getRooms();
   S.curRoomIdx = (S.curRoomIdx+1) % list.length;
   loadRoom(list[S.curRoomIdx].id);
 }
+
 function updateNextRoomBtn() {
   const list = getRooms();
-  if (list.length <= 1) {
-    $('btnNextRm').textContent = 'View Moodboard →';
-    $('btnNextRm').onclick = goSummary;
-  } else {
-    const next = list[(S.curRoomIdx+1)%list.length];
-    $('btnNextRm').textContent = `Next: ${next.name} →`;
-    $('btnNextRm').onclick = nextRoom;
-  }
+  if (list.length <= 1) { $('btnNextRm').textContent='View Moodboard →'; $('btnNextRm').onclick=goSummary; }
+  else { const next = list[(S.curRoomIdx+1)%list.length]; $('btnNextRm').textContent=`Next: ${next.name} →`; }
 }
 
 // ── SCREEN 4: SUMMARY ────────────────────────────────────────────
