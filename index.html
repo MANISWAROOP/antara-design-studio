@@ -47,7 +47,9 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
+  cursor: none;
 }
+a, button, [onclick], input, select, textarea, label { cursor: none; }
 
 /* ── SCREEN SYSTEM ────────────────────────────────────────────── */
 .screen { display:none; min-height:100vh; animation: fadeUp .4s ease both; }
@@ -126,20 +128,26 @@ body {
    SCREEN 0 — CINEMATIC HERO
 ══════════════════════════════════════════════════════════ */
 
-/* Custom cursor */
+/* ── GLOBAL CUSTOM CURSOR (all screens) ── */
 #h-cursor{
   position:fixed;width:10px;height:10px;border-radius:50%;
   background:var(--gold);pointer-events:none;z-index:9999;
-  transform:translate(-50%,-50%);transition:width .2s,height .2s;
-  mix-blend-mode:difference;display:none;
+  transform:translate(-50%,-50%);
+  transition:width .18s,height .18s,background .2s,opacity .2s;
+  /* NO mix-blend-mode — stays gold-visible on all dark backgrounds */
 }
 #h-cursor-ring{
-  position:fixed;width:40px;height:40px;border-radius:50%;
-  border:1px solid rgba(233,185,163,.5);pointer-events:none;z-index:9998;
-  transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;display:none;
+  position:fixed;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(233,185,163,.45);pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:width .28s cubic-bezier(.22,1,.36,1),height .28s cubic-bezier(.22,1,.36,1),border-color .25s,opacity .25s;
 }
-#s-hero.active ~ #h-cursor,
-#s-hero.active ~ #h-cursor-ring { display:block; }
+/* Expand ring + dot on interactive hover */
+body.c-hover #h-cursor{ width:16px; height:16px; }
+body.c-hover #h-cursor-ring{ width:60px; height:60px; border-color:rgba(233,185,163,.85); }
+/* On the designer screen, make cursor slightly brighter */
+#s-designer.active ~ * #h-cursor,
+#s-style.active ~ * #h-cursor   { background:#F5CBBA; }
 
 #s-hero {
   min-height:100vh;
@@ -1615,38 +1623,33 @@ showScreen('s-hero');
 // Only runs while #s-hero is the active screen
 // ══════════════════════════════════════════════════════════════════
 (function heroVFX(){
-  // ── CURSOR ──────────────────────────────────────────────────
+  // ── GLOBAL CURSOR — tracks on every screen ──────────────────
   const cur  = $('h-cursor');
   const ring = $('h-cursor-ring');
   let mx = innerWidth/2, my = innerHeight/2;
   let rx = mx, ry = my;
 
+  // Always track mouse — no screen guard
   document.addEventListener('mousemove', e => {
-    if (!$('s-hero').classList.contains('active')) return;
     mx = e.clientX; my = e.clientY;
-    cur.style.left  = mx + 'px';
-    cur.style.top   = my + 'px';
+    cur.style.left = mx + 'px';
+    cur.style.top  = my + 'px';
   });
 
+  // Lagged ring — always running
   (function ringLoop(){
-    rx += (mx - rx) * .14;
-    ry += (my - ry) * .14;
+    rx += (mx - rx) * .12;
+    ry += (my - ry) * .12;
     ring.style.left = rx + 'px';
     ring.style.top  = ry + 'px';
     requestAnimationFrame(ringLoop);
   })();
 
-  document.querySelectorAll('.hero-cta-primary,.hero-cta-ghost').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cur.style.width = '18px'; cur.style.height = '18px';
-      ring.style.width = '58px'; ring.style.height = '58px';
-      ring.style.borderColor = 'rgba(233,185,163,.85)';
-    });
-    el.addEventListener('mouseleave', () => {
-      cur.style.width = '10px'; cur.style.height = '10px';
-      ring.style.width = '40px'; ring.style.height = '40px';
-      ring.style.borderColor = 'rgba(233,185,163,.5)';
-    });
+  // Hover expand on ALL interactive elements across every screen
+  document.addEventListener('mouseover', e => {
+    const t = e.target.closest('a,button,[onclick],.style-card,.room-card,.wall-tab,.d-opt,.furn-chip,.pal-item,.dz-room-pill,.rp-tag,.sb-item');
+    if (t) document.body.classList.add('c-hover');
+    else   document.body.classList.remove('c-hover');
   });
 
   // ── PARTICLE CANVAS ──────────────────────────────────────
