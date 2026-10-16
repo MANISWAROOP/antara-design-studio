@@ -1142,14 +1142,30 @@ body.c-hover #h-cursor-ring{ width:60px; height:60px; border-color:rgba(233,185,
 <script>
 // ── DATA ─────────────────────────────────────────────────────────
 const STYLES = [
-  { id:'contemporary', name:'Contemporary',  ico:'🏛️', desc:'Clean forms, sophisticated materials and a curated palette of neutrals with bold accents.', tags:['Sleek','Refined','Timeless'], bg:'#2a2826' },
-  { id:'luxury',       name:'Luxury Classic', ico:'👑', desc:'Rich textures, gold accents, marble surfaces and opulent layering — uncompromising elegance.', tags:['Opulent','Gold','Marble'], bg:'#2e2718' },
-  { id:'minimalist',   name:'Minimalist',    ico:'◻',  desc:'Intentional restraint — every object earns its place. Calm, airy and deeply functional.', tags:['Zen','Calm','Functional'], bg:'#252525' },
-  { id:'earthy',       name:'Earthy & Warm', ico:'🍂', desc:'Natural textures, terracotta tones, raw wood and organic forms for a grounded feel.', tags:['Natural','Warm','Organic'], bg:'#2b1f18' },
-  { id:'modern_ind',   name:'Modern Indian', ico:'🪔', desc:'A fusion of traditional Indian motifs with contemporary spatial design and proportions. From Rajasthani haveli to Chettinad mansion — every regional style covered.', tags:['Rajasthani','Kerala','Chettinad','Mughal'], bg:'#281a1f', cta:'modern-indian.html' },
-  { id:'scandi',       name:'Scandinavian',  ico:'❄️', desc:'Light woods, white surfaces, hygge warmth and the beauty of functional simplicity.', tags:['Hygge','Airy','Natural'], bg:'#222730' },
-  { id:'industrial',   name:'Industrial',    ico:'⚙️', desc:'Exposed concrete, structural steel, reclaimed wood and an urban, unfinished aesthetic.', tags:['Urban','Raw','Textured'], bg:'#202020' },
-  { id:'art_deco',     name:'Art Déco',      ico:'◆',  desc:'Bold geometry, metallic finishes, rich jewel tones and dramatic symmetry.', tags:['Geometric','Metallic','Dramatic'], bg:'#1e1a28' },
+  { id:'contemporary', name:'Contemporary',  ico:'🏛️',
+    img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=75&auto=format&fit=crop',
+    desc:'Clean forms, sophisticated materials and a curated palette of neutrals with bold accents.', tags:['Sleek','Refined','Timeless'], bg:'#2a2826' },
+  { id:'luxury',       name:'Luxury Classic', ico:'👑',
+    img:'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=600&q=75&auto=format&fit=crop',
+    desc:'Rich textures, gold accents, marble surfaces and opulent layering — uncompromising elegance.', tags:['Opulent','Gold','Marble'], bg:'#2e2718' },
+  { id:'minimalist',   name:'Minimalist',    ico:'◻',
+    img:'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=600&q=75&auto=format&fit=crop',
+    desc:'Intentional restraint — every object earns its place. Calm, airy and deeply functional.', tags:['Zen','Calm','Functional'], bg:'#252525' },
+  { id:'earthy',       name:'Earthy & Warm', ico:'🍂',
+    img:'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=75&auto=format&fit=crop',
+    desc:'Natural textures, terracotta tones, raw wood and organic forms for a grounded feel.', tags:['Natural','Warm','Organic'], bg:'#2b1f18' },
+  { id:'modern_ind',   name:'Modern Indian', ico:'🪔',
+    img:'https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&q=75&auto=format&fit=crop',
+    desc:'A fusion of traditional Indian motifs with contemporary spatial design. Rajasthani haveli to Chettinad mansion — every regional style covered.', tags:['Rajasthani','Kerala','Chettinad','Mughal'], bg:'#281a1f', cta:'modern-indian.html' },
+  { id:'scandi',       name:'Scandinavian',  ico:'❄️',
+    img:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=75&auto=format&fit=crop',
+    desc:'Light woods, white surfaces, hygge warmth and the beauty of functional simplicity.', tags:['Hygge','Airy','Natural'], bg:'#222730' },
+  { id:'industrial',   name:'Industrial',    ico:'⚙️',
+    img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75&auto=format&fit=crop',
+    desc:'Exposed concrete, structural steel, reclaimed wood and an urban, unfinished aesthetic.', tags:['Urban','Raw','Textured'], bg:'#202020' },
+  { id:'art_deco',     name:'Art Déco',      ico:'◆',
+    img:'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=600&q=75&auto=format&fit=crop',
+    desc:'Bold geometry, metallic finishes, rich jewel tones and dramatic symmetry.', tags:['Geometric','Metallic','Dramatic'], bg:'#1e1a28' },
 ];
 
 const ROOMS = [
@@ -1277,8 +1293,9 @@ function goStyle() {
 function renderStyles() {
   $('styleGrid').innerHTML = STYLES.map(s => `
     <div class="style-card ${S.styles.has(s.id)?'sel':''}" id="sc-${s.id}" onclick="toggleStyle('${s.id}')">
-      <div class="style-thumb" style="background:${s.bg}">
-        <span style="font-size:52px">${s.ico}</span>
+      <div class="style-thumb" style="background:${s.bg};background-image:url('${s.img}');background-size:cover;background-position:center">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.55) 100%)"></div>
+        <span style="font-size:36px;position:relative;z-index:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,.8))">${s.ico}</span>
         <div class="style-sel-badge">✓</div>
       </div>
       <div class="style-body">

@@ -77,16 +77,17 @@ body.cur-text #cur-r{opacity:0}
   position:relative;height:100vh;width:100%;overflow:hidden;
   display:flex;align-items:center;justify-content:center;
 }
-/* Animated gradient landscape — simulates cinematic room photography */
+/* Hero — real luxury interior photograph */
 #hero-bg{
   position:absolute;inset:-10%;
-  background:
-    radial-gradient(ellipse 90% 70% at 68% 42%, #1E1510 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 15% 80%, #120E0B 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 85% 15%, #1A1208 0%, transparent 45%),
-    linear-gradient(160deg, #0C0A08 0%, #161210 35%, #0A0908 65%, #080706 100%);
+  background-image:url('https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1800&q=80&auto=format&fit=crop');
+  background-size:cover;background-position:center 40%;
   animation:bgDrift 18s ease-in-out infinite alternate;
   will-change:transform;
+}
+#hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(7,6,6,.52);
 }
 @keyframes bgDrift{
   0%  {transform:scale(1.06) translate(0px,0px)}
@@ -130,41 +131,40 @@ body.cur-text #cur-r{opacity:0}
   background-size:200px 200px;
 }
 
-/* Floating room element — CSS-art silhouette */
+/* Hero floating photo cards */
 #hero-room{
   position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-  width:min(820px,88vw);height:min(420px,45vh);
+  width:min(900px,92vw);height:min(380px,42vh);
   pointer-events:none;
-  perspective:900px;
 }
-.hr-floor{
-  position:absolute;bottom:0;left:0;right:0;height:50%;
-  background:linear-gradient(to bottom,rgba(35,28,22,.55),rgba(18,14,11,.8));
-  transform:rotateX(55deg);transform-origin:bottom center;
-  border-top:1px solid rgba(233,185,163,.12);
+.hr-card{
+  position:absolute;bottom:0;
+  background-size:cover;background-position:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);
+  animation:cardDrift 10s ease-in-out infinite;
 }
-.hr-wall-l{
-  position:absolute;left:0;top:0;bottom:0;width:22%;
-  background:linear-gradient(to right,rgba(22,18,14,.9),rgba(18,14,11,.4));
-  transform:rotateY(52deg);transform-origin:left center;
-  border-right:1px solid rgba(233,185,163,.06);
+.hr-card-1{
+  width:clamp(200px,24vw,340px);height:clamp(240px,32vh,420px);
+  left:4%;transform:rotate(-4deg) translateY(20px);
+  background-image:url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80&auto=format&fit=crop');
+  animation-delay:0s;
 }
-.hr-wall-r{
-  position:absolute;right:0;top:0;bottom:0;width:22%;
-  background:linear-gradient(to left,rgba(22,18,14,.9),rgba(18,14,11,.4));
-  transform:rotateY(-52deg);transform-origin:right center;
-  border-left:1px solid rgba(233,185,163,.06);
+.hr-card-2{
+  width:clamp(240px,30vw,420px);height:clamp(300px,40vh,520px);
+  left:50%;transform:translateX(-50%) translateY(0px);
+  background-image:url('https://images.unsplash.com/photo-1600210492493-0946911123ea?w=700&q=80&auto=format&fit=crop');
+  animation-delay:1.5s;z-index:2;
 }
-/* Animated furniture silhouettes */
-.hr-furn{
-  position:absolute;bottom:18%;font-size:clamp(40px,5vw,72px);
-  filter:drop-shadow(0 14px 36px rgba(0,0,0,.85));
-  animation:furnDrift 9s ease-in-out infinite;
+.hr-card-3{
+  width:clamp(200px,24vw,340px);height:clamp(240px,32vh,420px);
+  right:4%;transform:rotate(4deg) translateY(24px);
+  background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80&auto=format&fit=crop');
+  animation-delay:3s;
 }
-.hr-furn:nth-child(4){left:22%;animation-delay:0s}
-.hr-furn:nth-child(5){left:43%;animation-delay:1.8s;font-size:clamp(50px,6.5vw,88px)}
-.hr-furn:nth-child(6){left:64%;animation-delay:3.2s}
-@keyframes furnDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes cardDrift{0%,100%{transform-origin:bottom center;transform:var(--base-t,rotate(0deg)) translateY(0)}50%{transform:var(--base-t,rotate(0deg)) translateY(-12px)}}
+.hr-card-1{--base-t:rotate(-4deg)}
+.hr-card-3{--base-t:rotate(4deg)}
+.hr-card-2{--base-t:translateX(-50%)}
 
 /* Hero content */
 #hero-inner{
@@ -300,11 +300,14 @@ body.cur-text #cur-r{opacity:0}
   transition:opacity 1.2s;
   background-size:cover;background-position:center;
 }
-.rp-bg.living {background:radial-gradient(ellipse 70% 60% at 65% 45%,#2C1E14 0%,#0E0C0A 55%),linear-gradient(140deg,#1A1208 0%,#0C0A08 100%)}
-.rp-bg.kitchen{background:radial-gradient(ellipse 70% 55% at 40% 35%,#1E1C14 0%,#0E0D0A 55%),linear-gradient(150deg,#14120A 0%,#0A0908 100%)}
-.rp-bg.bedroom{background:radial-gradient(ellipse 65% 70% at 55% 60%,#1C1420 0%,#0C0B10 55%),linear-gradient(145deg,#14101A 0%,#080709 100%)}
-.rp-bg.pooja  {background:radial-gradient(ellipse 60% 65% at 50% 40%,#2A1A06 0%,#0E0C06 55%),linear-gradient(155deg,#1A1206 0%,#0A0906 100%)}
-.rp-bg.dining {background:radial-gradient(ellipse 70% 60% at 45% 40%,#201A12 0%,#0E0C0A 55%),linear-gradient(148deg,#16120A 0%,#0C0A08 100%)}
+/* Real luxury interior photography — Unsplash */
+.rp-bg{background-size:cover;background-position:center;transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+.rp-bg.living {background-image:url('https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=1600&q=80&auto=format&fit=crop')}
+.rp-bg.kitchen{background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=80&auto=format&fit=crop')}
+.rp-bg.bedroom{background-image:url('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1600&q=80&auto=format&fit=crop')}
+.rp-bg.pooja  {background-image:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80&auto=format&fit=crop')}
+.rp-bg.dining {background-image:url('https://images.unsplash.com/photo-1617806118233-18e1de247200?w=1600&q=80&auto=format&fit=crop')}
+.room-panel:hover .rp-bg{transform:scale(1.04)}
 
 /* Room 3D silhouette */
 .rp-3d{
@@ -551,14 +554,11 @@ footer{
   <div id="hero-shaft"></div>
   <div id="hero-noise"></div>
 
-  <!-- CSS Room Silhouette -->
+  <!-- Hero scroll teaser photos — floating polaroid cards -->
   <div id="hero-room">
-    <div class="hr-wall-l"></div>
-    <div class="hr-wall-r"></div>
-    <div class="hr-floor"></div>
-    <span class="hr-furn">🪑</span>
-    <span class="hr-furn">🛋</span>
-    <span class="hr-furn">🌿</span>
+    <div class="hr-card hr-card-1"></div>
+    <div class="hr-card hr-card-2"></div>
+    <div class="hr-card hr-card-3"></div>
   </div>
 
   <div id="hero-vig"></div>
@@ -628,15 +628,6 @@ footer{
   <!-- LIVING ROOM -->
   <div class="room-panel">
     <div class="rp-bg living"></div>
-    <div class="rp-3d">
-      <div class="rp-scene">
-        <div class="rp-back"></div><div class="rp-left"></div><div class="rp-right"></div><div class="rp-floor"></div>
-        <div class="rp-spot"></div>
-        <span class="rp-furn l">🪑</span>
-        <span class="rp-furn main">🛋</span>
-        <span class="rp-furn r">🌿</span>
-      </div>
-    </div>
     <div class="rp-vig"></div>
     <div class="rp-info">
       <span class="rp-num">01</span>
@@ -653,15 +644,6 @@ footer{
   <!-- KITCHEN -->
   <div class="room-panel">
     <div class="rp-bg kitchen"></div>
-    <div class="rp-3d">
-      <div class="rp-scene">
-        <div class="rp-back"></div><div class="rp-left"></div><div class="rp-right"></div><div class="rp-floor"></div>
-        <div class="rp-spot"></div>
-        <span class="rp-furn l">🍳</span>
-        <span class="rp-furn main" style="font-size:clamp(38px,5vw,68px)">🏺</span>
-        <span class="rp-furn r">💡</span>
-      </div>
-    </div>
     <div class="rp-vig"></div>
     <div class="rp-info">
       <span class="rp-num">02</span>
@@ -678,15 +660,6 @@ footer{
   <!-- MASTER BEDROOM -->
   <div class="room-panel">
     <div class="rp-bg bedroom"></div>
-    <div class="rp-3d">
-      <div class="rp-scene">
-        <div class="rp-back"></div><div class="rp-left"></div><div class="rp-right"></div><div class="rp-floor"></div>
-        <div class="rp-spot"></div>
-        <span class="rp-furn l">🛏</span>
-        <span class="rp-furn main" style="font-size:clamp(36px,4.5vw,64px)">🪞</span>
-        <span class="rp-furn r">🌙</span>
-      </div>
-    </div>
     <div class="rp-vig"></div>
     <div class="rp-info">
       <span class="rp-num">03</span>
@@ -703,15 +676,6 @@ footer{
   <!-- POOJA ROOM -->
   <div class="room-panel">
     <div class="rp-bg pooja"></div>
-    <div class="rp-3d">
-      <div class="rp-scene">
-        <div class="rp-back"></div><div class="rp-left"></div><div class="rp-right"></div><div class="rp-floor"></div>
-        <div class="rp-spot"></div>
-        <span class="rp-furn l">🪔</span>
-        <span class="rp-furn main" style="font-size:clamp(40px,5.5vw,76px)">🙏</span>
-        <span class="rp-furn r">🌸</span>
-      </div>
-    </div>
     <div class="rp-vig"></div>
     <div class="rp-info">
       <span class="rp-num">04</span>
@@ -728,15 +692,6 @@ footer{
   <!-- DINING ROOM -->
   <div class="room-panel">
     <div class="rp-bg dining"></div>
-    <div class="rp-3d">
-      <div class="rp-scene">
-        <div class="rp-back"></div><div class="rp-left"></div><div class="rp-right"></div><div class="rp-floor"></div>
-        <div class="rp-spot"></div>
-        <span class="rp-furn l">🍽</span>
-        <span class="rp-furn main" style="font-size:clamp(38px,5vw,68px)">🕯</span>
-        <span class="rp-furn r">🌾</span>
-      </div>
-    </div>
     <div class="rp-vig"></div>
     <div class="rp-info">
       <span class="rp-num">05</span>

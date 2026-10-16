@@ -877,6 +877,7 @@ const STYLES = [
   {
     id:'rajasthani_haveli', name:'Rajasthani Haveli', region:'north', regionTag:'North India',
     ico:'🏰',
+    img:'https://images.unsplash.com/photo-1609766418204-94aae0ecfdfc?w=700&q=80&auto=format&fit=crop',
     thumb: G.rajasthan_sandstone,
     desc: 'Inspired by the grand havelis of Jaipur, Jodhpur and Bikaner. Ornate sandstone carvings, jali lattice screens, indigo and saffron accent walls, hand-painted frescoes and bold arched niches.',
     tags:['Jaipur Pink','Sandstone','Jali Screens','Meenakari'],
@@ -893,6 +894,7 @@ const STYLES = [
   {
     id:'mughal_modern', name:'Mughal Modern', region:'mughal', regionTag:'Mughal Inspired',
     ico:'🕌',
+    img:'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=700&q=80&auto=format&fit=crop',
     thumb: G.mughal_deep_blue,
     desc:'A contemporary reinterpretation of Mughal grandeur. Deep jewel tones — indigo, emerald, ruby — with gold inlay accents, marble pietra dura patterns, and ornate geometric ceiling medallions.',
     tags:['Indigo','Gold Inlay','Pietra Dura','Geometric'],
@@ -909,6 +911,7 @@ const STYLES = [
   {
     id:'kerala_nalukettu', name:'Kerala Nalukettu', region:'kerala', regionTag:'South India · Kerala',
     ico:'🌴',
+    img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=700&q=80&auto=format&fit=crop',
     thumb: G.kerala_teak,
     desc:'Based on Kerala\'s iconic nalukettu courtyard houses. Teak wood-panelled walls and ceilings, polished Kerala laterite stone floors, brass oil lamp niches, and cool open spaces with natural cross-ventilation.',
     tags:['Teak Wood','Laterite Stone','Brass Lamps','Nalkettu Court'],
@@ -925,6 +928,7 @@ const STYLES = [
   {
     id:'chettinad', name:'Chettinad Mansion', region:'chettinad', regionTag:'South India · Tamil Nadu',
     ico:'🏛️',
+    img:'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=700&q=80&auto=format&fit=crop',
     thumb: G.athangudi_teal,
     desc:'Inspired by the palatial Chettinad mansions of Karaikudi, Tamil Nadu. Famous for handmade Athangudi tiles, Burmese teak pillars, Italian marble (brought by Nattukotai Chettiars), and elaborate stucco plasterwork.',
     tags:['Athangudi Tiles','Burma Teak','Lime Plaster','Chettinad Pillars'],
@@ -941,6 +945,7 @@ const STYLES = [
   {
     id:'delhi_contemporary', name:'Delhi Contemporary', region:'north', regionTag:'North India · Delhi',
     ico:'🌆',
+    img:'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=700&q=80&auto=format&fit=crop',
     thumb: G.delhi_grey,
     desc:'The refined urban aesthetic of modern Delhi. Warm grey tones, polished concrete, high-gloss lacquered panels, Kashmiri walnut wood accents, and curated contemporary Indian art as focal points.',
     tags:['Polished Concrete','Lacquer','Walnut Wood','Urban Indian'],
@@ -957,6 +962,7 @@ const STYLES = [
   {
     id:'telangana_bangalorean', name:'Deccan Modern', region:'south', regionTag:'South India · Deccan',
     ico:'🏯',
+    img:'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=700&q=80&auto=format&fit=crop',
     thumb: G.limewash_white,
     desc:'Rooted in the Deccan\'s Qutb Shahi and Bidar traditions. Lime wash walls, Bidriware metal inlay accents, Kalamkari handblock print panels, polished Kadappa black stone floors and traditional floral ceiling roses.',
     tags:['Bidriware','Kalamkari','Kadappa Stone','Deccan Lime'],
@@ -1287,9 +1293,10 @@ function renderStyleCarousel(){
   const el = $('styleCarousel');
   el.innerHTML = STYLES.map(s=>`
     <div class="style-card ${s.id===curStyle?'active':''}" data-id="${s.id}" onclick="selectStyle('${s.id}')">
-      <div class="sc-thumb" style="background:${s.thumb}">
-        <div class="sc-thumb-ico">${s.ico}</div>
-        <div class="sc-region-tag">${s.regionTag}</div>
+      <div class="sc-thumb" style="background:${s.thumb};background-image:url('${s.img}');background-size:cover;background-position:center">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,rgba(0,0,0,.6) 100%)"></div>
+        <div class="sc-thumb-ico" style="position:relative;z-index:1">${s.ico}</div>
+        <div class="sc-region-tag" style="position:relative;z-index:1">${s.regionTag}</div>
         <div class="sc-sel-mark">✓</div>
       </div>
       <div class="sc-body">
