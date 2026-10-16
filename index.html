@@ -122,92 +122,183 @@ body {
 /* ── ═══════════════════════════════════════════════════ ── */
 /* ── SCREEN 0 — HERO ──────────────────────────────────── */
 /* ── ═══════════════════════════════════════════════════ ── */
+/* ══════════════════════════════════════════════════════════
+   SCREEN 0 — CINEMATIC HERO
+══════════════════════════════════════════════════════════ */
+
+/* Custom cursor */
+#h-cursor{
+  position:fixed;width:10px;height:10px;border-radius:50%;
+  background:var(--gold);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:width .2s,height .2s;
+  mix-blend-mode:difference;display:none;
+}
+#h-cursor-ring{
+  position:fixed;width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(233,185,163,.5);pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;display:none;
+}
+#s-hero.active ~ #h-cursor,
+#s-hero.active ~ #h-cursor-ring { display:block; }
+
 #s-hero {
-  min-height: 100vh;
-  background: var(--dark);
-  position: relative; overflow:hidden;
-  align-items:center; justify-content:center;
-  text-align:center; padding:80px 24px;
+  min-height:100vh;
+  background:var(--dark);
+  position:relative; overflow:hidden;
+  align-items:stretch; justify-content:stretch;
+  padding:0; flex-direction:column;
+  cursor:none;
 }
-/* Subtle grain texture */
-#s-hero::before {
-  content:'';
-  position:absolute; inset:0;
+
+/* Particle canvas */
+#hero-canvas {
+  position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;
+}
+
+/* Depth layers */
+.hl-glow {
+  position:absolute;inset:0;pointer-events:none;z-index:1;
   background:
-    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(233,185,163,.09) 0%, transparent 60%),
-    repeating-linear-gradient(0deg, transparent, transparent 99px, rgba(233,185,163,.025) 99px, rgba(233,185,163,.025) 100px),
-    repeating-linear-gradient(90deg, transparent, transparent 99px, rgba(233,185,163,.025) 99px, rgba(233,185,163,.025) 100px);
-  pointer-events:none;
+    radial-gradient(ellipse 80% 55% at 50% 40%, rgba(233,185,163,.07) 0%,transparent 65%),
+    radial-gradient(ellipse 40% 30% at 25% 75%, rgba(59,45,53,.35) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 30% at 75% 20%, rgba(59,45,53,.22) 0%,transparent 55%);
+  animation:hGlowPulse 6s ease-in-out infinite;
 }
-/* Vignette */
-#s-hero::after {
-  content:'';
-  position:absolute; inset:0;
-  background:radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(10,9,8,.6) 100%);
-  pointer-events:none;
+@keyframes hGlowPulse{0%,100%{opacity:.8}50%{opacity:1}}
+
+.hl-vignette {
+  position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:
+    linear-gradient(to bottom, var(--dark) 0%,transparent 14%,transparent 82%,var(--dark) 100%),
+    linear-gradient(to right, var(--dark) 0%,transparent 10%,transparent 90%,var(--dark) 100%);
 }
-.hero-content { position:relative; z-index:2; max-width:780px; margin:0 auto; }
+
+/* Main content wrapper — centred */
+.hero-content {
+  position:relative;z-index:5;
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:100px 24px 140px;max-width:1000px;margin:0 auto;width:100%;
+}
+
+/* Eyebrow pill */
 .hero-eyebrow {
-  display:inline-flex; align-items:center; gap:12px;
-  border:1px solid rgba(233,185,163,.2);
-  background: rgba(233,185,163,.05);
-  padding:7px 22px;
-  font-size:9px; font-weight:700; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--gold);
-  font-family:var(--ff-head); margin-bottom:28px;
+  display:inline-flex;align-items:center;gap:16px;
+  font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);font-family:var(--ff-head);margin-bottom:36px;
+  opacity:0;animation:hFadeUp .8s .3s ease both;
 }
-.hero-eyebrow-dot { width:4px; height:4px; border-radius:50%; background:var(--gold); }
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';width:36px;height:1px;background:rgba(233,185,163,.4);
+}
+.hero-eyebrow-dot{ display:none; }
+
+/* Main headline */
 .hero-h1 {
-  font-family: var(--ff-display);
-  font-size: clamp(44px, 6.5vw, 88px);
-  font-weight: 300; line-height:1.05;
-  letter-spacing: .01em;
-  color: var(--cream); margin-bottom:8px;
-}
-.hero-h1 em {
-  font-style: italic; font-weight:300;
-  color: var(--gold);
-}
-.hero-h1 .line-2 {
-  font-family:var(--ff-head);
-  font-size: clamp(16px, 2vw, 24px);
-  font-weight:700; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--muted); display:block; margin-top:4px;
-}
-.hero-sub {
   font-family:var(--ff-display);
-  font-size:clamp(16px,1.8vw,20px); color: var(--muted);
-  max-width:520px; margin:0 auto 52px;
-  font-weight:300; line-height:1.75; font-style:italic;
+  font-size:clamp(52px,8.5vw,128px);
+  font-weight:300;line-height:.95;letter-spacing:-.01em;
+  color:var(--cream);margin-bottom:0;
+  opacity:0;animation:hFadeUp .9s .5s ease both;
 }
+.hero-h1 em { font-style:italic;font-weight:300;color:var(--gold); }
+.hero-h1 .line-2 {
+  font-family:var(--ff-head);font-style:normal;
+  font-size:clamp(11px,1.4vw,17px);font-weight:300;letter-spacing:.35em;
+  color:rgba(255,251,244,.3);text-transform:uppercase;display:block;margin-top:16px;
+}
+
+/* Subline */
+.hero-sub {
+  font-family:var(--ff-display);font-size:clamp(15px,1.6vw,19px);
+  font-weight:300;font-style:italic;line-height:1.8;
+  color:rgba(255,251,244,.45);max-width:480px;margin:28px auto 48px;
+  opacity:0;animation:hFadeUp .8s .72s ease both;
+}
+
+/* Stats row */
 .hero-stats {
-  display:flex; gap:0; justify-content:center;
-  margin-bottom:52px; max-width:600px; margin-left:auto; margin-right:auto;
-  border-top:1px solid rgba(233,185,163,.15);
-  border-bottom:1px solid rgba(233,185,163,.15);
+  display:flex;gap:0;justify-content:center;
+  margin-bottom:52px;
+  border-top:1px solid rgba(233,185,163,.12);
+  border-bottom:1px solid rgba(233,185,163,.12);
+  opacity:0;animation:hFadeUp .8s .88s ease both;
 }
 .hero-stat {
-  flex:1; padding:20px 12px; text-align:center;
+  flex:1;padding:18px 32px;text-align:center;
   border-right:1px solid rgba(233,185,163,.1);
 }
-.hero-stat:last-child { border-right:none; }
+.hero-stat:last-child{border-right:none}
 .hero-stat-num {
-  font-family:var(--ff-display); font-size:clamp(26px,3vw,40px); font-weight:300;
-  color: var(--gold); line-height:1; letter-spacing:-.01em;
+  font-family:var(--ff-display);font-size:clamp(24px,2.8vw,40px);
+  font-weight:300;color:var(--gold);line-height:1;letter-spacing:-.01em;
 }
-.hero-stat-label { font-size:9px; color:var(--muted); margin-top:6px; letter-spacing:.14em; text-transform:uppercase; font-family:var(--ff-head); }
-.hero-rooms-preview {
-  display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-bottom:52px;
+.hero-stat-label {
+  font-size:8px;color:var(--muted);margin-top:5px;
+  letter-spacing:.16em;text-transform:uppercase;font-family:var(--ff-head);
 }
-.hero-room-chip {
-  display:flex; align-items:center; gap:7px;
-  background: transparent; border:1px solid rgba(255,251,244,.1);
-  padding:7px 14px;
-  font-size:10px; color:var(--muted);
-  font-family:var(--ff-head); letter-spacing:.08em; text-transform:uppercase;
-  transition:var(--trans); cursor:default;
+
+/* Room chips — hidden, replaced by marquee */
+.hero-rooms-preview { display:none; }
+.hero-room-chip { display:none; }
+
+/* Bottom marquee band */
+.hero-marquee-wrap {
+  position:absolute;bottom:72px;left:0;right:0;z-index:4;overflow:hidden;
+  border-top:1px solid rgba(233,185,163,.07);border-bottom:1px solid rgba(233,185,163,.07);
+  padding:9px 0;
 }
-.hero-room-chip:hover { border-color:var(--gold-dim); color:var(--gold); }
+.hero-marquee {
+  display:flex;gap:0;white-space:nowrap;
+  animation:hMarquee 30s linear infinite;
+}
+.hero-marquee span {
+  font-size:8px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(233,185,163,.28);padding:0 36px;flex-shrink:0;
+}
+.hero-marquee span em{color:rgba(233,185,163,.5);font-style:normal}
+@keyframes hMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Scroll cue */
+.hero-scroll-cue {
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:5;display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:7px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,251,244,.2);animation:hScrollBounce 2.5s ease-in-out infinite;
+}
+.hero-scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,rgba(233,185,163,.35),transparent)}
+@keyframes hScrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)}}
+
+/* CTA buttons */
+.hero-cta-row {
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:hFadeUp .8s 1.02s ease both;
+}
+.hero-cta-primary {
+  padding:16px 44px;background:var(--gold);color:var(--plum);
+  font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  border-radius:1px;border:none;cursor:none;transition:all .25s;position:relative;overflow:hidden;
+}
+.hero-cta-primary::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 50%);
+  opacity:0;transition:opacity .25s;
+}
+.hero-cta-primary:hover{background:var(--gold-bright,#F5CBBA);transform:translateY(-2px);box-shadow:0 16px 48px rgba(233,185,163,.22)}
+.hero-cta-primary:hover::after{opacity:1}
+.hero-cta-ghost {
+  padding:16px 44px;border:1px solid rgba(233,185,163,.25);background:transparent;
+  color:rgba(255,251,244,.45);font-size:10px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;border-radius:1px;cursor:none;transition:all .25s;
+  text-decoration:none;display:inline-flex;align-items:center;
+}
+.hero-cta-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.hero-footnote {
+  margin-top:14px;font-family:var(--ff-display);font-size:13px;
+  font-style:italic;color:rgba(255,251,244,.22);
+  opacity:0;animation:hFadeUp .6s 1.18s ease both;
+}
+
+@keyframes hFadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── ═══════════════════════════════════════════════════ ── */
 /* ── SCREEN 1 — STYLE PREFERENCES ────────────────────── */
@@ -817,38 +908,69 @@ body {
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- SCREEN 0 — HERO                                           -->
 <!-- ══════════════════════════════════════════════════════════ -->
+<!-- CURSOR ELEMENTS (hero only) -->
+<div id="h-cursor"></div>
+<div id="h-cursor-ring"></div>
+
 <div class="screen active" id="s-hero">
+
+  <!-- PARTICLE CANVAS -->
+  <canvas id="hero-canvas"></canvas>
+
+  <!-- DEPTH LAYERS -->
+  <div class="hl-glow"></div>
+  <div class="hl-vignette"></div>
+
+  <!-- MAIN CONTENT -->
   <div class="hero-content">
-    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Bangalore's Premier Interior Studio<span class="hero-eyebrow-dot"></span></div>
+    <div class="hero-eyebrow">Bangalore's Premier Interior Studio</div>
+
     <h1 class="hero-h1">
       Design Your <em>Space,</em>
-      <span class="line-2">Room by Room</span>
+      <span class="line-2">Room by Room &nbsp;·&nbsp; Surface by Surface</span>
     </h1>
-    <p class="hero-sub">Personalise every wall, surface and finish of your home — before a single nail is hammered.</p>
+
+    <p class="hero-sub">Personalise every wall, floor and ceiling of your home — before a single nail is hammered.</p>
+
     <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-num">5+</div><div class="hero-stat-label">Years</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">688</div><div class="hero-stat-label">Reviews</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">500+</div><div class="hero-stat-label">Projects</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">4.9★</div><div class="hero-stat-label">Rating</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" id="hStatP">500+</div><div class="hero-stat-label">Projects</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" id="hStatR">4.9★</div><div class="hero-stat-label">Rating</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" id="hStatV">688</div><div class="hero-stat-label">Reviews</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" id="hStatY">5+</div><div class="hero-stat-label">Years</div></div>
     </div>
-    <div class="hero-rooms-preview">
-      <div class="hero-room-chip">🛋 Living</div>
-      <div class="hero-room-chip">🍳 Kitchen</div>
-      <div class="hero-room-chip">🍽 Dining</div>
-      <div class="hero-room-chip">🛏 Bedroom</div>
-      <div class="hero-room-chip">🛁 Bathroom</div>
-      <div class="hero-room-chip">🪔 Pooja</div>
+
+    <div class="hero-cta-row">
+      <button class="hero-cta-primary" onclick="goStyle()">Begin Designing →</button>
+      <a class="hero-cta-ghost" href="visualizer.html" target="_blank">✦ &nbsp;3D Visualizer</a>
     </div>
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-gold btn-lg" onclick="goStyle()" style="border-radius:2px;letter-spacing:.12em;font-size:11px">
-        Begin Designing
-      </button>
-      <a class="btn btn-outline btn-lg" href="visualizer.html" target="_blank" style="border-radius:2px;border-color:rgba(233,185,163,.3);color:var(--muted);letter-spacing:.1em;font-size:11px">
-        ✦ &nbsp;3D Visualizer
-      </a>
-    </div>
-    <p style="margin-top:16px;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--muted)">Free to explore · No account needed · 5 minutes</p>
+
+    <p class="hero-footnote">Free to explore &nbsp;·&nbsp; No account needed &nbsp;·&nbsp; 5 minutes</p>
   </div>
+
+  <!-- BOTTOM MARQUEE -->
+  <div class="hero-marquee-wrap">
+    <div class="hero-marquee">
+      <span>Living Room <em>·</em></span><span>Master Bedroom <em>·</em></span>
+      <span>Kitchen <em>·</em></span><span>Pooja Room <em>·</em></span>
+      <span>Dining Room <em>·</em></span><span>Bathroom <em>·</em></span>
+      <span>Rajasthani Haveli <em>·</em></span><span>Kerala Nalukettu <em>·</em></span>
+      <span>Mughal Modern <em>·</em></span><span>Chettinad Mansion <em>·</em></span>
+      <span>Delhi Contemporary <em>·</em></span><span>Deccan Modern <em>·</em></span>
+      <span>Living Room <em>·</em></span><span>Master Bedroom <em>·</em></span>
+      <span>Kitchen <em>·</em></span><span>Pooja Room <em>·</em></span>
+      <span>Dining Room <em>·</em></span><span>Bathroom <em>·</em></span>
+      <span>Rajasthani Haveli <em>·</em></span><span>Kerala Nalukettu <em>·</em></span>
+      <span>Mughal Modern <em>·</em></span><span>Chettinad Mansion <em>·</em></span>
+      <span>Delhi Contemporary <em>·</em></span><span>Deccan Modern <em>·</em></span>
+    </div>
+  </div>
+
+  <!-- SCROLL CUE -->
+  <div class="hero-scroll-cue">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+
 </div>
 
 <!-- ══════════════════════════════════════════════════════════ -->
@@ -1487,6 +1609,153 @@ $('cmpModal').addEventListener('click', e => { if(e.target===$('cmpModal')) clos
 
 // ── INIT ─────────────────────────────────────────────────────────
 showScreen('s-hero');
+
+// ══════════════════════════════════════════════════════════════════
+// HERO VFX — particle canvas + custom cursor
+// Only runs while #s-hero is the active screen
+// ══════════════════════════════════════════════════════════════════
+(function heroVFX(){
+  // ── CURSOR ──────────────────────────────────────────────────
+  const cur  = $('h-cursor');
+  const ring = $('h-cursor-ring');
+  let mx = innerWidth/2, my = innerHeight/2;
+  let rx = mx, ry = my;
+
+  document.addEventListener('mousemove', e => {
+    if (!$('s-hero').classList.contains('active')) return;
+    mx = e.clientX; my = e.clientY;
+    cur.style.left  = mx + 'px';
+    cur.style.top   = my + 'px';
+  });
+
+  (function ringLoop(){
+    rx += (mx - rx) * .14;
+    ry += (my - ry) * .14;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(ringLoop);
+  })();
+
+  document.querySelectorAll('.hero-cta-primary,.hero-cta-ghost').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cur.style.width = '18px'; cur.style.height = '18px';
+      ring.style.width = '58px'; ring.style.height = '58px';
+      ring.style.borderColor = 'rgba(233,185,163,.85)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cur.style.width = '10px'; cur.style.height = '10px';
+      ring.style.width = '40px'; ring.style.height = '40px';
+      ring.style.borderColor = 'rgba(233,185,163,.5)';
+    });
+  });
+
+  // ── PARTICLE CANVAS ──────────────────────────────────────
+  const canvas = $('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  function resize(){
+    W = canvas.width  = canvas.offsetWidth  || innerWidth;
+    H = canvas.height = canvas.offsetHeight || innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor(){ this.reset(true); }
+    reset(init){
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : H + 8;
+      this.r  = Math.random() * 1.5 + .3;
+      this.vy = -(Math.random() * .45 + .1);
+      this.vx = (Math.random() - .5) * .18;
+      this.life = 0;
+      this.maxLife = Math.random() * 280 + 180;
+      this.ta = Math.random() * .55 + .08;
+      this.a  = 0;
+    }
+    update(){
+      this.life++;
+      this.x += this.vx; this.y += this.vy;
+      const t = this.life / this.maxLife;
+      this.a = t < .15 ? (t / .15) * this.ta
+             : t > .78 ? ((1 - t) / .22) * this.ta
+             : this.ta;
+      if (this.life > this.maxLife) this.reset(false);
+    }
+    draw(){
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(233,185,163,${this.a})`;
+      ctx.fill();
+    }
+  }
+
+  const particles = Array.from({length:150}, () => new Particle());
+  let pmx = 0, pmy = 0;
+
+  document.addEventListener('mousemove', e => {
+    pmx = (e.clientX / innerWidth  - .5) * 28;
+    pmy = (e.clientY / innerHeight - .5) * 18;
+  });
+
+  function drawFrame(){
+    if (!$('s-hero').classList.contains('active')){ requestAnimationFrame(drawFrame); return; }
+    ctx.clearRect(0, 0, W, H);
+
+    // Connection lines
+    for (let i = 0; i < particles.length; i++){
+      for (let j = i + 1; j < particles.length; j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < 100){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(233,185,163,${(1-d/100)*0.055})`;
+          ctx.lineWidth = .5;
+          ctx.stroke();
+        }
+      }
+      particles[i].update();
+      particles[i].draw();
+    }
+
+    // Mouse-follow glow orb
+    const gx = W/2 + pmx, gy = H/2 + pmy;
+    const g  = ctx.createRadialGradient(gx, gy, 0, gx, gy, Math.min(W,H) * .42);
+    g.addColorStop(0,  'rgba(233,185,163,.032)');
+    g.addColorStop(1,  'transparent');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    requestAnimationFrame(drawFrame);
+  }
+  drawFrame();
+
+  // ── COUNT-UP on hero stats ───────────────────────────────
+  function countUp(el, target, suffix, dur){
+    if (!el) return;
+    const start = performance.now();
+    const isF   = target !== Math.floor(target);
+    (function tick(now){
+      const t   = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1-t, 3);
+      el.textContent = (isF ? (ease*target).toFixed(1) : Math.round(ease*target)) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+  // Trigger count-up immediately since hero is the first screen
+  setTimeout(() => {
+    countUp($('hStatP'), 500, '+',  1600);
+    countUp($('hStatR'), 4.9, '★', 1800);
+    countUp($('hStatV'), 688, '',   2000);
+    countUp($('hStatY'), 5,   '+',  1200);
+  }, 900);
+
+})();
 </script>
 </body>
 </html>
