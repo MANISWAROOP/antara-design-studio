@@ -328,16 +328,19 @@ body {
   transition:background 1.2s ease;
   z-index:0;
 }
-/* ─── ROOM BOX — zero-size centred origin ───
+/* ═══════════════════════════════════════════════════════
+   TRUE CSS 3D ROOM — box-from-centre geometry
    W=860  H=520  D=400
-   back/front  ± D/2 = ±200px on Z
-   left/right  ± W/2 = ±430px on X  (after rotateY)
-   floor/ceil  ± H/2 = ±260px on Y  (after rotateX)
-   ─────────────────────────────────────────────── */
+   Back wall  : translateZ(-200px)
+   Left wall  : rotateY( 90deg) translateZ(430px)
+   Right wall : rotateY(-90deg) translateZ(430px)
+   Floor      : rotateX(-90deg) translateZ(260px)
+   Ceiling    : rotateX( 90deg) translateZ(260px)
+   All faces centred on origin via top/left before rotation.
+══════════════════════════════════════════════════════════ */
 .room-3d {
   position:absolute;
   top:50%; left:50%;
-  /* shift up so floor sits lower in viewport — more drama */
   transform:translateX(-50%) translateY(-44%);
   width:0; height:0;
   transform-style:preserve-3d;
@@ -360,37 +363,36 @@ body {
 /* ─── LEFT WALL  400×520 ─── */
 .r-left {
   width:400px; height:520px;
-  top:-260px; left:-430px;
-  transform:rotateY(90deg) translateZ(-200px);
+  top:-260px; left:-200px;   /* centred: -W/2 = -200px */
+  transform:rotateY(90deg) translateZ(430px);
   background:#231F1B;
 }
 /* ─── RIGHT WALL  400×520 ─── */
 .r-right {
   width:400px; height:520px;
-  top:-260px; left:30px;     /* 430 - 400 = 30 */
-  transform:rotateY(-90deg) translateZ(-200px);
+  top:-260px; left:-200px;
+  transform:rotateY(-90deg) translateZ(430px);
   background:#231F1B;
 }
 /* ─── FLOOR  860×400 ─── */
 .r-floor {
   width:860px; height:400px;
-  top:260px; left:-430px;
-  transform:rotateX(90deg) translateZ(-200px);
+  top:-200px; left:-430px;   /* centred: -H/2 = -200px */
+  transform:rotateX(-90deg) translateZ(260px);
   background:#1C1814;
 }
 /* ─── CEILING  860×400 ─── */
 .r-ceiling {
   width:860px; height:400px;
-  top:-260px; left:-430px;
-  transform:rotateX(-90deg) translateZ(200px);
+  top:-200px; left:-430px;
+  transform:rotateX(90deg) translateZ(260px);
   background:#1E1B16;
-  opacity:.88;
 }
 /* ─── ATMOSPHERIC LIGHTING ─── */
-.r-left::after  { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to right, rgba(0,0,0,.55) 0%, rgba(0,0,0,.1) 65%, transparent); }
-.r-right::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to left,  rgba(0,0,0,.55) 0%, rgba(0,0,0,.1) 65%, transparent); }
-.r-floor::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to bottom, rgba(0,0,0,.5) 0%, rgba(0,0,0,.08) 60%, transparent); }
-.r-ceiling::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to top, rgba(0,0,0,.28) 0%, transparent 60%); }
+.r-left::after  { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to right, rgba(0,0,0,.42) 0%, rgba(0,0,0,.08) 55%, transparent); }
+.r-right::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to left,  rgba(0,0,0,.42) 0%, rgba(0,0,0,.08) 55%, transparent); }
+.r-floor::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to top, rgba(0,0,0,.22) 0%, transparent 45%); }
+.r-ceiling::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to bottom, rgba(0,0,0,.18) 0%, transparent 55%); }
 /* Cornice on back wall */
 .r-back::after {
   content:''; position:absolute; top:0; left:0; right:0; height:16px;

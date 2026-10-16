@@ -279,62 +279,76 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   cursor:pointer;
 }
 .rf:hover{ filter:brightness(1.08); }
-/* ─── BACK WALL  680×400, pushed back 160px ─── */
+/* ═══════════════════════════════════════════════════════
+   TRUE CSS 3D ROOM — box-from-centre geometry
+   Room: W=680  H=400  D=320
+   Origin = centre of the box (0,0,0)
+
+   Back wall  : translateZ(- D/2) = translateZ(-160px)
+   Left wall  : rotateY( 90deg) translateZ( W/2) = translateZ(340px)
+   Right wall : rotateY(-90deg) translateZ( W/2) = translateZ(340px)
+   Floor      : rotateX(-90deg) translateZ( H/2) = translateZ(200px)
+   Ceiling    : rotateX( 90deg) translateZ( H/2) = translateZ(200px)
+
+   All faces are centred on the origin via top/left offsets
+   before the rotation is applied.
+══════════════════════════════════════════════════════════ */
+
+/* ─── BACK WALL  680 × 400 ─── */
 #ri-back{
   width:680px; height:400px;
-  top:-200px; left:-340px;   /* centre it: -H/2, -W/2 */
+  top:-200px; left:-340px;
   transform:translateZ(-160px);
   background:#2A2420;
 }
-/* ─── LEFT WALL  320×400, rotated left ─── */
+/* ─── LEFT WALL  320 × 400 ─── */
 #ri-left{
   width:320px; height:400px;
-  top:-200px; left:-340px;
-  transform:rotateY(90deg) translateZ(-160px);
+  top:-200px; left:-160px;   /* centred on origin before rotation */
+  transform:rotateY(90deg) translateZ(340px);
   background:#221E1A;
 }
-/* ─── RIGHT WALL  320×400, rotated right ─── */
+/* ─── RIGHT WALL  320 × 400 ─── */
 #ri-right{
   width:320px; height:400px;
-  top:-200px; left:20px;       /* left + W = 340-320 → 20px */
-  transform:rotateY(-90deg) translateZ(-160px);
+  top:-200px; left:-160px;
+  transform:rotateY(-90deg) translateZ(340px);
   background:#221E1A;
 }
-/* ─── FLOOR  680×320, rotated down ─── */
+/* ─── FLOOR  680 × 320 ─── */
 #ri-floor{
   width:680px; height:320px;
-  top:200px; left:-340px;      /* starts at bottom of walls */
-  transform:rotateX(90deg) translateZ(-160px);
+  top:-160px; left:-340px;   /* centred on origin before rotation */
+  transform:rotateX(-90deg) translateZ(200px);
   background:#1A1612;
 }
-/* ─── CEILING  680×320, rotated up ─── */
+/* ─── CEILING  680 × 320 ─── */
 #ri-ceil{
   width:680px; height:320px;
-  top:-200px; left:-340px;
-  transform:rotateX(-90deg) translateZ(160px);
+  top:-160px; left:-340px;
+  transform:rotateX(90deg) translateZ(200px);
   background:#1E1B16;
-  opacity:.85;
 }
 /* ─── ATMOSPHERIC LIGHTING overlays ─── */
-/* Left wall — darker on left edge (room depth shadow) */
+/* Left wall — shadow deepens toward the back-left corner */
 #ri-left::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to right, rgba(0,0,0,.55) 0%, rgba(0,0,0,.12) 60%, transparent);
+  background:linear-gradient(to right, rgba(0,0,0,.42) 0%, rgba(0,0,0,.08) 55%, transparent);
 }
-/* Right wall shadow */
+/* Right wall — mirror shadow */
 #ri-right::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to left, rgba(0,0,0,.55) 0%, rgba(0,0,0,.12) 60%, transparent);
+  background:linear-gradient(to left, rgba(0,0,0,.42) 0%, rgba(0,0,0,.08) 55%, transparent);
 }
-/* Floor — dark at the wall join, lighter in middle (reflected light) */
+/* Floor — subtle shadow at wall-join edge only */
 #ri-floor::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to bottom, rgba(0,0,0,.45) 0%, rgba(0,0,0,.08) 55%, transparent);
+  background:linear-gradient(to top, rgba(0,0,0,.22) 0%, transparent 45%);
 }
-/* Ceiling — subtle top vignette */
+/* Ceiling — light vignette */
 #ri-ceil::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to top, rgba(0,0,0,.3) 0%, transparent 60%);
+  background:linear-gradient(to bottom, rgba(0,0,0,.18) 0%, transparent 55%);
 }
 /* Back wall — window light shaft */
 #ri-back::before{
@@ -342,22 +356,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   background:linear-gradient(168deg, rgba(255,235,185,.07) 0%, transparent 55%);
   clip-path:polygon(55% 0%, 85% 0%, 75% 100%, 45% 100%);
 }
-/* Cornice (top of back wall) */
+/* Cornice */
 #ri-back::after{
   content:'';position:absolute;top:0;left:0;right:0;height:14px;pointer-events:none;
   background:linear-gradient(to bottom, rgba(255,255,255,.1), transparent);
-}
-/* Floor skirting */
-#ri-floor::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:10px;pointer-events:none;
-  background:linear-gradient(to bottom, rgba(255,255,255,.08), transparent);
-  z-index:1;
 }
 /* Active face glow */
 .rf.rf-active{
   outline:2px solid rgba(233,185,163,.7);
   outline-offset:0;
-  filter:brightness(1.1);
+  filter:brightness(1.12);
 }
 /* ─── FURNITURE ─── */
 #ri-furn{
