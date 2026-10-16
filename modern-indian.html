@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Modern Indian Interiors — Antara Studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600;700;800&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold:        #E9B9A3;
+  --gold-bright: #F5CBBA;
+  --gold-deep:   #C9906E;
+  --gold-dim:    rgba(233,185,163,.45);
+  --saffron:     #E8841A;
+  --saffron-dim: rgba(232,132,26,.18);
+  --plum:        #3B2D35;
+  --ink:         #0A0908;
+  --dark:        #0D0C0B;
+  --dark2:       #141210;
+  --dark3:       #1E1B18;
+  --dark4:       #2C2824;
+  --dark5:       #3A3530;
+  --cream:       #FFF8F0;
+  --cream2:      #F2E8DE;
+  --muted:       rgba(255,248,240,.5);
+  --muted2:      rgba(255,248,240,.22);
+  --ff-d: 'Cormorant Garamond', serif;
+  --ff-h: 'Raleway', sans-serif;
+  --ff-b: 'Golos Text', sans-serif;
+  --t:  .28s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font-family:var(--ff-b);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════════════════════════════ */
+#topbar{
+  position:sticky;top:0;z-index:500;
+  height:60px;
+  background:rgba(10,9,8,.96);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(233,185,163,.1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;
+}
+.tb-logo{font-family:var(--ff-d);font-size:18px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--cream)}
+.tb-logo em{color:var(--gold);font-style:normal}
+.tb-nav{display:flex;gap:6px;align-items:center}
+.tb-link{
+  padding:7px 18px;font-family:var(--ff-h);font-size:9px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  border:1px solid transparent;transition:var(--t);
+}
+.tb-link:hover{border-color:var(--gold-dim);color:var(--gold)}
+.tb-cta{
+  padding:8px 20px;background:var(--gold);color:var(--plum);
+  font-family:var(--ff-h);font-size:9px;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;transition:var(--t);
+}
+.tb-cta:hover{background:var(--gold-bright);box-shadow:0 6px 24px rgba(233,185,163,.3)}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO — CINEMATIC INDIAN MOTIF HEADER
+═══════════════════════════════════════════════════════════════ */
+#hero{
+  min-height:90vh;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 24px;
+}
+/* Mandala-like radial pattern */
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(232,132,26,.07) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(196,113,74,.06) 0%, transparent 35%),
+    radial-gradient(circle at 80% 20%, rgba(42,83,138,.06) 0%, transparent 35%),
+    repeating-conic-gradient(
+      rgba(233,185,163,.025) 0deg 2deg,
+      transparent 2deg 30deg
+    ) center/200px 200px;
+  pointer-events:none;
+}
+#hero::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%, transparent 35%, rgba(10,9,8,.8) 100%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2;max-width:820px;margin:0 auto}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid rgba(232,132,26,.35);background:rgba(232,132,26,.07);
+  padding:6px 20px;font-family:var(--ff-h);font-size:9px;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--saffron);
+  margin-bottom:28px;
+}
+.hero-h1{
+  font-family:var(--ff-d);font-size:clamp(44px,6vw,90px);font-weight:300;
+  line-height:1.05;letter-spacing:.02em;color:var(--cream);margin-bottom:10px;
+}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-h1 .line2{
+  font-family:var(--ff-h);font-size:clamp(14px,1.8vw,20px);font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  display:block;margin-top:6px;
+}
+.hero-sub{
+  font-family:var(--ff-d);font-size:clamp(16px,1.8vw,21px);font-style:italic;
+  font-weight:300;color:var(--muted);line-height:1.75;max-width:560px;
+  margin:0 auto 44px;
+}
+/* Regional style pills */
+.region-row{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:44px;
+}
+.region-pill{
+  padding:8px 18px;border:1px solid rgba(255,248,240,.12);
+  font-family:var(--ff-h);font-size:9px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);
+  transition:var(--t);cursor:pointer;
+}
+.region-pill:hover,.region-pill.active{
+  border-color:var(--saffron);color:var(--saffron);background:rgba(232,132,26,.06);
+}
+.hero-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-saffron{
+  padding:12px 32px;background:var(--saffron);color:#fff;
+  font-family:var(--ff-h);font-size:10px;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;transition:var(--t);
+}
+.btn-saffron:hover{background:#D4760A;box-shadow:0 8px 32px rgba(232,132,26,.35)}
+.btn-out{
+  padding:12px 32px;border:1px solid rgba(255,248,240,.2);color:var(--muted);
+  font-family:var(--ff-h);font-size:10px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;transition:var(--t);
+}
+.btn-out:hover{border-color:var(--gold-dim);color:var(--gold)}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADER
+═══════════════════════════════════════════════════════════════ */
+.sec-wrap{padding:80px 40px 0;max-width:1280px;margin:0 auto}
+.sec-wrap+.sec-wrap{padding-top:60px}
+.sec-eyebrow{
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--ff-h);font-size:9px;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);
+  margin-bottom:14px;
+}
+.sec-eyebrow::before,.sec-eyebrow::after{content:'';flex:1;max-width:40px;height:1px;background:rgba(233,185,163,.25)}
+.sec-h2{
+  font-family:var(--ff-d);font-size:clamp(28px,4vw,52px);font-weight:300;
+  line-height:1.1;letter-spacing:.02em;color:var(--cream);margin-bottom:10px;
+  text-align:center;
+}
+.sec-h2 em{font-style:italic;color:var(--gold)}
+.sec-sub{
+  font-family:var(--ff-d);font-size:clamp(15px,1.5vw,18px);font-style:italic;
+  font-weight:300;color:var(--muted);text-align:center;max-width:560px;margin:0 auto 48px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STYLE CAROUSEL — Regional Styles
+═══════════════════════════════════════════════════════════════ */
+.style-carousel{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;border:1px solid var(--dark4)}
+.style-card{
+  background:var(--dark2);cursor:pointer;transition:var(--t);
+  border-right:1px solid var(--dark4);border-bottom:1px solid var(--dark4);
+  overflow:hidden;position:relative;
+}
+.style-card:hover{background:var(--dark3);z-index:1;box-shadow:inset 0 0 0 1px rgba(233,185,163,.3)}
+.style-card.active{background:rgba(232,132,26,.06);box-shadow:inset 0 0 0 2px var(--saffron);z-index:2}
+.sc-thumb{
+  height:180px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.sc-thumb::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 30%,rgba(10,9,8,.75) 100%);
+  pointer-events:none;
+}
+.sc-thumb-ico{font-size:60px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6));position:relative;z-index:1}
+.sc-region-tag{
+  position:absolute;top:12px;left:12px;z-index:2;
+  font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 9px;background:rgba(10,9,8,.8);color:var(--saffron);
+  border:1px solid rgba(232,132,26,.3);
+}
+.sc-sel-mark{
+  position:absolute;top:12px;right:12px;z-index:2;
+  width:22px;height:22px;background:var(--saffron);
+  display:none;align-items:center;justify-content:center;
+  font-size:11px;color:#fff;font-weight:800;
+}
+.style-card.active .sc-sel-mark{display:flex}
+.sc-body{padding:18px 20px 20px}
+.sc-name{font-family:var(--ff-d);font-size:20px;font-weight:400;color:var(--cream);margin-bottom:5px;line-height:1.2}
+.sc-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+.sc-tags{display:flex;gap:4px;flex-wrap:wrap}
+.sc-tag{
+  font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid rgba(232,132,26,.2);
+  background:rgba(232,132,26,.06);color:var(--saffron);
+}
+.sc-tag.mat{border-color:rgba(233,185,163,.2);background:rgba(233,185,163,.06);color:var(--gold-deep)}
+
+/* ═══════════════════════════════════════════════════════════════
+   INTERACTIVE ROOM CONFIGURATOR
+═══════════════════════════════════════════════════════════════ */
+#configurator{
+  padding:80px 40px;max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:260px 1fr 320px;gap:0;
+  min-height:600px;
+  border:1px solid var(--dark4);margin-top:60px;
+}
+
+/* Left: Room selector */
+#room-list{border-right:1px solid var(--dark4)}
+.rl-head{
+  padding:20px;border-bottom:1px solid var(--dark4);
+  font-family:var(--ff-h);font-size:8px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);
+}
+.rl-item{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;border-bottom:1px solid rgba(255,248,240,.04);
+  cursor:pointer;transition:var(--t);
+}
+.rl-item:hover{background:var(--dark3)}
+.rl-item.active{background:rgba(232,132,26,.06);border-left:2px solid var(--saffron)}
+.rl-ico{font-size:22px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.rl-name{font-family:var(--ff-d);font-size:17px;font-weight:400;color:var(--cream);line-height:1.2}
+.rl-sub{font-family:var(--ff-h);font-size:8px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);margin-top:2px}
+
+/* Center: 3D Room Preview + Finish Selector */
+#room-center{
+  display:flex;flex-direction:column;border-right:1px solid var(--dark4);
+}
+.rc-preview{
+  flex:1;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--dark2);min-height:380px;
+  perspective:1200px;perspective-origin:50% 45%;
+}
+/* 3D Room Box */
+.r3{
+  position:relative;
+  width:680px;height:400px;
+  transform-style:preserve-3d;
+  transform:translateX(-50%) translateY(-52%);
+  left:50%;top:50%;
+  transition:transform .6s cubic-bezier(.4,0,.2,1);
+}
+.rf{position:absolute;backface-visibility:hidden;transition:background .5s ease}
+/* walls */
+#ri-back{width:680px;height:400px;top:0;left:0;transform:translateZ(-180px)}
+#ri-left{width:380px;height:400px;top:0;left:0;transform:rotateY(90deg) translateZ(0) translateX(-190px);transform-origin:left center}
+#ri-right{width:380px;height:400px;top:0;right:0;transform:rotateY(-90deg) translateZ(0) translateX(190px);transform-origin:right center}
+#ri-floor{width:680px;height:380px;bottom:0;left:0;transform:rotateX(90deg) translateZ(190px);transform-origin:bottom center}
+#ri-ceil{width:680px;height:260px;top:0;left:0;transform:rotateX(-90deg) translateZ(130px);transform-origin:top center;opacity:.75}
+/* Wall shadows */
+#ri-left::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.5),transparent);pointer-events:none}
+#ri-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to left,rgba(0,0,0,.5),transparent);pointer-events:none}
+#ri-floor::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent 50%);pointer-events:none}
+/* Cornice + skirting */
+.ri-cornice{position:absolute;top:0;left:0;right:0;height:14px;background:linear-gradient(to bottom,rgba(255,255,255,.08),transparent);z-index:1}
+.ri-skirting{position:absolute;bottom:0;left:0;right:0;height:10px;background:linear-gradient(to bottom,rgba(255,255,255,.1),rgba(0,0,0,.15))}
+/* Furniture layer */
+#ri-furn{
+  position:absolute;width:680px;height:400px;top:0;left:0;
+  transform:translateZ(-168px);
+  display:flex;align-items:flex-end;justify-content:center;gap:16px;
+  padding-bottom:48px;pointer-events:none;
+}
+.ri-fi{font-size:52px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.7));animation:fi 7s ease-in-out infinite}
+.ri-fi:nth-child(2){animation-delay:1.2s}
+.ri-fi:nth-child(3){animation-delay:2.4s}
+.ri-fi:nth-child(4){animation-delay:.6s}
+@keyframes fi{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+/* Hotspots */
+.rhs{
+  position:absolute;transform:translateZ(-160px);
+  width:32px;height:32px;cursor:pointer;pointer-events:auto;
+}
+.rhs-ring{
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(232,132,26,.55);background:rgba(232,132,26,.1);
+  animation:rhs 2.6s ease-in-out infinite;
+  display:flex;align-items:center;justify-content:center;
+}
+.rhs-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--saffron);
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+}
+@keyframes rhs{0%,100%{box-shadow:0 0 0 0 rgba(232,132,26,.5)}50%{box-shadow:0 0 0 8px rgba(232,132,26,0)}}
+.rhs:hover .rhs-ring{background:rgba(232,132,26,.3);border-color:var(--saffron)}
+.rhs-popup{
+  position:absolute;bottom:44px;left:50%;
+  transform:translateX(-50%) translateY(6px) scale(.94);
+  opacity:0;pointer-events:none;transition:var(--t);
+  min-width:200px;max-width:250px;
+  background:rgba(10,9,8,.92);backdrop-filter:blur(24px);
+  border:1px solid rgba(232,132,26,.2);padding:14px 16px 12px;z-index:10;
+}
+.rhs:hover .rhs-popup,.rhs.open .rhs-popup{opacity:1;transform:translateX(-50%) translateY(0) scale(1);pointer-events:auto}
+.rhs-ey{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--saffron);margin-bottom:5px}
+.rhs-t{font-family:var(--ff-d);font-size:15px;font-weight:400;color:var(--cream);margin-bottom:5px;line-height:1.2}
+.rhs-b{font-size:11px;color:var(--muted);line-height:1.5}
+.rhs-tag{display:inline-block;margin-top:8px;font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(232,132,26,.25);background:rgba(232,132,26,.08);color:var(--saffron)}
+/* Room name overlay */
+.rc-room-name{
+  position:absolute;top:16px;left:50%;transform:translateX(-50%);
+  font-family:var(--ff-h);font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted2);background:rgba(10,9,8,.7);backdrop-filter:blur(8px);
+  padding:5px 16px;border:1px solid rgba(255,248,240,.06);white-space:nowrap;z-index:5;
+}
+/* Drag hint */
+.rc-drag-hint{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold-dim);display:flex;align-items:center;gap:8px;
+  pointer-events:none;transition:opacity .5s;z-index:5;
+}
+.rc-drag-hint.hide{opacity:0}
+.rc-drag-hint svg{width:14px;height:14px;fill:none;stroke:var(--gold-dim);stroke-width:1.5}
+
+/* Bottom: finish selector tabs */
+.rc-controls{
+  padding:16px 20px 20px;border-top:1px solid var(--dark4);
+  display:flex;flex-direction:column;gap:12px;
+}
+.rcc-surf-tabs{display:flex;gap:2px;background:var(--dark3);padding:3px;align-self:flex-start}
+.rcc-st{
+  padding:5px 14px;font-family:var(--ff-h);font-size:9px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);transition:var(--t);
+}
+.rcc-st.active{background:var(--dark5);color:var(--saffron)}
+.rcc-dots{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.rcc-dot{
+  width:26px;height:26px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;outline:2px solid transparent;outline-offset:3px;
+  transition:var(--t);position:relative;flex-shrink:0;
+}
+.rcc-dot:hover{transform:scale(1.18)}
+.rcc-dot.active{outline-color:var(--saffron);transform:scale(1.22);box-shadow:0 0 10px rgba(232,132,26,.4)}
+.rcc-dot::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100%+9px);left:50%;
+  transform:translateX(-50%) translateY(4px);opacity:0;
+  background:var(--dark2);color:var(--cream);border:1px solid var(--dark5);
+  font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 9px;white-space:nowrap;pointer-events:none;transition:var(--t);
+}
+.rcc-dot:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
+.rcc-name{font-family:var(--ff-d);font-size:14px;font-weight:300;font-style:italic;color:var(--cream2)}
+.rcc-sub{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-top:1px}
+
+/* Right: Material Detail Panel */
+#mat-panel{padding:0;display:flex;flex-direction:column;overflow:hidden}
+.mp-head{padding:20px;border-bottom:1px solid var(--dark4)}
+.mp-eyebrow{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--saffron);margin-bottom:6px}
+.mp-title{font-family:var(--ff-d);font-size:22px;font-weight:300;color:var(--cream);line-height:1.2}
+.mp-body{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:0}
+.mp-body::-webkit-scrollbar{width:2px}
+.mp-body::-webkit-scrollbar-thumb{background:var(--dark5)}
+.mp-item{padding:12px 0;border-bottom:1px solid rgba(255,248,240,.05)}
+.mp-item:last-child{border-bottom:none}
+.mp-lbl{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:4px}
+.mp-val{font-size:12.5px;color:var(--muted);line-height:1.5}
+.mp-swatch-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.mp-swatch{width:32px;height:20px;border:1px solid var(--dark5);cursor:pointer;transition:var(--t);position:relative}
+.mp-swatch:hover{transform:scale(1.1)}
+.mp-swatch.active{outline:1px solid var(--saffron);outline-offset:2px}
+.mp-swatch::after{content:attr(data-s);position:absolute;bottom:calc(100%+7px);left:50%;transform:translateX(-50%);opacity:0;background:var(--dark2);border:1px solid var(--dark5);color:var(--cream);font-size:8px;font-family:var(--ff-h);font-weight:700;letter-spacing:.06em;padding:2px 8px;white-space:nowrap;pointer-events:none;transition:var(--t)}
+.mp-swatch:hover::after{opacity:1}
+.mp-footer{padding:16px 20px;border-top:1px solid var(--dark4)}
+.mp-cta{width:100%;padding:13px;background:var(--saffron);color:#fff;font-family:var(--ff-h);font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;transition:var(--t)}
+.mp-cta:hover{background:#D4760A;box-shadow:0 6px 24px rgba(232,132,26,.3)}
+
+/* ═══════════════════════════════════════════════════════════════
+   MATERIALS ENCYCLOPEDIA
+═══════════════════════════════════════════════════════════════ */
+#materials{padding:80px 40px;max-width:1280px;margin:0 auto}
+.mat-tabs{
+  display:flex;gap:0;border-bottom:1px solid var(--dark4);
+  margin-bottom:40px;overflow-x:auto;
+}
+.mat-tab{
+  padding:10px 22px 12px;border-bottom:2px solid transparent;margin-bottom:-1px;
+  font-family:var(--ff-h);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted2);transition:var(--t);white-space:nowrap;cursor:pointer;
+}
+.mat-tab:hover{color:var(--gold-dim)}
+.mat-tab.active{color:var(--saffron);border-bottom-color:var(--saffron)}
+.mat-grid{display:none;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;border:1px solid var(--dark4)}
+.mat-grid.show{display:grid}
+/* Material tile */
+.mt{
+  background:var(--dark2);border-right:1px solid var(--dark4);border-bottom:1px solid var(--dark4);
+  cursor:pointer;transition:var(--t);overflow:hidden;
+}
+.mt:hover{background:var(--dark3);box-shadow:inset 0 0 0 1px rgba(233,185,163,.2);z-index:1}
+.mt-swatch{height:120px;position:relative}
+.mt-swatch::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(10,9,8,.6) 100%);pointer-events:none}
+.mt-body{padding:14px 16px 16px}
+.mt-name{font-family:var(--ff-d);font-size:16px;font-weight:400;color:var(--cream);margin-bottom:3px;line-height:1.2}
+.mt-sub{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.mt-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px}
+.mt-tags{display:flex;gap:3px;flex-wrap:wrap}
+.mt-tag{font-family:var(--ff-h);font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border:1px solid rgba(255,248,240,.08);color:var(--muted2)}
+.mt-badge{
+  position:absolute;top:8px;left:8px;z-index:2;
+  font-family:var(--ff-h);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 8px;
+}
+.mt-badge.north{background:rgba(46,54,158,.8);color:#9BB4E8}
+.mt-badge.south{background:rgba(26,100,56,.8);color:#7DCFA8}
+.mt-badge.pan{background:rgba(120,60,20,.8);color:#E8B87C}
+.mt-badge.premium{background:rgba(100,70,20,.8);color:var(--gold)}
+
+/* ═══════════════════════════════════════════════════════════════
+   ROOM DEEP-DIVES
+═══════════════════════════════════════════════════════════════ */
+.room-section{padding:80px 40px;max-width:1280px;margin:0 auto}
+.rs-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  border-bottom:1px solid var(--dark4);padding-bottom:24px;margin-bottom:32px;
+  flex-wrap:wrap;gap:16px;
+}
+.rs-title{font-family:var(--ff-d);font-size:clamp(28px,3.5vw,46px);font-weight:300;color:var(--cream);line-height:1.1}
+.rs-title em{font-style:italic;color:var(--gold)}
+.rs-meta{
+  font-family:var(--ff-h);font-size:9px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted2);
+  display:flex;gap:16px;align-items:center;
+}
+.rs-meta span{color:var(--saffron)}
+.rs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--dark4)}
+@media(max-width:900px){.rs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.rs-grid{grid-template-columns:1fr}}
+.rs-card{
+  background:var(--dark2);border-right:1px solid var(--dark4);border-bottom:1px solid var(--dark4);
+  overflow:hidden;cursor:pointer;transition:var(--t);
+}
+.rs-card:hover{background:var(--dark3);z-index:1}
+.rs-card-thumb{height:200px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:56px}
+.rs-card-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(10,9,8,.75) 100%);pointer-events:none}
+.rs-card-region{
+  position:absolute;top:10px;left:10px;z-index:2;
+  font-family:var(--ff-h);font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 8px;
+}
+.rs-card-body{padding:18px 20px 20px}
+.rs-card-name{font-family:var(--ff-d);font-size:19px;font-weight:400;color:var(--cream);margin-bottom:4px;line-height:1.2}
+.rs-card-sub{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--saffron);margin-bottom:8px}
+.rs-card-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+.rs-mats{display:flex;gap:4px;flex-wrap:wrap}
+.rs-mat{
+  font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid rgba(255,248,240,.08);color:var(--muted2);
+}
+.rs-mat.highlight{border-color:rgba(232,132,26,.25);color:var(--saffron);background:rgba(232,132,26,.06)}
+/* Apply button */
+.rs-apply{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:10px 20px;background:var(--saffron);color:#fff;
+  font-family:var(--ff-h);font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  transform:translateY(100%);transition:var(--t);
+}
+.rs-card:hover .rs-apply{transform:translateY(0)}
+.rs-card{position:relative}
+
+/* ═══════════════════════════════════════════════════════════════
+   COLOUR PALETTES SECTION
+═══════════════════════════════════════════════════════════════ */
+.palette-section{padding:80px 40px;max-width:1280px;margin:0 auto}
+.pal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.pal-card{
+  background:var(--dark2);border:1px solid var(--dark4);
+  padding:20px;cursor:pointer;transition:var(--t);
+}
+.pal-card:hover{border-color:rgba(233,185,163,.3);background:var(--dark3)}
+.pal-card.active{border-color:var(--saffron)}
+.pal-swatches{display:flex;height:40px;margin-bottom:14px;overflow:hidden}
+.pal-sw{flex:1;transition:flex .3s ease}
+.pal-sw:hover{flex:2}
+.pal-name{font-family:var(--ff-d);font-size:18px;font-weight:400;color:var(--cream);margin-bottom:3px}
+.pal-region{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--saffron);margin-bottom:6px}
+.pal-desc{font-size:11.5px;color:var(--muted);line-height:1.5}
+
+/* ═══════════════════════════════════════════════════════════════
+   CONSULTATION BAND
+═══════════════════════════════════════════════════════════════ */
+#cta-band{
+  margin:40px;padding:0;
+  background:linear-gradient(135deg,var(--dark2) 0%,#1E1510 50%,var(--dark2) 100%);
+  border:1px solid rgba(232,132,26,.15);
+  display:grid;grid-template-columns:1fr 1fr;overflow:hidden;
+}
+@media(max-width:700px){#cta-band{grid-template-columns:1fr;margin:20px}}
+.ctab-left{padding:60px 48px;display:flex;flex-direction:column;justify-content:center}
+.ctab-eyebrow{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--saffron);margin-bottom:14px}
+.ctab-h{font-family:var(--ff-d);font-size:clamp(28px,3.5vw,46px);font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:14px}
+.ctab-h em{font-style:italic;color:var(--gold)}
+.ctab-sub{font-family:var(--ff-d);font-size:16px;font-style:italic;font-weight:300;color:var(--muted);line-height:1.65;margin-bottom:28px}
+.ctab-right{
+  padding:60px 48px;display:flex;flex-direction:column;justify-content:center;
+  background:linear-gradient(135deg,rgba(232,132,26,.06) 0%,rgba(233,185,163,.04) 100%);
+  border-left:1px solid rgba(232,132,26,.12);
+  gap:16px;
+}
+.ctab-stat{display:flex;flex-direction:column;gap:3px;padding:14px 0;border-bottom:1px solid rgba(255,248,240,.05)}
+.ctab-stat:last-child{border-bottom:none}
+.ctab-stat-n{font-family:var(--ff-d);font-size:clamp(28px,3vw,40px);font-weight:300;color:var(--saffron);line-height:1}
+.ctab-stat-l{font-family:var(--ff-h);font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-top:2px}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════════ */
+#toast{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(10,9,8,.95);border:1px solid rgba(232,132,26,.25);
+  color:var(--cream);padding:10px 24px;
+  font-family:var(--ff-h);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  z-index:1000;white-space:nowrap;backdrop-filter:blur(16px);
+  opacity:0;transition:.3s ease;pointer-events:none;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media(max-width:1100px){
+  #configurator{grid-template-columns:200px 1fr 280px}
+}
+@media(max-width:900px){
+  #configurator{grid-template-columns:1fr;gap:0}
+  #room-list{border-right:none;border-bottom:1px solid var(--dark4);display:flex;overflow-x:auto}
+  .rl-item{flex-shrink:0;border-bottom:none;border-right:1px solid rgba(255,248,240,.04)}
+  #mat-panel{display:none}
+  .sec-wrap,.room-section,.palette-section,#materials{padding:48px 20px 0}
+  #topbar{padding:0 16px}
+  #cta-band{margin:20px}
+  .ctab-left,.ctab-right{padding:36px 24px}
+  .rs-header{flex-direction:column;align-items:flex-start}
+  .mp-body{max-height:300px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav id="topbar">
+  <a href="index.html" class="tb-logo">ANTARA <em>STUDIOS</em></a>
+  <div class="tb-nav">
+    <a href="index.html" class="tb-link">← Designer</a>
+    <a href="visualizer.html" class="tb-link">3D Visualizer</a>
+    <button class="tb-cta" onclick="book()">Book Consultation</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-pill">✦ &nbsp;Modern Indian Interiors&nbsp; ✦</div>
+    <h1 class="hero-h1">
+      Where <em>Heritage</em> Meets<br>Contemporary <em>Living</em>
+      <span class="line2">A complete design encyclopedia</span>
+    </h1>
+    <p class="hero-sub">Explore authentic Indian design traditions — from Kerala teak mansions to Rajasthani havelis — reimagined for today's homes.</p>
+    <div class="region-row" id="regionRow">
+      <button class="region-pill active" data-r="all">All India</button>
+      <button class="region-pill" data-r="north">North Indian</button>
+      <button class="region-pill" data-r="south">South Indian</button>
+      <button class="region-pill" data-r="rajasthan">Rajasthani</button>
+      <button class="region-pill" data-r="kerala">Kerala</button>
+      <button class="region-pill" data-r="chettinad">Chettinad</button>
+      <button class="region-pill" data-r="mughal">Mughal Modern</button>
+      <button class="region-pill" data-r="contemporary">Contemporary Indian</button>
+    </div>
+    <div class="hero-cta-row">
+      <button class="btn-saffron" onclick="document.getElementById('configurator').scrollIntoView({behavior:'smooth'})">Configure a Room →</button>
+      <button class="btn-out" onclick="document.getElementById('materials').scrollIntoView({behavior:'smooth'})">Explore Materials</button>
+    </div>
+  </div>
+</section>
+
+<!-- REGIONAL STYLES -->
+<section class="sec-wrap">
+  <div class="sec-eyebrow">Regional Traditions</div>
+  <h2 class="sec-h2">Choose Your <em>Indian Style</em></h2>
+  <p class="sec-sub">Each region carries centuries of craft heritage. Select the style that speaks to your roots.</p>
+  <div class="style-carousel" id="styleCarousel"></div>
+</section>
+
+<!-- INTERACTIVE CONFIGURATOR -->
+<div id="configurator">
+  <!-- Room List -->
+  <div id="room-list">
+    <div class="rl-head">Rooms</div>
+    <div id="rlItems"></div>
+  </div>
+
+  <!-- 3D Preview + Finish Selector -->
+  <div id="room-center">
+    <div class="rc-preview" id="rcPreview">
+      <div class="rc-room-name" id="rcRoomName">Living Room</div>
+      <div class="rc-drag-hint" id="rcDragHint">
+        <svg viewBox="0 0 16 16"><path d="M4 8h8M8 4l4 4-4 4"/></svg>
+        Drag to rotate
+        <svg viewBox="0 0 16 16"><path d="M12 8H4M8 12L4 8l4-4"/></svg>
+      </div>
+      <div id="rcScene" style="position:relative;width:100%;height:100%;perspective:1200px;perspective-origin:50% 45%;cursor:grab">
+        <div class="r3" id="r3Box" style="transform-style:preserve-3d">
+          <div class="rf" id="ri-back"></div>
+          <div class="rf" id="ri-left"></div>
+          <div class="rf" id="ri-right"></div>
+          <div class="rf" id="ri-floor"></div>
+          <div class="rf" id="ri-ceil"></div>
+          <div id="ri-furn"></div>
+          <div id="ri-hotspots"></div>
+        </div>
+      </div>
+    </div>
+    <div class="rc-controls">
+      <div class="rcc-surf-tabs" id="rccSurfTabs">
+        <button class="rcc-st active" data-s="wall" onclick="setSurf('wall')">Walls</button>
+        <button class="rcc-st" data-s="floor" onclick="setSurf('floor')">Floor</button>
+        <button class="rcc-st" data-s="ceiling" onclick="setSurf('ceiling')">Ceiling</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div class="rcc-dots" id="rccDots"></div>
+        <div style="border-left:1px solid var(--dark5);padding-left:16px">
+          <div class="rcc-name" id="rccName">—</div>
+          <div class="rcc-sub" id="rccSub">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Material Detail Panel -->
+  <div id="mat-panel">
+    <div class="mp-head">
+      <div class="mp-eyebrow" id="mpEyebrow">Material Detail</div>
+      <div class="mp-title" id="mpTitle">Select a finish</div>
+    </div>
+    <div class="mp-body" id="mpBody">
+      <div style="padding:24px 0;text-align:center;color:var(--muted2);font-family:var(--ff-d);font-style:italic;font-size:15px">
+        Click any finish dot<br>to see material details
+      </div>
+    </div>
+    <div class="mp-footer">
+      <button class="mp-cta" onclick="book()">Book Consultation →</button>
+    </div>
+  </div>
+</div>
+
+<!-- MATERIALS ENCYCLOPEDIA -->
+<section id="materials">
+  <div style="margin-bottom:40px;text-align:center">
+    <div class="sec-eyebrow" style="justify-content:center">Materials & Finishes</div>
+    <h2 class="sec-h2">The Indian <em>Material Palette</em></h2>
+    <p class="sec-sub">Every texture tells a story. From Athangudi tiles to Rajasthani sandstone — the authentic Indian material vocabulary.</p>
+  </div>
+  <div class="mat-tabs" id="matTabs"></div>
+  <div id="matGrids"></div>
+</section>
+
+<!-- ROOM DEEP-DIVES -->
+<div id="roomSections"></div>
+
+<!-- COLOUR PALETTES -->
+<section class="palette-section">
+  <div style="margin-bottom:40px;text-align:center">
+    <div class="sec-eyebrow" style="justify-content:center">Colour Stories</div>
+    <h2 class="sec-h2">Curated Indian <em>Palettes</em></h2>
+    <p class="sec-sub">Colours rooted in India's natural dyes, minerals and seasonal celebrations.</p>
+  </div>
+  <div class="pal-grid" id="palGrid"></div>
+</section>
+
+<!-- CTA BAND -->
+<div id="cta-band">
+  <div class="ctab-left">
+    <div class="ctab-eyebrow">Antara Studios · Bangalore</div>
+    <h2 class="ctab-h">Your <em>Indian Dream Home,</em><br>Realised</h2>
+    <p class="ctab-sub">Our designers are experts in blending regional Indian traditions with contemporary comfort. From Chettinad tiles to Rajasthani jali — we source, craft, and deliver.</p>
+    <button class="btn-saffron" onclick="book()">Book Free Consultation →</button>
+  </div>
+  <div class="ctab-right">
+    <div class="ctab-stat"><div class="ctab-stat-n">6</div><div class="ctab-stat-l">Regional Indian Styles</div></div>
+    <div class="ctab-stat"><div class="ctab-stat-n">40+</div><div class="ctab-stat-l">Authentic Indian Finishes</div></div>
+    <div class="ctab-stat"><div class="ctab-stat-n">6</div><div class="ctab-stat-l">Rooms Covered</div></div>
+    <div class="ctab-stat"><div class="ctab-stat-n">500+</div><div class="ctab-stat-l">Projects Delivered in Bangalore</div></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT — DATA + LOGIC
+═══════════════════════════════════════════════════════════════ -->
+<script>
+// ═══════════════════════════════════════════════════
+// CSS GRADIENT RECIPES — authentic Indian textures
+// ═══════════════════════════════════════════════════
+const G = {
+  // Walls
+  makrana_marble:     'linear-gradient(135deg,#F8F4EE 0%,#EEE8E0 25%,#E4DDD4 45%,#F0EAE2 65%,#E8E2DA 100%)',
+  rajasthan_sandstone:'linear-gradient(160deg,#D4A96A 0%,#C8986A 30%,#BF8A5C 55%,#D0A068 80%,#C09060 100%)',
+  jaipur_pink_lime:   'linear-gradient(180deg,#D4849A 0%,#C87A90 50%,#D08898 100%)',
+  jaipur_blue:        'linear-gradient(135deg,#1E4A8C 0%,#2055A0 40%,#1A4280 70%,#2358A8 100%)',
+  kerala_teak:        'repeating-linear-gradient(0deg,#7A4A2A 0px,#7A4A2A 18px,#6A3E24 18px,#6A3E24 20px,#8A5232 20px,#8A5232 36px,#704428 36px,#704428 38px)',
+  geru_ochre:         'linear-gradient(160deg,#B84820 0%,#C05028 40%,#A84020 70%,#BC4C24 100%)',
+  limewash_cream:     'radial-gradient(ellipse at 30% 40%,#EDE4D4 0%,#E4DCC8 40%,#DDD4BC 70%,#E8E0CC 100%)',
+  limewash_white:     'radial-gradient(ellipse at 60% 30%,#F8F4EC 0%,#F2EDE3 45%,#EDE7DA 75%,#F5F0E6 100%)',
+  mughal_deep_blue:   'linear-gradient(135deg,#162244 0%,#1A2850 40%,#142040 70%,#1E2C5A 100%)',
+  mughal_green:       'linear-gradient(135deg,#0E3020 0%,#123826 40%,#0C2C1C 70%,#164030 100%)',
+  delhi_grey:         'linear-gradient(180deg,#5A5856 0%,#4E4C4A 50%,#5C5A58 100%)',
+  jali_teak:          'repeating-linear-gradient(0deg,#6A3E24 0px,#6A3E24 8px,#7A4A2E 8px,#7A4A2E 10px,transparent 10px,transparent 14px)',
+  warli_white:        'radial-gradient(ellipse at 50% 50%,#F0EBE0 0%,#E8E3D8 100%)',
+  brass_cladding:     'repeating-linear-gradient(45deg,#C8920C 0px,#C8920C 1px,#D4A010 1px,#D4A010 12px,#BC8A0A 12px,#BC8A0A 13px)',
+  copper_cladding:    'repeating-linear-gradient(45deg,#A84C20 0px,#A84C20 1px,#C05A28 1px,#C05A28 12px,#9C4418 12px,#9C4418 13px)',
+  marble_inlay:       'radial-gradient(circle at 50% 50%,#F8F4EE 30%,#D4C8A0 31%,#D4C8A0 32%,#F8F4EE 33%,#E0D8C0 50%,#C8B88A 51%,#E0D8C0 52%,#F8F4EE 70%)',
+  tanjore_gold:       'repeating-linear-gradient(45deg,#C8900C 0px,#C8900C 2px,#D8A814 2px,#D8A814 14px,#BC8808 14px,#BC8808 16px)',
+  ikat_pattern:       'repeating-linear-gradient(135deg,#2A5090 0px,#2A5090 8px,#E84820 8px,#E84820 10px,#F4B030 10px,#F4B030 18px,#2A5090 18px,#2A5090 20px)',
+  block_print_blue:   'repeating-conic-gradient(#1E4A8C 0% 25%,#EDE4D4 0% 50%) 0 0/32px 32px',
+  south_lime_green:   'linear-gradient(160deg,#2E5818 0%,#3A6820 40%,#284E14 70%,#345E1C 100%)',
+
+  // Floors
+  kota_blue:          'radial-gradient(ellipse at 40% 60%,#4A6E8A 0%,#3A5E7A 40%,#304E68 70%,#445A72 100%)',
+  kota_green:         'radial-gradient(ellipse at 60% 40%,#3A6050 0%,#2E5040 40%,#264438 70%,#345848 100%)',
+  kadappa_black:      'linear-gradient(135deg,#1C1A18 0%,#282624 30%,#1A1816 60%,#242220 100%)',
+  red_oxide:          'linear-gradient(160deg,#8A2C10 0%,#9A3418 30%,#842808 60%,#903010 100%)',
+  athangudi_teal:     'repeating-conic-gradient(#1E6060 0% 25%,#E8C058 0% 50%,#1E6060 50% 75%,#E84820 75% 100%) 0 0/32px 32px',
+  athangudi_red:      'repeating-conic-gradient(#C42810 0% 25%,#F0D050 0% 50%,#1A5080 50% 75%,#F0D050 75% 100%) 0 0/32px 32px',
+  athangudi_green:    'repeating-conic-gradient(#2A6030 0% 25%,#E8C040 0% 50%,#C42810 50% 75%,#E8C040 75% 100%) 0 0/32px 32px',
+  mosaic_cement:      'repeating-conic-gradient(#D8C8A8 0% 25%,#C8B890 0% 50%) 0 0/22px 22px',
+  shahabad_grey:      'linear-gradient(160deg,#8A8480 0%,#7A7470 40%,#807C78 70%,#8E8A84 100%)',
+  makrana_floor:      'linear-gradient(135deg,#F8F4EE 0%,#EEE8E0 30%,#E8E2D8 50%,#F0EAE2 70%,#F8F4EE 100%)',
+  pietra_dura:        'repeating-conic-gradient(#F8F4EE 0% 25%,#C8900C 0% 50%,#F8F4EE 50% 75%,#1E4A8C 75% 100%) 0 0/40px 40px',
+  rangoli_marble:     'conic-gradient(#F8F4EE 0deg,#E84820 60deg,#F0D050 120deg,#1E6060 180deg,#2A5090 240deg,#C42810 300deg,#F8F4EE 360deg)',
+  teak_floor:         'repeating-linear-gradient(90deg,#7A4A2A 0px,#7A4A2A 28px,#6A3E24 28px,#6A3E24 30px,#805030 30px,#805030 56px,#704428 56px,#704428 58px)',
+
+  // Ceilings
+  wooden_beam:        'repeating-linear-gradient(0deg,#8A5030 0px,#8A5030 24px,#7A4428 24px,#7A4428 28px)',
+  white_skim:         '#F4F2EC',
+  lime_white:         'radial-gradient(ellipse at 40% 30%,#F8F5ED 0%,#F2EDE3 60%,#EDE8DE 100%)',
+  sky_blue_wash:      'linear-gradient(180deg,#D8E8F8 0%,#C8D8E8 100%)',
+  terracotta_ceil:    'linear-gradient(180deg,#C87040 0%,#B86838 100%)',
+};
+
+const C = {
+  ivory:'#EDE8DC', taupe:'#C0B4A4', limewash:'#D8D0BC', warm_white:'#F5F2EC',
+  jaipur_pink:'#CC7A90', jaipur_blue:'#1E4A8C', rajasthan_sand:'#C89A60',
+  geru:'#B84820', mughal_blue:'#162244', mughal_green:'#0E3020',
+  kerala_green:'#2E5818', teak_brown:'#7A4A2A', coconut_husk:'#9A7040',
+  madurai_rose:'#C85878', saffron:'#E8841A', turmeric:'#D4900A',
+  indigo:'#2D2654', kota_blue_c:'#4A6E8A', kota_green_c:'#3A6050',
+  kadappa:'#1C1A18', red_oxide:'#8A2C10', athangudi_red:'#C42810',
+  athangudi_teal:'#1E6060',
+};
+
+// ═══════════════════════════════════════════════════
+// REGIONAL STYLES DATA
+// ═══════════════════════════════════════════════════
+const STYLES = [
+  {
+    id:'rajasthani_haveli', name:'Rajasthani Haveli', region:'north', regionTag:'North India',
+    ico:'🏰',
+    thumb: G.rajasthan_sandstone,
+    desc: 'Inspired by the grand havelis of Jaipur, Jodhpur and Bikaner. Ornate sandstone carvings, jali lattice screens, indigo and saffron accent walls, hand-painted frescoes and bold arched niches.',
+    tags:['Jaipur Pink','Sandstone','Jali Screens','Meenakari'],
+    wall:'rajasthan_sandstone', floor:'mosaic_cement', ceiling:'white_skim',
+    ambience:'radial-gradient(ellipse at 50% 80%,rgba(200,154,96,.12) 0%,rgba(10,9,8,1) 60%)',
+    materials:['Jodhpur Sandstone','Jaipur Blue Pottery Tiles','Sheesham Wood Jali','Meenakari Glass'],
+    furniture:['🏺','🪔','🎋','🧿','🛋'],
+    hotspots:[
+      {t:'35%',l:'50%',ey:'Wall Treatment',title:'Jodhpur Sandstone Cladding',body:'Hand-chiselled Jodhpur sandstone panels with traditional floral motifs. Natural warm ochre tone. Excellent thermal mass.',tag:'Heritage Stone'},
+      {t:'60%',l:'25%',ey:'Floor',title:'Rajasthani Mosaic Floor',body:'Hand-laid geometric mosaic in terracotta, indigo and ivory. Traditional Rajasthani fort pattern.',tag:'Artisan Mosaic'},
+      {t:'28%',l:'75%',ey:'Feature',title:'Jali Lattice Screen',body:'Sheesham wood jali with geometric Mughal patterns. Diffuses light beautifully. Custom carved to order.',tag:'Sheesham Jali'},
+    ]
+  },
+  {
+    id:'mughal_modern', name:'Mughal Modern', region:'mughal', regionTag:'Mughal Inspired',
+    ico:'🕌',
+    thumb: G.mughal_deep_blue,
+    desc:'A contemporary reinterpretation of Mughal grandeur. Deep jewel tones — indigo, emerald, ruby — with gold inlay accents, marble pietra dura patterns, and ornate geometric ceiling medallions.',
+    tags:['Indigo','Gold Inlay','Pietra Dura','Geometric'],
+    wall:'mughal_deep_blue', floor:'pietra_dura', ceiling:'tanjore_gold',
+    ambience:'radial-gradient(ellipse at 50% 100%,rgba(22,34,68,.25) 0%,rgba(10,9,8,1) 55%)',
+    materials:['Makrana Marble','Gold Inlay','Lapis Lazuli Accents','Silk Fabric Panels'],
+    furniture:['🏺','🕌','🪞','💎','🌙'],
+    hotspots:[
+      {t:'32%',l:'50%',ey:'Ceiling Feature',title:'Mughal Geometric Medallion',body:'CNC-carved plaster medallion in Mughal geometric pattern. Hand-gilded with 24K gold leaf. 1200mm diameter.',tag:'Gilded Plaster'},
+      {t:'58%',l:'28%',ey:'Floor Art',title:'Pietra Dura Marble Inlay',body:'Hand-laid marble inlay in the Agra tradition. 14 natural stone colours. Pattern designed to order.',tag:'Agra Marble Art'},
+      {t:'30%',l:'76%',ey:'Wall Panel',title:'Lapis & Gold Accent Wall',body:'Venetian plaster in deep indigo with hand-applied gold leaf border. Inspired by Mughal miniature paintings.',tag:'Gold Leaf'},
+    ]
+  },
+  {
+    id:'kerala_nalukettu', name:'Kerala Nalukettu', region:'kerala', regionTag:'South India · Kerala',
+    ico:'🌴',
+    thumb: G.kerala_teak,
+    desc:'Based on Kerala\'s iconic nalukettu courtyard houses. Teak wood-panelled walls and ceilings, polished Kerala laterite stone floors, brass oil lamp niches, and cool open spaces with natural cross-ventilation.',
+    tags:['Teak Wood','Laterite Stone','Brass Lamps','Nalkettu Court'],
+    wall:'kerala_teak', floor:'red_oxide', ceiling:'wooden_beam',
+    ambience:'radial-gradient(ellipse at 50% 0%,rgba(46,88,24,.12) 0%,rgba(10,9,8,1) 55%)',
+    materials:['Kerala Teak','Red Laterite Stone','Red Oxide Floor','Brass Fittings'],
+    furniture:['🌴','🏺','🪔','🌿','🛕'],
+    hotspots:[
+      {t:'35%',l:'50%',ey:'Wall',title:'Teak Wood Panel Wall',body:'Full-height teak wall panelling with traditional Kerala grooved finish. Treated with coconut oil and natural wax. Develops rich patina over time.',tag:'Teak Panelling'},
+      {t:'62%',l:'24%',ey:'Floor',title:'Red Oxide Floor',body:'Traditional Kerala red oxide flooring with cow dung polish. Deep terracotta hue with natural sheen. Cool underfoot in tropical heat.',tag:'Red Oxide'},
+      {t:'30%',l:'76%',ey:'Ceiling',title:'Teak Beam Ceiling',body:'Exposed teak timber beam ceiling with traditional square coffers. Structurally and aesthetically the hallmark of Kerala architecture.',tag:'Timber Beams'},
+    ]
+  },
+  {
+    id:'chettinad', name:'Chettinad Mansion', region:'chettinad', regionTag:'South India · Tamil Nadu',
+    ico:'🏛️',
+    thumb: G.athangudi_teal,
+    desc:'Inspired by the palatial Chettinad mansions of Karaikudi, Tamil Nadu. Famous for handmade Athangudi tiles, Burmese teak pillars, Italian marble (brought by Nattukotai Chettiars), and elaborate stucco plasterwork.',
+    tags:['Athangudi Tiles','Burma Teak','Lime Plaster','Chettinad Pillars'],
+    wall:'limewash_cream', floor:'athangudi_teal', ceiling:'lime_white',
+    ambience:'radial-gradient(ellipse at 50% 100%,rgba(30,96,96,.12) 0%,rgba(10,9,8,1) 55%)',
+    materials:['Athangudi Handmade Tiles','Burma Teak Pillars','Lime Plaster','Natural Stone Mosaic'],
+    furniture:['🏺','🚪','🪔','🌺','🛕'],
+    hotspots:[
+      {t:'62%',l:'50%',ey:'Floor',title:'Handmade Athangudi Tiles',body:'Hand-pressed cement tiles made in Athangudi, Tamil Nadu. Each tile unique. Traditional geometric motifs in mineral oxide colours. Takes 21 days to cure.',tag:'Athangudi Artisan'},
+      {t:'35%',l:'26%',ey:'Structural',title:'Burma Teak Pillar',body:'Traditional Burmese teak pillars with hand-turned capitals. The Chettinad merchants imported these from Burma via sea route.',tag:'Heritage Timber'},
+      {t:'28%',l:'74%',ey:'Ceiling',title:'Lime Stucco Plasterwork',body:'Traditional lime stucco with egg-white binder and mineral pigments. The Chettinad craft of decorative plasterwork — nalungu — applied by hand.',tag:'Lime Stucco'},
+    ]
+  },
+  {
+    id:'delhi_contemporary', name:'Delhi Contemporary', region:'north', regionTag:'North India · Delhi',
+    ico:'🌆',
+    thumb: G.delhi_grey,
+    desc:'The refined urban aesthetic of modern Delhi. Warm grey tones, polished concrete, high-gloss lacquered panels, Kashmiri walnut wood accents, and curated contemporary Indian art as focal points.',
+    tags:['Polished Concrete','Lacquer','Walnut Wood','Urban Indian'],
+    wall:'delhi_grey', floor:'kota_blue', ceiling:'white_skim',
+    ambience:'radial-gradient(ellipse at 50% 50%,rgba(90,88,86,.1) 0%,rgba(10,9,8,1) 55%)',
+    materials:['Kota Stone','Polished Concrete','Walnut Veneer','High-Gloss Lacquer'],
+    furniture:['🖼','🛋','💡','🌿','🖥'],
+    hotspots:[
+      {t:'35%',l:'50%',ey:'Feature Wall',title:'Walnut Veneer + Lacquer',body:'Book-matched walnut veneer panels alternating with high-gloss lacquered inserts. Popular in South Delhi penthouses and DLF Golf Links homes.',tag:'Luxury Finish'},
+      {t:'62%',l:'28%',ey:'Floor',title:'Kota Blue Stone',body:'Kota stone from Rajasthan\'s Kota district. Blue-grey with natural fossil markings. Honed finish for urban interiors. Stays cool year-round.',tag:'Kota Stone'},
+      {t:'30%',l:'74%',ey:'Accent',title:'Contemporary Indian Art Wall',body:'Gallery-lit feature wall for contemporary Indian art. Spotlit alcoves with brass reveal trims. Designed around the Lodhi Art District aesthetic.',tag:'Art Integration'},
+    ]
+  },
+  {
+    id:'telangana_bangalorean', name:'Deccan Modern', region:'south', regionTag:'South India · Deccan',
+    ico:'🏯',
+    thumb: G.limewash_white,
+    desc:'Rooted in the Deccan\'s Qutb Shahi and Bidar traditions. Lime wash walls, Bidriware metal inlay accents, Kalamkari handblock print panels, polished Kadappa black stone floors and traditional floral ceiling roses.',
+    tags:['Bidriware','Kalamkari','Kadappa Stone','Deccan Lime'],
+    wall:'limewash_white', floor:'kadappa_black', ceiling:'white_skim',
+    ambience:'radial-gradient(ellipse at 30% 50%,rgba(44,40,36,.2) 0%,rgba(10,9,8,1) 55%)',
+    materials:['Kadappa Black Stone','Bidriware Inlay','Kalamkari Wall Panels','Lime Wash'],
+    furniture:['🖼','🏺','🪔','🌺','🛕'],
+    hotspots:[
+      {t:'35%',l:'50%',ey:'Wall Art',title:'Kalamkari Hand Block Print Panel',body:'Oversized hand-block printed cotton Kalamkari mounted as a feature panel. Natural vegetable dyes on cotton.',tag:'Kalamkari Art'},
+      {t:'62%',l:'26%',ey:'Floor',title:'Kadappa Black Stone',body:'Dense black limestone from Kadappa, Andhra Pradesh. Polished to a mirror finish. Extremely hard-wearing. Cool in Deccan summers.',tag:'Kadappa Stone'},
+      {t:'30%',l:'76%',ey:'Accent',title:'Bidriware Metal Inlay',body:'Traditional zinc alloy Bidriware from Bidar, Karnataka. Inlaid with silver wire in floral patterns. Used as cabinet pulls and niche inserts.',tag:'Bidriware Craft'},
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════════════
+// WALL FINISHES — Modern Indian (exhaustive)
+// ═══════════════════════════════════════════════════
+const WALL_FINS = [
+  // NORTH / RAJASTHANI
+  { id:'jaipur_pink',     name:'Jaipur Pink Lime',     sub:'Heritage Lime Wash',       c:'#CC7A90',  g:G.jaipur_pink_lime,    region:'north',   cat:'plaster',   brand:'Traditional Craft',     cost:'₹35–50/sqft',  lead:'4–6 weeks', desc:'Lime wash in the iconic pink of Jaipur. Applied by kaarigars in 3 coats. Breathable, anti-microbial, ages beautifully.' },
+  { id:'rajasthan_sand',  name:'Rajasthani Sandstone', sub:'Natural Stone Cladding',   c:'#C89A60',  g:G.rajasthan_sandstone, region:'north',   cat:'stone',     brand:'Jodhpur Quarries',      cost:'₹180–250/sqft',lead:'3–4 weeks', desc:'Hand-chiselled Jodhpur sandstone slabs. Warm ochre tone. Traditional rajasthani carved borders available on request.' },
+  { id:'jaipur_blue',     name:'Jaipur Blue',          sub:'Mineral Paint',            c:'#1E4A8C',  g:G.jaipur_blue,         region:'north',   cat:'paint',     brand:'Asian Paints Ultima',   cost:'₹22–28/sqft',  lead:'1 week',   desc:'Deep Jaipur indigo inspired by Rajasthani blue pottery. Applied in satin finish. Pairs with brass and terracotta accents.' },
+  { id:'geru',            name:'Geru Ochre Plaster',   sub:'Ochre Earth Plaster',      c:'#B84820',  g:G.geru_ochre,          region:'north',   cat:'plaster',   brand:'Traditional Craft',     cost:'₹40–60/sqft',  lead:'4–6 weeks', desc:'Traditional red-ochre (geru) plaster used in rural Rajasthan and Uttar Pradesh. Earthy, warm and deeply grounded.' },
+  { id:'mughal_blue',     name:'Mughal Navy',          sub:'Deep Jewel Tone Paint',    c:'#162244',  g:G.mughal_deep_blue,    region:'mughal',  cat:'paint',     brand:'Nippon Paint',          cost:'₹20–26/sqft',  lead:'1 week',   desc:'Deep midnight blue inspired by Mughal miniature painting backdrops. Satin finish. Pairs with gold leaf borders.' },
+  { id:'mughal_green',    name:'Mughal Emerald',       sub:'Jewel Tone Velvet Finish',  c:'#0E3020',  g:G.mughal_green,        region:'mughal',  cat:'paint',     brand:'Dulux Velvet Touch',    cost:'₹24–30/sqft',  lead:'1 week',   desc:'Deep emerald green of Mughal garden pavilions. Velvety matte finish that absorbs light dramatically.' },
+  { id:'brass_clad',      name:'Brass Sheet Cladding', sub:'Metallic Wall Cladding',   c:'#C8920C',  g:G.brass_cladding,      region:'mughal',  cat:'metallic',  brand:'Custom Fabrication',    cost:'₹280–400/sqft',lead:'8–10 weeks', desc:'Hand-hammered brass sheet panels with embossed floral motifs. Used in Mughal-inspired dining and pooja rooms.' },
+  // SOUTH / KERALA
+  { id:'kerala_teak',     name:'Kerala Teak Panelling',sub:'Solid Teak Wood Panel',    c:'#7A4A2A',  g:G.kerala_teak,         region:'kerala',  cat:'wood',      brand:'Kerala Timber Corp',    cost:'₹220–320/sqft',lead:'6–8 weeks', desc:'Full-height solid teak panelling in the Kerala tradition. Grooved finish. Treated with coconut oil. Develops rich patina.' },
+  { id:'limewash_cream',  name:'Lime Wash Cream',      sub:'Traditional Lime Wash',    c:'#D8D0BC',  g:G.limewash_cream,      region:'south',   cat:'plaster',   brand:'Traditional Craft',     cost:'₹30–45/sqft',  lead:'3–5 weeks', desc:'Traditional slaked lime wash with natural mineral pigments. Breathable, cool, anti-fungal. The wall finish of all classic South Indian homes.' },
+  { id:'limewash_white',  name:'Lime Wash White',      sub:'Pure Lime Wash',           c:'#F2EDE3',  g:G.limewash_white,      region:'south',   cat:'plaster',   brand:'Traditional Craft',     cost:'₹28–40/sqft',  lead:'3–5 weeks', desc:'Pure white slaked lime wash. Brilliant white that glows in sunlight. The signature backdrop of Chettinad mansions.' },
+  { id:'south_green',     name:'Kerala Banana Green',  sub:'Mineral Paint',            c:'#2E5818',  g:G.south_lime_green,    region:'kerala',  cat:'paint',     brand:'Berger Silk',           cost:'₹20–25/sqft',  lead:'1 week',   desc:'Deep banana leaf green inspired by Kerala\'s lush vegetation. Used in Kerala homes as a feature wall or courtyard wall.' },
+  { id:'copper_clad',     name:'Copper Cladding',      sub:'Patinated Copper Sheet',   c:'#A84C20',  g:G.copper_cladding,     region:'south',   cat:'metallic',  brand:'Custom Fabrication',    cost:'₹260–380/sqft',lead:'8–10 weeks', desc:'Patinated copper sheet cladding used in contemporary South Indian interiors. Develops verdigris patina over time.' },
+  // CHETTINAD / TAMIL
+  { id:'chet_limewash',   name:'Chettinad Lime',       sub:'Egg-white Lime Plaster',   c:'#EDE4D0',  g:G.limewash_cream,      region:'chettinad',cat:'plaster',  brand:'Karaikudi Craft',       cost:'₹50–70/sqft',  lead:'4–6 weeks', desc:'Traditional Chettinad lime plaster mixed with egg white (nalungu kaavi). Extremely smooth, lustrous finish. Cool to touch.' },
+  { id:'kalamkari',       name:'Kalamkari Panel',      sub:'Hand Block Print on Wall', c:'#8A4010',  g:G.geru_ochre,          region:'south',   cat:'artisan',   brand:'Machilipatnam Craft',   cost:'₹120–200/sqft',lead:'8–12 weeks', desc:'Hand-block printed Kalamkari cotton panels applied to walls. Natural vegetable dyes. Each panel a unique artwork.' },
+  // CONTEMPORARY INDIAN
+  { id:'warli_panel',     name:'Warli Art Panel',      sub:'Tribal Mural on Plaster',  c:'#E8DDD0',  g:G.warli_white,         region:'contemporary',cat:'artisan',brand:'Maharashtra Artisan',  cost:'₹80–150/sqft', lead:'6–8 weeks', desc:'Traditional Warli tribal art painted on grey or cream plaster. White geometric motifs. Storytelling scenes of daily life.' },
+  { id:'madhubani_wall',  name:'Madhubani Mural Wall', sub:'Mithila Art Hand-painted',  c:'#F0E8D8',  g:G.limewash_cream,      region:'north',   cat:'artisan',   brand:'Bihar Artisan Guild',   cost:'₹100–180/sqft',lead:'8–12 weeks', desc:'Traditional Madhubani (Mithila) art painted on textured plaster. Natural mineral pigments. Geometric borders and nature motifs.' },
+  { id:'ikat_panel',      name:'Ikat Print Panel',     sub:'Woven Textile Panel',      c:'#2A5090',  g:G.ikat_pattern,        region:'contemporary',cat:'textile',brand:'Pochampally Weavers', cost:'₹90–160/sqft', lead:'6–8 weeks', desc:'Pochampally Ikat woven textile panels mounted on wall. Geometric double-ikat patterns. Andhra Pradesh craft tradition.' },
+  { id:'marble_inlay_w',  name:'Marble Inlay Panel',   sub:'Agra Pietra Dura',         c:'#F8F4EE',  g:G.marble_inlay,        region:'north',   cat:'stone',     brand:'Agra Marble Craft',     cost:'₹350–600/sqft',lead:'12–16 weeks', desc:'Agra pietra dura marble inlay in floral patterns. Precious and semi-precious stone inlaid in white Makrana marble.' },
+];
+
+const FLOOR_FINS = [
+  { id:'athangudi_teal',  name:'Athangudi Teal',       sub:'Handmade Cement Tile',     c:'#1E6060',  g:G.athangudi_teal,  region:'chettinad', cost:'₹90–130/sqft', lead:'3–4 weeks', desc:'Handmade hydraulic cement tiles pressed in Athangudi, Tamil Nadu. Teal + gold geometric pattern. Takes 21 days to cure naturally.' },
+  { id:'athangudi_red',   name:'Athangudi Terracotta', sub:'Handmade Cement Tile',     c:'#C42810',  g:G.athangudi_red,   region:'chettinad', cost:'₹90–130/sqft', lead:'3–4 weeks', desc:'Classic terracotta + gold Athangudi tile. The most traditional Chettinad colour combination.' },
+  { id:'athangudi_green', name:'Athangudi Forest',     sub:'Handmade Cement Tile',     c:'#2A6030',  g:G.athangudi_green, region:'chettinad', cost:'₹90–130/sqft', lead:'3–4 weeks', desc:'Deep forest green + gold Athangudi tile. Contemporary interpretation of the traditional Chettinad pattern.' },
+  { id:'kota_blue',       name:'Kota Blue Stone',      sub:'Natural Kota Stone, Honed',c:'#4A6E8A',  g:G.kota_blue,       region:'north',     cost:'₹55–80/sqft',  lead:'2–3 weeks', desc:'Blue-grey kota stone from Rajasthan\'s Kota district. Honed finish. Natural fossil markings. Stays cool underfoot.' },
+  { id:'kota_green',      name:'Kota Green Stone',     sub:'Natural Kota Stone',       c:'#3A6050',  g:G.kota_green,      region:'north',     cost:'₹55–80/sqft',  lead:'2–3 weeks', desc:'Green variety of kota stone. Warmer than the blue variant. Popular in verandahs and transitional spaces.' },
+  { id:'kadappa',         name:'Kadappa Black',        sub:'Polished Black Limestone',  c:'#1C1A18',  g:G.kadappa_black,   region:'south',     cost:'₹65–90/sqft',  lead:'2–3 weeks', desc:'Dense black limestone from Kadappa, Andhra Pradesh. Mirror-polished finish. Extremely hard. Cool in hot climate.' },
+  { id:'red_oxide',       name:'Red Oxide Floor',      sub:'Traditional Kerala Floor',  c:'#8A2C10',  g:G.red_oxide,       region:'kerala',    cost:'₹40–65/sqft',  lead:'2–3 weeks', desc:'Traditional Kerala red oxide flooring. Made from iron oxide pigment mixed in cement. Polished with wax. Cool, durable, low-maintenance.' },
+  { id:'makrana_floor',   name:'Makrana White Marble', sub:'Premium White Marble',      c:'#F8F4EE',  g:G.makrana_floor,   region:'north',     cost:'₹120–200/sqft',lead:'3–4 weeks', desc:'Pure white marble from Makrana, Rajasthan — the same quarry as the Taj Mahal. Honed or polished finish.' },
+  { id:'pietra_dura',     name:'Pietra Dura Inlay',    sub:'Marble Inlay Art Floor',    c:'#F8F4EE',  g:G.pietra_dura,     region:'north',     cost:'₹400–800/sqft',lead:'12–16 weeks', desc:'Agra-style marble inlay flooring. Multi-coloured stone tesserae set in white Makrana marble. A luxury statement floor.' },
+  { id:'mosaic_cement',   name:'Mosaic Cement Tile',   sub:'Vintage Pattern Tile',      c:'#D8C8A8',  g:G.mosaic_cement,   region:'contemporary',cost:'₹70–100/sqft',lead:'2–3 weeks', desc:'1920s-inspired hydraulic cement mosaic tiles. Popular in heritage bungalow revival projects. Each tile hand-pressed.' },
+  { id:'shahabad',        name:'Shahabad Grey Stone',  sub:'Natural Limestone',         c:'#8A8480',  g:G.shahabad_grey,   region:'south',     cost:'₹45–65/sqft',  lead:'2–3 weeks', desc:'Grey limestone from Shahabad, Karnataka. The most common traditional flooring in old Bangalore bungalows.' },
+  { id:'rangoli_marble',  name:'Rangoli Marble Inlay', sub:'Rajasthani Inlay Pattern',  c:'#F8F4EE',  g:G.rangoli_marble,  region:'north',     cost:'₹300–500/sqft',lead:'8–12 weeks', desc:'Circular rangoli pattern in polychrome marble inlay. A centrepiece floor element for entrance halls and pooja rooms.' },
+  { id:'teak_floor',      name:'Kerala Teak Floor',    sub:'Solid Teak Hardwood',       c:'#7A4A2A',  g:G.teak_floor,      region:'kerala',    cost:'₹280–380/sqft',lead:'4–6 weeks', desc:'Solid teak plank flooring in the Kerala tradition. Wide 120mm planks. Oiled finish. Develops warm golden patina with age.' },
+];
+
+const CEIL_FINS = [
+  { id:'wooden_beam',  name:'Teak Beam Ceiling',   sub:'Exposed Timber Beams',  c:'#8A5030',  g:G.wooden_beam,    region:'kerala',   cost:'₹180–280/sqft',lead:'6–8 weeks', desc:'Exposed teak timber beams in Kerala nalukettu tradition. Square coffers. Oiled finish.' },
+  { id:'lime_white',   name:'Lime White',           sub:'Smooth Lime Plaster',   c:'#F8F5ED',  g:G.lime_white,     region:'south',    cost:'₹28–40/sqft',  lead:'2–3 weeks', desc:'Traditional slaked lime ceiling plaster. Brilliant white. Anti-fungal. The authentic South Indian ceiling.' },
+  { id:'white_skim',   name:'Pure White',           sub:'Smooth Plaster Skim',   c:'#F4F2EC',  g:G.white_skim,     region:'contemporary',cost:'₹18–22/sqft',lead:'1 week',   desc:'Clean white skim plaster. Neutral backdrop for any Indian interior style.' },
+  { id:'tanjore_gold', name:'Tanjore Gold Ceiling', sub:'Gilt Metallic Finish',   c:'#C8900C',  g:G.tanjore_gold,  region:'south',    cost:'₹60–90/sqft',  lead:'3–4 weeks', desc:'Gold leaf ceiling treatment inspired by Tanjore temple interiors. Applied over smooth plaster with 22K gold leaf.' },
+  { id:'sky_blue',     name:'Kerala Sky Blue',      sub:'Traditional Blue Wash',  c:'#C8D8E8',  g:G.sky_blue_wash, region:'kerala',   cost:'₹20–28/sqft',  lead:'1 week',   desc:'Traditional pale sky blue ceiling common in Kerala homes. Keeps the interior feeling cool and airy.' },
+  { id:'terracotta_c', name:'Terracotta Ceiling',   sub:'Warm Earth Tone',        c:'#C87040',  g:G.terracotta_ceil,region:'chettinad',cost:'₹22–30/sqft',lead:'1 week',   desc:'Warm terracotta ceiling wash. Creates a warm, intimate atmosphere. Popular in dining rooms and pooja rooms.' },
+];
+
+// ═══════════════════════════════════════════════════
+// ROOM-SPECIFIC DESIGN OPTIONS
+// ═══════════════════════════════════════════════════
+const ROOM_DESIGNS = {
+  living: {
+    name:'Living Room', ico:'🛋',
+    variants:[
+      { id:'rl1', name:'Rajasthani Haveli Lounge',  sub:'Jodhpur Blue Wall · Sandstone Niche · Jali Screen',  region:'north',    regionTag:'Rajasthani',  emoji:'🏰',
+        thumb:G.jaipur_blue, floor:G.mosaic_cement, wall:G.jaipur_blue, ceiling:G.lime_white,
+        desc:'Feature wall in deep Jaipur blue with a hand-carved Jodhpur sandstone arched niche. Sheesham wood jali screen divides the space. Brass pendant lights.',
+        materials:['Jaipur Blue Lime Paint','Jodhpur Sandstone Niche','Sheesham Jali Screen','Hand-knotted Rajasthani Dhurrie'],
+        furniture:['🛋','🏺','🎨','🪔','🧿'],
+        hotspots:[{t:'35%',l:'50%',ey:'Feature Wall',title:'Arched Sandstone Niche',body:'Hand-carved Jodhpur sandstone niche with Jali screen insert. Houses brass lamps and blue pottery.',tag:'Heritage Craft'}]
+      },
+      { id:'rl2', name:'Kerala Tharavaad Living',   sub:'Teak Panels · Red Oxide · Brass Lamps',            region:'kerala',   regionTag:'Kerala',      emoji:'🌴',
+        thumb:G.kerala_teak, floor:G.red_oxide, wall:G.kerala_teak, ceiling:G.wooden_beam,
+        desc:'Living room inspired by Kerala tharavaad ancestral homes. Full-height teak panelling, polished red oxide floors, brass hanging lamps (thookkuvilaakku), and antique Kerala furniture.',
+        materials:['Full-height Teak Panelling','Red Oxide Floor','Brass Hanging Lamps','Rosewood Furniture'],
+        furniture:['🛋','🪔','🌿','🏺','🚪'],
+        hotspots:[{t:'50%',l:'50%',ey:'Wall Feature',title:'Teak Wood Nidum',body:'Traditional Kerala wooden shrine alcove (nidum) integrated into the teak panelling. Houses a brass lamp.',tag:'Kerala Craft'}]
+      },
+      { id:'rl3', name:'Chettinad Grand Salon',     sub:'Athangudi Tiles · Lime Plaster · Teak Pillars',     region:'chettinad',regionTag:'Chettinad',   emoji:'🏛️',
+        thumb:G.limewash_cream, floor:G.athangudi_teal, wall:G.limewash_cream, ceiling:G.lime_white,
+        desc:'Grand Chettinad living room with smooth lime plaster walls, vibrant Athangudi tile floor, Burma teak pillars and antique Chettinad furniture with Belgian mirror backs.',
+        materials:['Smooth Lime Plaster','Athangudi Teal Tiles','Burma Teak Pillars','Belgian Mirror Panels'],
+        furniture:['🛋','🏺','🚪','💡','🌺'],
+        hotspots:[{t:'62%',l:'50%',ey:'Floor',title:'Athangudi Handmade Tiles',body:'21-day sun-cured hydraulic cement tiles in traditional Chettinad teal-gold pattern.',tag:'Athangudi Craft'}]
+      },
+      { id:'rl4', name:'Mughal Drawing Room',       sub:'Indigo · Pietra Dura · Gold Leaf',                  region:'mughal',   regionTag:'Mughal',      emoji:'🕌',
+        thumb:G.mughal_deep_blue, floor:G.pietra_dura, wall:G.mughal_deep_blue, ceiling:G.tanjore_gold,
+        desc:'Opulent Mughal-inspired drawing room. Deep indigo feature wall with gold leaf border, pietra dura marble floor, ornate jali screens and silk cushions in jewel tones.',
+        materials:['Venetian Plaster Indigo','Gold Leaf Border','Pietra Dura Marble','Silk Cushions'],
+        furniture:['🛋','💎','🏺','🌙','🪞'],
+        hotspots:[{t:'30%',l:'50%',ey:'Ceiling',title:'Gold Leaf Medallion',body:'CNC-carved plaster medallion with 22K gold leaf. 1200mm diameter. Lights on recessed halo.',tag:'Gold Leaf'}]
+      },
+      { id:'rl5', name:'Contemporary Indian Living',sub:'Warli Mural · Kota Stone · Linen Sofa',              region:'contemporary',regionTag:'Modern Indian',emoji:'🖼',
+        thumb:G.warli_white, floor:G.kota_blue, wall:G.warli_white, ceiling:G.white_skim,
+        desc:'Clean contemporary Indian living room. White Warli mural wall, smooth kota stone floor, natural linen sofa, brass Dhokra art pieces and block print cushions.',
+        materials:['Warli Mural on Plaster','Kota Blue Stone','Linen Upholstery','Dhokra Brass Art'],
+        furniture:['🛋','🖼','🌿','💡','🟫'],
+        hotspots:[{t:'40%',l:'50%',ey:'Feature Wall',title:'Warli Tribal Mural',body:'Hand-painted Warli art by Maharashtra artisan. White geometric motifs on grey plaster. 8-week lead time.',tag:'Tribal Art'}]
+      },
+      { id:'rl6', name:'Deccan Modern Living',      sub:'Lime Wash · Kadappa · Kalamkari',                   region:'south',    regionTag:'Deccan',      emoji:'🏯',
+        thumb:G.limewash_white, floor:G.kadappa_black, wall:G.limewash_white, ceiling:G.white_skim,
+        desc:'Sophisticated Deccan modern living. Pure white lime wash walls, polished Kadappa black stone floor, Kalamkari art panel as feature and Bidriware accents.',
+        materials:['Pure Lime Wash','Kadappa Black Stone','Kalamkari Art Panel','Bidriware Accessories'],
+        furniture:['🛋','🖼','🏺','🌿','🪔'],
+        hotspots:[{t:'35%',l:'50%',ey:'Feature',title:'Kalamkari Art Panel',body:'Oversized Kalamkari block-print cotton panel. Natural vegetable dyes. From Machilipatnam artisans.',tag:'Kalamkari'}]
+      },
+    ]
+  },
+  kitchen: {
+    name:'Kitchen', ico:'🍳',
+    variants:[
+      { id:'rk1', name:'North Indian Modular Kitchen',sub:'Warm Tones · Brass Fittings · Tandoor Niche',      region:'north',    regionTag:'North Indian', emoji:'🪔',
+        thumb:G.rajasthan_sandstone, floor:G.kota_blue, wall:G.rajasthan_sandstone, ceiling:G.white_skim,
+        desc:'Warm North Indian kitchen aesthetic. Sandstone feature wall, brass hardware, tandoor niche with terracotta tiles, hand-painted blue pottery tile backsplash and spice racks in carved wood.',
+        materials:['Sandstone Backsplash','Brass Hardware','Blue Pottery Tiles','Kota Stone Floor'],
+        furniture:['🗄','🔥','🏺','💡','🌶'],
+        hotspots:[{t:'32%',l:'50%',ey:'Backsplash',title:'Blue Pottery Tile Backsplash',body:'Handmade Jaipur blue pottery tiles. Each tile unique. Cobalt blue floral motifs on white ground.',tag:'Jaipur Craft'}]
+      },
+      { id:'rk2', name:'Kerala Wet Kitchen',         sub:'Mangalorean Tiles · Stone Slab · Steel Storage',   region:'kerala',   regionTag:'Kerala',      emoji:'🌴',
+        thumb:G.red_oxide, floor:G.red_oxide, wall:G.limewash_cream, ceiling:G.lime_white,
+        desc:'Traditional Kerala wet kitchen with Mangalorean terracotta tiles on counter, red oxide floor, stone grinding slab, open steel shelves and a separate wet area for fish and meat preparation.',
+        materials:['Mangalorean Terracotta Tiles','Red Oxide Floor','Stone Slab Counter','Steel Open Shelves'],
+        furniture:['🗄','🧱','🥥','💡','🌿'],
+        hotspots:[{t:'35%',l:'50%',ey:'Counter',title:'Granite Stone Slab Counter',body:'Single-piece black granite counter. Used in Kerala for grinding coconut, making pastes. Extremely durable.',tag:'Traditional Function'}]
+      },
+      { id:'rk3', name:'Contemporary Indian Kitchen',sub:'Matte Finish · Terracotta Backsplash · Copper Tap', region:'contemporary',regionTag:'Modern Indian',emoji:'✨',
+        thumb:G.limewash_cream, floor:G.shahabad, wall:G.limewash_cream, ceiling:G.white_skim,
+        desc:'Contemporary Indian kitchen blending modern modulars with traditional materials. Matte ivory lacquer cabinets, terracotta zellige-inspired backsplash, copper tap and stone counter.',
+        materials:['Ivory Matte Lacquer Cabinets','Terracotta Tile Backsplash','Copper Fixtures','Shahabad Stone Floor'],
+        furniture:['🗄','🔥','🧊','💡','🌱'],
+        hotspots:[{t:'35%',l:'50%',ey:'Cabinets',title:'Matte Ivory Lacquer',body:'High-quality PU matte lacquer finish on MDF substrate. Brand: Greenlam / Merino HDF. Soft-close Hettich hinges.',tag:'Premium Laminate'}]
+      },
+      { id:'rk4', name:'Chettinad Kitchen',          sub:'Athangudi Floor · Stone Counter · Teak Cabinets',  region:'chettinad',regionTag:'Chettinad',   emoji:'🏛️',
+        thumb:G.athangudi_red, floor:G.athangudi_red, wall:G.limewash_white, ceiling:G.lime_white,
+        desc:'Chettinad-inspired kitchen with handmade Athangudi tile floor, smooth lime plaster walls, raw stone counter slab, and Burma teak upper cabinets with traditional brass fittings.',
+        materials:['Athangudi Terracotta Tiles','Lime Plaster Walls','Stone Slab Counter','Burma Teak Cabinets'],
+        furniture:['🗄','🔥','🏺','🌺','🌿'],
+        hotspots:[{t:'62%',l:'50%',ey:'Floor',title:'Athangudi Floor Tiles',body:'Hand-pressed hydraulic cement tiles in Athangudi. Terracotta and gold pattern. Requires sealing before use.',tag:'Athangudi Tiles'}]
+      },
+      { id:'rk5', name:'Mughal Palace Kitchen',      sub:'Marble Counter · Brass Inlay · Deep Tone Cabinets',region:'mughal',   regionTag:'Mughal',      emoji:'🕌',
+        thumb:G.mughal_green, floor:G.makrana_floor, wall:G.mughal_green, ceiling:G.tanjore_gold,
+        desc:'Luxurious Mughal-inspired kitchen. Deep emerald green lacquered cabinets, Makrana marble counter, brass inlay hardware, gold pendant lights and a hand-carved marble backsplash.',
+        materials:['Emerald Green Lacquer','Makrana Marble Counter','Brass Inlay Hardware','Gold Pendant Lights'],
+        furniture:['🗄','🔥','🧊','💎','💡'],
+        hotspots:[{t:'35%',l:'50%',ey:'Counter',title:'Makrana White Marble',body:'Pure white marble from Makrana, Rajasthan. Honed finish to prevent staining. Brass vessel sink.',tag:'Makrana Marble'}]
+      },
+      { id:'rk6', name:'Bangalore Modern Kitchen',   sub:'Acrylic High Gloss · Quartz · LED Profile',        region:'south',    regionTag:'Deccan',      emoji:'🏯',
+        thumb:G.delhi_grey, floor:G.kadappa_black, wall:G.limewash_white, ceiling:G.white_skim,
+        desc:'Contemporary Bangalore-style modular kitchen. High-gloss acrylic panel shutters, quartz counter, Kadappa stone floor, profile LED lighting under cabinets.',
+        materials:['High-Gloss Acrylic Panels','Quartz Stone Counter','Kadappa Stone Floor','LED Profile Lighting'],
+        furniture:['🗄','🔥','🧊','💡','🌱'],
+        hotspots:[{t:'35%',l:'50%',ey:'Shutters',title:'Acrylic High-Gloss Panels',body:'Italian-grade acrylic panels on MDF. Scratch-resistant, UV-stable. Brand: Greenlam AcrylX or Merino Acrylic. Popular in HSR, Whitefield, JP Nagar.',tag:'Acrylic Finish'}]
+      },
+    ]
+  },
+  master: {
+    name:'Master Bedroom', ico:'🛏',
+    variants:[
+      { id:'rm1', name:'Shahi Rajasthani Bedroom',  sub:'Canopy Bed · Jaipur Blue · Jali Screen',            region:'north',    regionTag:'Rajasthani',  emoji:'🏰',
+        thumb:G.jaipur_blue, floor:G.mosaic_cement, wall:G.jaipur_blue, ceiling:G.white_skim,
+        desc:'Opulent Rajasthani royal bedroom. Deep Jaipur blue feature wall, hand-carved canopy bed (mandap bed), jali screen headboard, hand-knotted dhurrie and brass reading lamps.',
+        materials:['Jaipur Blue Feature Wall','Hand-carved Canopy Bed','Sheesham Jali Headboard','Hand-knotted Dhurrie'],
+        furniture:['🛏','🪞','🪔','🧿','🌸'],
+        hotspots:[{t:'45%',l:'50%',ey:'Headboard',title:'Sheesham Jali Screen',body:'Full-height sheesham wood jali screen as headboard. Traditional Rajasthani geometric pattern. Backlit for ambience.',tag:'Sheesham Wood'}]
+      },
+      { id:'rm2', name:'Kerala Bridal Bedroom',     sub:'Teak Panels · Banana Green · Brass Lamps',          region:'kerala',   regionTag:'Kerala',      emoji:'🌴',
+        thumb:G.kerala_teak, floor:G.teak_floor, wall:G.kerala_teak, ceiling:G.wooden_beam,
+        desc:'Traditional Kerala wedding bedroom aesthetic. Teak wood walls and ceiling, Kerala wood-carved four-poster bed, polished teak floors, brass hanging lamps and hand-woven Kasavu saree curtains.',
+        materials:['Teak Wood Panelling','Teak Plank Floor','Wood-carved Four-poster Bed','Brass Hanging Lamps'],
+        furniture:['🛏','🪞','🪔','🌺','🌴'],
+        hotspots:[{t:'45%',l:'50%',ey:'Furniture',title:'Kerala Carved Four-poster Bed',body:'Hand-carved teak four-poster bed with traditional Kerala floral motifs. Ashtamangalam (8 auspicious symbols) carved on bedposts.',tag:'Heritage Furniture'}]
+      },
+      { id:'rm3', name:'Chettinad Bridal Chamber',  sub:'Lime Walls · Athangudi · Antique Teak Bed',         region:'chettinad',regionTag:'Chettinad',   emoji:'🏛️',
+        thumb:G.limewash_cream, floor:G.athangudi_green, wall:G.limewash_cream, ceiling:G.lime_white,
+        desc:'Chettinad bridal room. Smooth lime plaster walls, Athangudi forest-green tile floor, antique Chettinad teak bed with intricately carved headboard, and traditional brass dressing mirror.',
+        materials:['Smooth Lime Plaster','Athangudi Forest Green Tiles','Antique Teak Bed','Brass Dressing Mirror'],
+        furniture:['🛏','🪞','🌺','🪔','🌸'],
+        hotspots:[{t:'62%',l:'50%',ey:'Floor',title:'Athangudi Forest Green',body:'Handmade Athangudi tiles in forest green and gold. Chettinad traditional floor for master bedrooms.',tag:'Athangudi Tiles'}]
+      },
+      { id:'rm4', name:'Mughal Suite Bedroom',      sub:'Velvet Walls · Pietra Dura · Gilt Canopy',          region:'mughal',   regionTag:'Mughal',      emoji:'🕌',
+        thumb:G.mughal_deep_blue, floor:G.makrana_floor, wall:G.mughal_deep_blue, ceiling:G.tanjore_gold,
+        desc:'A luxurious Mughal suite. Deep indigo velvet-textured walls, Makrana marble floor, gilt canopy bed, silk curtains in jewel tones and antique brass Mughal lamps.',
+        materials:['Velvet-textured Indigo Wall','Makrana Marble Floor','Gilt Canopy Bed','Silk Curtains'],
+        furniture:['🛏','💎','🌙','🪞','🌺'],
+        hotspots:[{t:'30%',l:'50%',ey:'Ceiling',title:'Gilt Canopy & Ceiling Rose',body:'Hand-crafted plaster canopy ceiling with 22K gold leaf medallion. Inspired by Mughal palace bedchambers.',tag:'Gold Leaf Plaster'}]
+      },
+      { id:'rm5', name:'Kids Bedroom — Warli World', sub:'Warli Mural · Channapatna Toy Palette · Cane Bed',  region:'contemporary',regionTag:'Indian Kids',emoji:'🎨',
+        thumb:G.warli_white, floor:G.kota_blue, wall:G.warli_white, ceiling:G.sky_blue,
+        desc:'A children\'s bedroom celebrating Indian folk art. Warli tribal mural covering one full wall, Channapatna toy colour palette (marigold + teal + red), natural cane bed and cotton block-print curtains.',
+        materials:['Warli Mural Wall','Channapatna Colour Palette','Natural Cane Furniture','Block Print Curtains'],
+        furniture:['🛏','🎨','🧸','📚','🌈'],
+        hotspots:[{t:'40%',l:'50%',ey:'Mural',title:'Warli Tribal Art Wall',body:'Full-height Warli mural by Palghar artisan. Story of village life. White on grey plaster. Child-safe mineral pigments.',tag:'Kids Warli Mural'}]
+      },
+      { id:'rm6', name:'Kids Bedroom — Gond Art',   sub:'Gond Mural · Earthy Tones · Natural Wood',          region:'contemporary',regionTag:'Indian Kids',emoji:'🌿',
+        thumb:G.limewash_cream, floor:G.mosaic_cement, wall:G.limewash_cream, ceiling:G.sky_blue,
+        desc:'A nature-themed kids\' bedroom inspired by Gond tribal art. A tree-of-life Gond mural dominates one wall, natural wood low bed, cotton Kalamkari quilts and earthy terracotta accents.',
+        materials:['Gond Art Tree-of-Life Mural','Lime Plaster Base','Natural Wood Low Bed','Cotton Kalamkari Quilt'],
+        furniture:['🛏','🌳','🐘','🌈','📚'],
+        hotspots:[{t:'40%',l:'50%',ey:'Mural',title:'Gond Tree of Life',body:'Gond tribal art mural by Madhya Pradesh artisan. Intricate tree-of-life in earth tones. Non-toxic natural pigments.',tag:'Gond Art'}]
+      },
+    ]
+  },
+  pooja: {
+    name:'Pooja Room', ico:'🪔',
+    variants:[
+      { id:'rp1', name:'Tamil Brahmin Pooja Room',  sub:'Kolam Floor · Tanjore Painting · Teak Mandap',      region:'south',    regionTag:'Tamil Nadu',  emoji:'🛕',
+        thumb:G.limewash_white, floor:G.rangoli_marble, wall:G.limewash_white, ceiling:G.lime_white,
+        desc:'Traditional Tamil Brahmin pooja room. Smooth lime plaster walls, hand-laid marble kolam floor pattern, Burma teak mandap with traditional carvings, Tanjore painting as backpiece.',
+        materials:['Smooth Lime Plaster','Marble Kolam Inlay Floor','Burma Teak Mandap','Tanjore Gold Painting'],
+        furniture:['🛕','🪔','🔔','🌺','🕯'],
+        hotspots:[{t:'35%',l:'50%',ey:'Mandap',title:'Burma Teak Mandap',body:'Hand-carved Burma teak mandap with Dravidian temple motifs. Gold leaf finish on carved pillars.',tag:'Teak Woodcraft'}]
+      },
+      { id:'rp2', name:'Kerala Temple Pooja Room',  sub:'Teak Wood · Oil Lamp Niches · Laterite Stone',      region:'kerala',   regionTag:'Kerala',      emoji:'🌴',
+        thumb:G.kerala_teak, floor:G.red_oxide, wall:G.kerala_teak, ceiling:G.wooden_beam,
+        desc:'Kerala traditional pooja room modelled on temple architecture. Teak wood walls with carved niches for oil lamps (nilavilakku), red oxide floor with white kolam, teak beam ceiling.',
+        materials:['Teak Carved Niches','Red Oxide + Kolam Floor','Teak Beam Ceiling','Brass Oil Lamps'],
+        furniture:['🛕','🪔','🔔','🌺','🕯'],
+        hotspots:[{t:'45%',l:'25%',ey:'Niche',title:'Lamp Niche (Nilavilakku)',body:'Traditional Kerala oil lamp niche carved into teak panelling. Houses a nilavilakku brass lamp. Hand-carved floral surround.',tag:'Kerala Craft'}]
+      },
+      { id:'rp3', name:'North Indian Marble Mandir',sub:'Makrana Marble · Gold Leaf · Red + Gold Palette',   region:'north',    regionTag:'North Indian', emoji:'🕌',
+        thumb:G.marble_inlay, floor:G.makrana_floor, wall:G.marble_inlay, ceiling:G.tanjore_gold,
+        desc:'Grand North Indian marble mandir. Pure Makrana white marble mandap with gold leaf detailing, marble inlay floor in rangoli pattern, jewel-toned silk backdrops and gold-plated deity frames.',
+        materials:['Makrana Marble Mandap','Gold Leaf Detailing','Marble Inlay Rangoli Floor','Tanjore Gold Ceiling'],
+        furniture:['🛕','🪔','🔔','🌸','💎'],
+        hotspots:[{t:'35%',l:'50%',ey:'Mandap',title:'Makrana Marble Mandap',body:'Hand-carved Makrana white marble mandap. Same stone as Taj Mahal. Gold leaf highlights on floral carvings.',tag:'Makrana Marble'}]
+      },
+      { id:'rp4', name:'Modern Minimalist Pooja',   sub:'White Marble · Recessed LED · Clean Lines',         region:'contemporary',regionTag:'Modern Indian',emoji:'✨',
+        thumb:G.limewash_white, floor:G.makrana_floor, wall:G.limewash_white, ceiling:G.white_skim,
+        desc:'Contemporary minimalist pooja room. White marble mandap, recessed warm LED lighting creating a divine glow, clean-lined teak storage, simple brass deity holders.',
+        materials:['White Marble Mandap','Recessed 2700K LED','Teak Veneer Storage','Simple Brass Fittings'],
+        furniture:['🛕','🪔','🌸','💡','🕯'],
+        hotspots:[{t:'35%',l:'50%',ey:'Lighting',title:'Warm LED Halo',body:'Recessed 2700K warm LED strip creates a divine halo behind the mandap. Dimmable control. Creates a meditative atmosphere.',tag:'Sacred Lighting'}]
+      },
+    ]
+  },
+};
+
+// ═══════════════════════════════════════════════════
+// PALETTES DATA
+// ═══════════════════════════════════════════════════
+const PALETTES = [
+  { id:'jaipur', name:'Jaipur Royal', region:'Rajasthani', desc:'Indigo, sandstone gold, Jaipur pink, ivory', cols:['#1E4A8C','#C89A60','#CC7A90','#EDE4D0'] },
+  { id:'kerala', name:'Kerala Monsoon',region:'Kerala',    desc:'Teak brown, banana green, coconut ivory, brass gold', cols:['#7A4A2A','#2E5818','#F2EDE3','#C8920C'] },
+  { id:'mughal', name:'Mughal Jewels', region:'Mughal',    desc:'Midnight blue, emerald, ruby, 24K gold', cols:['#162244','#0E3020','#8A1818','#C8920C'] },
+  { id:'chet',   name:'Chettinad Heritage',region:'Chettinad',desc:'Lime white, Athangudi teal, teak brown, gold ochre', cols:['#F2EDE3','#1E6060','#7A4A2A','#C8900C'] },
+  { id:'saffron',name:'Saffron & Indigo',region:'Pan-Indian',desc:'Saffron, indigo, ivory, turmeric gold', cols:['#E8841A','#2D2654','#F5EFE0','#D4900A'] },
+  { id:'deccan', name:'Deccan Earth',   region:'Deccan',   desc:'Kadappa black, lime white, Kalamkari red, ochre', cols:['#1C1A18','#F2EDE3','#8A2010','#D4900A'] },
+  { id:'rajput', name:'Rajput Warrior', region:'Rajasthani',desc:'Geru red, ivory, midnight blue, brass', cols:['#B84820','#EDE4D0','#162244','#C8920C'] },
+  { id:'contemp',name:'Contemporary Indian',region:'Modern India',desc:'Warm white, kota blue, saffron accent, natural teak', cols:['#F8F4EE','#4A6E8A','#E8841A','#7A4A2A'] },
+];
+
+// ═══════════════════════════════════════════════════
+// MATERIALS ENCYCLOPEDIA DATA
+// ═══════════════════════════════════════════════════
+const MAT_CATS = [
+  { id:'stone',   label:'Natural Stone' },
+  { id:'wood',    label:'Wood & Timber' },
+  { id:'tile',    label:'Tiles & Mosaic' },
+  { id:'plaster', label:'Plasters & Lime' },
+  { id:'lam',     label:'Laminates & Acrylics' },
+  { id:'metallic',label:'Metal Finishes' },
+  { id:'artisan', label:'Artisan & Craft' },
+];
+const MATERIALS = [
+  // STONE
+  { cat:'stone', name:'Makrana White Marble',    sub:'Rajasthan',      c:'#F8F4EE', g:G.makrana_floor,  badge:'north',   desc:'Quarried in Makrana, Rajasthan — the same marble used in the Taj Mahal. Pure white with fine grey veining. Honed or polished.',   tags:['₹120–200/sqft','Pooja · Flooring · Walls'] },
+  { cat:'stone', name:'Kota Blue Stone',         sub:'Rajasthan',      c:'#4A6E8A', g:G.kota_blue,      badge:'north',   desc:'Natural bluish-grey limestone from Kota. Honed or polished. Stays cool. Natural fossil markings add character.',                   tags:['₹55–80/sqft','Flooring · Verandah'] },
+  { cat:'stone', name:'Kadappa Black Stone',     sub:'Andhra Pradesh', c:'#1C1A18', g:G.kadappa_black,  badge:'south',   desc:'Dense black limestone from Kadappa, AP. Mirror-polished. Extremely hard. Classic Deccan floor stone.',                          tags:['₹65–90/sqft','Flooring · Feature Wall'] },
+  { cat:'stone', name:'Red Laterite Stone',      sub:'Kerala',         c:'#8A4020', g:G.red_oxide,      badge:'south',   desc:'Soft laterite (chuvanna kallų) used in Kerala construction. Warm terracotta colour. Used for walls and garden paving.',          tags:['₹40–60/sqft','Walls · Exteriors'] },
+  { cat:'stone', name:'Jodhpur Sandstone',       sub:'Rajasthan',      c:'#C89A60', g:G.rajasthan_sandstone, badge:'north',desc:'Warm ochre sandstone from Jodhpur. Hand-chisel carved. Used for cladding, niches, jaali screens.',                         tags:['₹180–250/sqft','Cladding · Niches'] },
+  { cat:'stone', name:'Shahabad Grey Limestone', sub:'Karnataka',      c:'#8A8480', g:G.shahabad_grey,  badge:'south',   desc:'Grey limestone from Shahabad, Karnataka. The traditional floor stone of Bangalore bungalows. Honed finish.',                    tags:['₹45–65/sqft','Flooring · Verandah'] },
+  // WOOD
+  { cat:'wood', name:'Kerala Teak (Tectona)',    sub:'Kerala',         c:'#7A4A2A', g:G.kerala_teak,    badge:'south',   desc:'High-quality teak from Kerala forests. Used for full-height wall panelling, ceiling beams, furniture. Develops rich patina.',     tags:['₹220–320/sqft','Walls · Ceiling · Furniture'] },
+  { cat:'wood', name:'Rosewood (Sheesham)',      sub:'Rajasthan',      c:'#5A2818', g:G.rajasthan_sandstone, badge:'north',desc:'Dense, dark rosewood/sheesham used for jali screens, furniture and decorative elements in North India.',                      tags:['₹180–280/sqft','Jali · Furniture'] },
+  { cat:'wood', name:'Burma Teak',               sub:'Heritage Import', c:'#6A4028', g:G.kerala_teak,   badge:'pan',     desc:'The premium teak of Chettinad mansions. Imported historically via sea. Extremely dense. Resistant to insects and moisture.',    tags:['₹300–450/sqft','Structural · Furniture'] },
+  // TILES
+  { cat:'tile', name:'Athangudi Handmade Tile',  sub:'Tamil Nadu',     c:'#1E6060', g:G.athangudi_teal, badge:'south',   desc:'Hand-pressed hydraulic cement tiles from Athangudi, Tamil Nadu. Sun-cured for 21 days. Geometric patterns in mineral oxide colours.',tags:['₹90–130/sqft','Flooring · Wet Areas'] },
+  { cat:'tile', name:'Jaipur Blue Pottery Tile', sub:'Rajasthan',      c:'#1E4A8C', g:G.jaipur_blue,    badge:'north',   desc:'Handmade Jaipur blue pottery tile. Cobalt blue on white tin-glaze. Not made from clay — uses quartz and glass. Fireproof.',         tags:['₹120–180/sqft','Backsplash · Feature'] },
+  { cat:'tile', name:'Mangalorean Terracotta',   sub:'Karnataka',      c:'#A84820', g:G.geru_ochre,     badge:'south',   desc:'Traditional Mangalorean terracotta tiles (Nalli tiles). Used on roofs and in Kerala/Karnataka kitchens. Deep terracotta red.',    tags:['₹45–65/sqft','Kitchen · Backsplash'] },
+  { cat:'tile', name:'Mosaic Cement Tile',       sub:'Pan-Indian',     c:'#D8C8A8', g:G.mosaic_cement,  badge:'pan',     desc:'Heritage hydraulic mosaic tiles. 1920s Indian bungalow revival. Each tile hand-pressed. Geometric or floral patterns.',            tags:['₹70–100/sqft','Flooring · Bathrooms'] },
+  // PLASTERS
+  { cat:'plaster', name:'Slaked Lime Wash',      sub:'Traditional',    c:'#F2EDE3', g:G.limewash_white, badge:'pan',     desc:'Traditional slaked lime wash applied in 3–5 coats. Breathable, anti-microbial, anti-fungal. The ancestral wall finish of all Indian homes.',tags:['₹28–45/sqft','Walls · Ceilings'] },
+  { cat:'plaster', name:'Geru (Red Ochre) Plaster',sub:'North India',  c:'#B84820', g:G.geru_ochre,     badge:'north',   desc:'Traditional red ochre earth plaster. Used in temples, havelis and village homes across North India. Warm, deeply grounded.',       tags:['₹40–60/sqft','Feature Walls · Temples'] },
+  { cat:'plaster', name:'Chettinad Lime (Nalungu)',sub:'Tamil Nadu',    c:'#EDE4D0', g:G.limewash_cream, badge:'south',   desc:'Egg-white lime plaster of the Chettinad tradition. Smooth, lustrous, cool-to-touch. The hallmark of Karaikudi mansions.',         tags:['₹50–70/sqft','Premium Wall Plaster'] },
+  // LAMINATES & ACRYLICS
+  { cat:'lam', name:'Greenlam Matte Laminate',   sub:'Pan-Indian Brand',c:'#C0B4A4',g:G.limewash_cream, badge:'pan',     desc:'Greenlam Industries matte finish HPL laminate. 0.8mm thick. Available in 300+ shades. Carb2 certified. Most popular in Indian kitchens.',tags:['₹18–32/sqft','Kitchen · Furniture'] },
+  { cat:'lam', name:'Merino Acrylic High Gloss', sub:'Pan-Indian Brand',c:'#E8E4DE',g:null,             badge:'pan',     desc:'Merino Laminates high-gloss acrylic panel. Mirror finish. UV-stable. Available in 200+ colours. Popular in contemporary Indian kitchens.',tags:['₹35–55/sqft','Kitchen · Wardrobe'] },
+  { cat:'lam', name:'Century Teak Veneer',       sub:'Pan-Indian Brand',c:'#9A6040',g:G.teak_floor,     badge:'pan',     desc:'Century Plyboards natural teak veneer. 0.5mm natural wood veneer on MDF substrate. Warm, authentic grain appearance.',             tags:['₹45–70/sqft','Furniture · Walls'] },
+  { cat:'lam', name:'Durian PU Matte Lacquer',   sub:'Pan-Indian Brand',c:'#EDE8DC',g:null,             badge:'pan',     desc:'Durian Furniture\'s PU matte lacquer finish. Factory-sprayed polyurethane. Buttery smooth. Scratch and stain resistant.',          tags:['₹55–85/sqft','Premium Kitchen · Wardrobe'] },
+  { cat:'lam', name:'Lacquered Back-paint Glass',sub:'Contemporary',   c:'#2A5090',g:G.jaipur_blue,     badge:'pan',     desc:'Back-painted glass (lacobel) in custom colours. High-gloss kitchen backsplash. Hygienic, easy-clean, contemporary look.',         tags:['₹80–120/sqft','Backsplash · Wardrobe'] },
+  { cat:'lam', name:'Membrane Press Door',       sub:'Economy Segment',c:'#D8D4CE',g:null,              badge:'pan',     desc:'PVC membrane pressed on MDF base. Routed 3D profile. Budget-friendly kitchen shutters. Popular in Tier 2/3 cities.',           tags:['₹12–22/sqft','Economy Kitchens'] },
+  // METALLIC
+  { cat:'metallic', name:'Brass Sheet Cladding', sub:'Artisan Fabrication',c:'#C8920C',g:G.brass_cladding,badge:'pan',  desc:'Hand-hammered brass panels with embossed motifs. Used in pooja rooms, dining feature walls. Develops patina. Can be lacquered.',  tags:['₹280–400/sqft','Pooja · Dining Feature'] },
+  { cat:'metallic', name:'Copper Cladding',      sub:'Artisan Fabrication',c:'#A84C20',g:G.copper_cladding,badge:'pan', desc:'Patinated copper sheet wall cladding. Develops verdigris with age. Used in contemporary Indian dining rooms and kitchens.',       tags:['₹260–380/sqft','Dining · Kitchen Feature'] },
+  { cat:'metallic', name:'Bidriware Inlay',      sub:'Bidar, Karnataka',c:'#3A3830', g:null,            badge:'south',   desc:'Traditional Bidri craft from Bidar, Karnataka. Zinc alloy inlaid with sterling silver wire. Used as cabinet pulls, niche inserts.', tags:['Custom Pricing','Accents · Hardware'] },
+  // ARTISAN
+  { cat:'artisan', name:'Kalamkari Panel',       sub:'Machilipatnam, AP',c:'#8A4010',g:G.geru_ochre,    badge:'south',   desc:'Hand-block printed cotton Kalamkari panels. Natural vegetable dyes. Tacked to wall or framed. Each piece unique.',            tags:['₹120–200/sqft','Feature Panels · Art'] },
+  { cat:'artisan', name:'Madhubani Mural',       sub:'Bihar / Mithila',  c:'#F0E8D8',g:G.limewash_cream,badge:'north',   desc:'Traditional Mithila painting — Madhubani — on textured plaster. Natural mineral pigments. Geometric borders, nature motifs.',   tags:['₹100–180/sqft','Feature Wall Mural'] },
+  { cat:'artisan', name:'Warli Tribal Mural',    sub:'Palghar, Maharashtra',c:'#E8DDD0',g:G.warli_white,badge:'pan',     desc:'Warli tribal art on plaster. White geometric motifs on grey/cream ground. Storytelling scenes. Child-safe for kids\' bedrooms.',  tags:['₹80–150/sqft','Kids Room · Living'] },
+  { cat:'artisan', name:'Tanjore Painting',      sub:'Thanjavur, TN',    c:'#C8900C',g:G.tanjore_gold,  badge:'south',   desc:'Traditional Tanjore gold-leaf painting. 22K gold foil, precious stones, encaustic. Used as centerpiece in pooja rooms.',         tags:['₹500–5000 per piece','Pooja · Feature'] },
+];
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let curRoom='living', curSurf='wall', curStyle='rajasthani_haveli', curFin=null;
+let rotY=0, tgtY=0, drag=false, lx=0, dhHidden=false;
+const $ = id => document.getElementById(id);
+const qa = (s,r=document) => [...r.querySelectorAll(s)];
+
+function getFinList(s){ return s==='floor' ? FLOOR_FINS : s==='ceiling' ? CEIL_FINS : WALL_FINS; }
+
+// ═══════════════════════════════════════════════════
+// RENDER STYLES CAROUSEL
+// ═══════════════════════════════════════════════════
+function renderStyleCarousel(){
+  const el = $('styleCarousel');
+  el.innerHTML = STYLES.map(s=>`
+    <div class="style-card ${s.id===curStyle?'active':''}" data-id="${s.id}" onclick="selectStyle('${s.id}')">
+      <div class="sc-thumb" style="background:${s.thumb}">
+        <div class="sc-thumb-ico">${s.ico}</div>
+        <div class="sc-region-tag">${s.regionTag}</div>
+        <div class="sc-sel-mark">✓</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-name">${s.name}</div>
+        <div class="sc-desc">${s.desc}</div>
+        <div class="sc-tags">
+          ${s.tags.map(t=>`<span class="sc-tag">${t}</span>`).join('')}
+          ${s.materials.map(m=>`<span class="sc-tag mat">${m}</span>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function selectStyle(id){
+  curStyle = id;
+  qa('.style-card').forEach(c=>c.classList.toggle('active',c.dataset.id===id));
+  const s = STYLES.find(x=>x.id===id);
+  if(!s) return;
+  applyFinish('wall',s.wall); applyFinish('floor',s.floor); applyFinish('ceiling',s.ceiling);
+  renderDots(curSurf);
+  toast(`${s.name} style applied`);
+}
+
+// ═══════════════════════════════════════════════════
+// ROOM LIST
+// ═══════════════════════════════════════════════════
+const ROOMS_LIST = [
+  {id:'living',  name:'Living Room',    ico:'🛋'},
+  {id:'kitchen', name:'Kitchen',        ico:'🍳'},
+  {id:'master',  name:'Master Bedroom', ico:'🛏'},
+  {id:'pooja',   name:'Pooja Room',     ico:'🪔'},
+];
+
+function renderRoomList(){
+  $('rlItems').innerHTML = ROOMS_LIST.map(r=>`
+    <div class="rl-item ${r.id===curRoom?'active':''}" data-id="${r.id}" onclick="selectRoom('${r.id}')">
+      <div class="rl-ico">${r.ico}</div>
+      <div>
+        <div class="rl-name">${r.name}</div>
+        <div class="rl-sub">${Object.keys(ROOM_DESIGNS[r.id]?.variants||{}).length} style options</div>
+      </div>
+    </div>`).join('');
+}
+
+function selectRoom(id){
+  curRoom = id;
+  qa('.rl-item').forEach(x=>x.classList.toggle('active',x.dataset.id===id));
+  const r = ROOMS_LIST.find(x=>x.id===id);
+  if(r) $('rcRoomName').textContent = r.name;
+  // Load first variant's finishes
+  const rd = ROOM_DESIGNS[id];
+  if(rd && rd.variants && rd.variants[0]){
+    const v = rd.variants[0];
+    applyFinish('wall',v.wall);
+    applyFinish('floor',v.floor);
+    applyFinish('ceiling',v.ceiling);
+    // furniture
+    $('ri-furn').innerHTML = (v.furniture||[]).map((e,i)=>`<div class="ri-fi" style="animation-delay:${(i*.4).toFixed(1)}s">${e}</div>`).join('');
+    // hotspots
+    $('ri-hotspots').innerHTML = (v.hotspots||[]).map(h=>`
+      <div class="rhs" style="top:${h.t};left:calc(${h.l} - 16px)" onclick="toggleHS(this,event)">
+        <div class="rhs-ring"></div><div class="rhs-dot"></div>
+        <div class="rhs-popup">
+          <div class="rhs-ey">${h.ey}</div>
+          <div class="rhs-t">${h.title}</div>
+          <div class="rhs-b">${h.body}</div>
+          <div class="rhs-tag">${h.tag}</div>
+        </div>
+      </div>`).join('');
+  }
+  renderDots(curSurf);
+}
+
+// ═══════════════════════════════════════════════════
+// FINISH SYSTEM
+// ═══════════════════════════════════════════════════
+const roomFinishes = { wall:null, floor:null, ceiling:null };
+const finMap = { wall:'wi-back', floor:'ri-floor', ceiling:'ri-ceil' };
+
+function applyFinish(surf, valId){
+  const list = getFinList(surf);
+  const f = list.find(x=>x.id===valId);
+  if(!f) return;
+  const bg = f.g || f.c;
+  const key = surf==='wall' ? 'wall' : surf;
+  roomFinishes[key] = f;
+  if(surf==='wall'){
+    ['ri-back','ri-left','ri-right'].forEach(id=>{ const el=$(id); if(el) el.style.background=bg; });
+  } else if(surf==='floor'){
+    const el=$('ri-floor'); if(el) el.style.background=bg;
+  } else {
+    const el=$('ri-ceil'); if(el) el.style.background=bg;
+  }
+}
+
+function setSurf(s){
+  curSurf=s;
+  qa('.rcc-st').forEach(t=>t.classList.toggle('active',t.dataset.s===s));
+  renderDots(s);
+}
+
+function renderDots(surf){
+  const list = getFinList(surf);
+  const cur = roomFinishes[surf==='ceiling'?'ceiling':surf==='floor'?'floor':'wall'];
+  $('rccDots').innerHTML = list.map(f=>`
+    <button class="rcc-dot ${cur&&cur.id===f.id?'active':''}"
+      style="background:${f.c}" data-id="${f.id}" data-tip="${f.name}"
+      onclick="pickFin('${f.id}')"></button>`).join('');
+  if(cur){ $('rccName').textContent=cur.name; $('rccSub').textContent=cur.sub; renderMatPanel(cur); }
+}
+
+function pickFin(id){
+  const list = getFinList(curSurf);
+  const f = list.find(x=>x.id===id);
+  if(!f) return;
+  applyFinish(curSurf, id);
+  qa('.rcc-dot').forEach(d=>d.classList.toggle('active',d.dataset.id===id));
+  $('rccName').textContent = f.name;
+  $('rccSub').textContent  = f.sub;
+  renderMatPanel(f);
+}
+
+function renderMatPanel(f){
+  if(!f) return;
+  $('mpEyebrow').textContent = (f.cat||'Material').toUpperCase().replace(/_/g,' ');
+  $('mpTitle').textContent   = f.name;
+  $('mpBody').innerHTML = [
+    f.sub    ? `<div class="mp-item"><div class="mp-lbl">Region / Origin</div><div class="mp-val">${f.sub}</div></div>` : '',
+    f.desc   ? `<div class="mp-item"><div class="mp-lbl">Description</div><div class="mp-val">${f.desc}</div></div>` : '',
+    f.cost   ? `<div class="mp-item"><div class="mp-lbl">Typical Cost</div><div class="mp-val" style="color:var(--saffron)">${f.cost}</div></div>` : '',
+    f.lead   ? `<div class="mp-item"><div class="mp-lbl">Lead Time</div><div class="mp-val">${f.lead}</div></div>` : '',
+    f.brand  ? `<div class="mp-item"><div class="mp-lbl">Supplier / Brand</div><div class="mp-val">${f.brand}</div></div>` : '',
+  ].join('');
+}
+
+// ═══════════════════════════════════════════════════
+// HOTSPOT
+// ═══════════════════════════════════════════════════
+function toggleHS(el,e){
+  e.stopPropagation();
+  qa('.rhs.open').forEach(h=>{if(h!==el)h.classList.remove('open')});
+  el.classList.toggle('open');
+}
+document.addEventListener('click',()=>qa('.rhs.open').forEach(h=>h.classList.remove('open')));
+
+// ═══════════════════════════════════════════════════
+// DRAG ROTATION
+// ═══════════════════════════════════════════════════
+const scene = $('rcScene');
+function hideDH(){ if(!dhHidden){dhHidden=true;$('rcDragHint').classList.add('hide')} }
+scene.addEventListener('mousedown',  e=>{drag=true;lx=e.clientX;hideDH()});
+window.addEventListener('mousemove', e=>{if(!drag)return;tgtY=Math.max(-40,Math.min(40,tgtY+(e.clientX-lx)*.22));lx=e.clientX});
+window.addEventListener('mouseup',   ()=>drag=false);
+scene.addEventListener('touchstart', e=>{drag=true;lx=e.touches[0].clientX;hideDH()},{passive:true});
+scene.addEventListener('touchmove',  e=>{if(!drag)return;tgtY=Math.max(-40,Math.min(40,tgtY+(e.touches[0].clientX-lx)*.28));lx=e.touches[0].clientX},{passive:true});
+scene.addEventListener('touchend',   ()=>drag=false);
+
+const box = $('r3Box');
+(function raf(){
+  rotY+=(tgtY-rotY)*.1;
+  box.style.transform=`translateX(-50%) translateY(-52%) rotateY(${rotY.toFixed(2)}deg)`;
+  requestAnimationFrame(raf);
+})();
+
+// ═══════════════════════════════════════════════════
+// MATERIALS ENCYCLOPEDIA
+// ═══════════════════════════════════════════════════
+function renderMaterials(){
+  const tabsEl=$('matTabs');
+  const gridsEl=$('matGrids');
+  tabsEl.innerHTML = MAT_CATS.map((c,i)=>`
+    <button class="mat-tab ${i===0?'active':''}" data-cat="${c.id}" onclick="switchMatTab('${c.id}')">${c.label}</button>`).join('');
+  gridsEl.innerHTML = MAT_CATS.map((cat,i)=>`
+    <div class="mat-grid ${i===0?'show':''}" id="mg-${cat.id}">
+      ${MATERIALS.filter(m=>m.cat===cat.id).map(m=>`
+        <div class="mt">
+          <div class="mt-swatch" style="background:${m.g||m.c}">
+            <span class="mt-badge ${m.badge}">${m.badge==='north'?'North India':m.badge==='south'?'South India':m.badge==='pan'?'Pan-Indian':'Premium'}</span>
+          </div>
+          <div class="mt-body">
+            <div class="mt-name">${m.name}</div>
+            <div class="mt-sub">${m.sub}</div>
+            <div class="mt-desc">${m.desc}</div>
+            <div class="mt-tags">${m.tags.map(t=>`<span class="mt-tag">${t}</span>`).join('')}</div>
+          </div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+function switchMatTab(id){
+  qa('.mat-tab').forEach(t=>t.classList.toggle('active',t.dataset.cat===id));
+  qa('.mat-grid').forEach(g=>g.classList.toggle('show',g.id===`mg-${id}`));
+}
+
+// ═══════════════════════════════════════════════════
+// ROOM DEEP-DIVE SECTIONS
+// ═══════════════════════════════════════════════════
+function renderRoomSections(){
+  $('roomSections').innerHTML = Object.entries(ROOM_DESIGNS).map(([id,rd])=>`
+    <section class="room-section" id="rs-${id}">
+      <div class="rs-header">
+        <h2 class="rs-title">${rd.ico} &nbsp;<em>${rd.name}</em></h2>
+        <div class="rs-meta">${rd.variants.length} <span>design options</span></div>
+      </div>
+      <div class="rs-grid">
+        ${rd.variants.map(v=>`
+          <div class="rs-card" onclick="applyVariant('${id}','${v.id}')">
+            <div class="rs-card-thumb" style="background:${v.thumb}">
+              <span>${v.emoji}</span>
+              <span class="rs-card-region" style="background:${
+                v.region==='north'?'rgba(46,54,158,.8)':v.region==='kerala'||v.region==='chettinad'||v.region==='south'?'rgba(26,100,56,.8)':v.region==='mughal'?'rgba(100,60,20,.8)':'rgba(120,70,20,.8)'
+              };color:${
+                v.region==='north'?'#9BB4E8':v.region==='kerala'||v.region==='chettinad'||v.region==='south'?'#7DCFA8':v.region==='mughal'?'#E8B87C':'#E8D09A'
+              }">${v.regionTag}</span>
+            </div>
+            <div class="rs-card-body">
+              <div class="rs-card-name">${v.name}</div>
+              <div class="rs-card-sub">${v.sub}</div>
+              <div class="rs-card-desc">${v.desc}</div>
+              <div class="rs-mats">
+                ${v.materials.slice(0,3).map((m,i)=>`<span class="rs-mat ${i===0?'highlight':''}">${m}</span>`).join('')}
+              </div>
+            </div>
+            <button class="rs-apply">Apply to Visualizer →</button>
+          </div>`).join('')}
+      </div>
+    </section>`).join('');
+}
+
+function applyVariant(roomId, variantId){
+  const rd = ROOM_DESIGNS[roomId];
+  if(!rd) return;
+  const v = rd.variants.find(x=>x.id===variantId);
+  if(!v) return;
+  selectRoom(roomId);
+  applyFinish('wall',    v.wall);
+  applyFinish('floor',   v.floor);
+  applyFinish('ceiling', v.ceiling);
+  renderDots(curSurf);
+  // furniture + hotspots
+  if(v.furniture){
+    $('ri-furn').innerHTML = v.furniture.map((e,i)=>`<div class="ri-fi" style="animation-delay:${(i*.4).toFixed(1)}s">${e}</div>`).join('');
+  }
+  if(v.hotspots){
+    $('ri-hotspots').innerHTML = v.hotspots.map(h=>`
+      <div class="rhs" style="top:${h.t};left:calc(${h.l} - 16px)" onclick="toggleHS(this,event)">
+        <div class="rhs-ring"></div><div class="rhs-dot"></div>
+        <div class="rhs-popup">
+          <div class="rhs-ey">${h.ey}</div><div class="rhs-t">${h.title}</div>
+          <div class="rhs-b">${h.body}</div><div class="rhs-tag">${h.tag}</div>
+        </div>
+      </div>`).join('');
+  }
+  // scroll up to configurator
+  $('configurator').scrollIntoView({behavior:'smooth'});
+  toast(`${v.name} applied to visualizer`);
+}
+
+// ═══════════════════════════════════════════════════
+// PALETTES
+// ═══════════════════════════════════════════════════
+function renderPalettes(){
+  $('palGrid').innerHTML = PALETTES.map(p=>`
+    <div class="pal-card">
+      <div class="pal-swatches">${p.cols.map(c=>`<div class="pal-sw" style="background:${c}"></div>`).join('')}</div>
+      <div class="pal-name">${p.name}</div>
+      <div class="pal-region">${p.region}</div>
+      <div class="pal-desc">${p.desc}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// REGION FILTER
+// ═══════════════════════════════════════════════════
+qa('#regionRow button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    qa('#regionRow button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const r = b.dataset.r;
+    // filter style cards
+    qa('.style-card').forEach(c=>{
+      const s = STYLES.find(x=>x.id===c.dataset.id);
+      c.style.display = (r==='all'||!s||(s.region===r))?'':'none';
+    });
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════
+let _tt;
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),2800); }
+
+// ═══════════════════════════════════════════════════
+// BOOK
+// ═══════════════════════════════════════════════════
+function book(){ toast('Opening Antara Studios — we will call you within 2 hours'); setTimeout(()=>window.open('https://antarastudios.com','_blank'),800); }
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+renderStyleCarousel();
+renderRoomList();
+renderMaterials();
+renderRoomSections();
+renderPalettes();
+
+// Load default style
+const defS = STYLES[0];
+applyFinish('wall', defS.wall);
+applyFinish('floor', defS.floor);
+applyFinish('ceiling', defS.ceiling);
+renderDots('wall');
+// Default furniture for living room
+$('ri-furn').innerHTML = ['🛋','🏺','🎨','🪔','🧿'].map((e,i)=>`<div class="ri-fi" style="animation-delay:${(i*.4).toFixed(1)}s">${e}</div>`).join('');
+
+// gentle auto rotate on load
+setTimeout(()=>{
+  let steps=0, dir=1;
+  const iv=setInterval(()=>{
+    tgtY+=dir*2.5; if(Math.abs(tgtY)>16)dir*=-1;
+    if(++steps>14){clearInterval(iv);tgtY=0}
+  },220);
+},1200);
+</script>
+</body>
+</html>

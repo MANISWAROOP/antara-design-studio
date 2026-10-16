@@ -801,7 +801,7 @@ const STYLES = [
   { id:'luxury',       name:'Luxury Classic', ico:'👑', desc:'Rich textures, gold accents, marble surfaces and opulent layering — uncompromising elegance.', tags:['Opulent','Gold','Marble'], bg:'#2e2718' },
   { id:'minimalist',   name:'Minimalist',    ico:'◻',  desc:'Intentional restraint — every object earns its place. Calm, airy and deeply functional.', tags:['Zen','Calm','Functional'], bg:'#252525' },
   { id:'earthy',       name:'Earthy & Warm', ico:'🍂', desc:'Natural textures, terracotta tones, raw wood and organic forms for a grounded feel.', tags:['Natural','Warm','Organic'], bg:'#2b1f18' },
-  { id:'modern_ind',   name:'Modern Indian', ico:'🪔', desc:'A fusion of traditional Indian motifs with contemporary spatial design and proportions.', tags:['Cultural','Vibrant','Rich'], bg:'#281a1f' },
+  { id:'modern_ind',   name:'Modern Indian', ico:'🪔', desc:'A fusion of traditional Indian motifs with contemporary spatial design and proportions. From Rajasthani haveli to Chettinad mansion — every regional style covered.', tags:['Rajasthani','Kerala','Chettinad','Mughal'], bg:'#281a1f', cta:'modern-indian.html' },
   { id:'scandi',       name:'Scandinavian',  ico:'❄️', desc:'Light woods, white surfaces, hygge warmth and the beauty of functional simplicity.', tags:['Hygge','Airy','Natural'], bg:'#222730' },
   { id:'industrial',   name:'Industrial',    ico:'⚙️', desc:'Exposed concrete, structural steel, reclaimed wood and an urban, unfinished aesthetic.', tags:['Urban','Raw','Textured'], bg:'#202020' },
   { id:'art_deco',     name:'Art Déco',      ico:'◆',  desc:'Bold geometry, metallic finishes, rich jewel tones and dramatic symmetry.', tags:['Geometric','Metallic','Dramatic'], bg:'#1e1a28' },
@@ -940,6 +940,7 @@ function renderStyles() {
         <div class="style-name">${s.name}</div>
         <div class="style-desc">${s.desc}</div>
         <div class="style-tags">${s.tags.map(t=>`<span class="style-tag">${t}</span>`).join('')}</div>
+        ${s.cta ? `<a href="${s.cta}" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:6px 14px;background:rgba(232,132,26,.12);border:1px solid rgba(232,132,26,.3);color:#E8841A;font-family:var(--ff-head);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:.2s ease" onmouseover="this.style.background='rgba(232,132,26,.22)'" onmouseout="this.style.background='rgba(232,132,26,.12)'">✦ Explore All Indian Styles →</a>` : ''}
       </div>
     </div>`).join('');
 }
