@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Design Your Space — Antara Studios</title>
+<title>Antara Studios — Design Your Space</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600;700;800&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
@@ -895,9 +895,352 @@ body.c-hover #h-cursor-ring{ width:60px; height:60px; border-color:rgba(233,185,
   .style-grid, .room-grid { padding:0; }
   .consult-band { margin:0 0 32px; }
 }
+/* ═══════════════════════════════════════════════════════════════
+   DOOR REVEAL — full-viewport brass/teak door that swings open
+═══════════════════════════════════════════════════════════════ */
+#door-reveal {
+  position:fixed; inset:0; z-index:10000;
+  display:flex;
+  perspective:2200px;
+  perspective-origin:50% 48%;
+  pointer-events:none; /* set to auto by JS until open */
+}
+
+/* Each door half */
+.door-half {
+  flex:0 0 50%; height:100%;
+  position:relative; overflow:hidden;
+  transform-style:preserve-3d;
+  backface-visibility:hidden;
+  will-change:transform;
+}
+.door-half.left  {
+  transform-origin:left center;
+  animation:none;
+}
+.door-half.right {
+  transform-origin:right center;
+  animation:none;
+}
+
+/* Opening animations — triggered by JS adding .open class */
+#door-reveal.open .door-half.left  {
+  animation:doorSwingLeft  1.4s 0.15s cubic-bezier(.7,0,.3,1) both;
+}
+#door-reveal.open .door-half.right {
+  animation:doorSwingRight 1.4s 0.15s cubic-bezier(.7,0,.3,1) both;
+}
+@keyframes doorSwingLeft {
+  0%   { transform:rotateY(0deg) }
+  100% { transform:rotateY(-110deg) }
+}
+@keyframes doorSwingRight {
+  0%   { transform:rotateY(0deg) }
+  100% { transform:rotateY(110deg) }
+}
+
+/* ── WOOD SURFACE ── */
+.door-wood {
+  position:absolute; inset:0;
+  /* Deep warm teak gradient — simulates natural wood grain directionality */
+  background:
+    repeating-linear-gradient(
+      178deg,
+      transparent 0px, transparent 3px,
+      rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px, transparent 14px,
+      rgba(255,255,255,.025) 14px, rgba(255,255,255,.025) 15px
+    ),
+    linear-gradient(
+      180deg,
+      #3D2410 0%, #5C3418 8%, #7A4820 16%,
+      #6B3D1A 24%, #8B5228 32%, #9B5E2E 40%,
+      #7A4420 48%, #6B3A18 56%, #8C5228 64%,
+      #9A5C2C 72%, #7B4520 80%, #5C3318 90%,
+      #3E2310 100%
+    );
+}
+/* Right door mirror */
+.door-half.right .door-wood {
+  background:
+    repeating-linear-gradient(
+      182deg,
+      transparent 0px, transparent 3px,
+      rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px, transparent 14px,
+      rgba(255,255,255,.025) 14px, rgba(255,255,255,.025) 15px
+    ),
+    linear-gradient(
+      180deg,
+      #3E2310 0%, #5C3418 8%, #7A4820 16%,
+      #6B3D1A 24%, #8B5228 32%, #9B5E2E 40%,
+      #7A4420 48%, #6B3A18 56%, #8C5228 64%,
+      #9A5C2C 72%, #7B4520 80%, #5C3318 90%,
+      #3E2310 100%
+    );
+}
+
+/* ── DOOR FRAME EDGE (the edge you see when door swings) ── */
+.door-edge {
+  position:absolute; top:0; bottom:0; width:18px;
+  background:linear-gradient(to right, #2A1A0A, #5C3820 40%, #3A2210);
+  z-index:5;
+}
+.door-half.left  .door-edge { right:0; }
+.door-half.right .door-edge { left:0; background:linear-gradient(to left, #2A1A0A, #5C3820 40%, #3A2210); }
+
+/* ── ORNATE PANEL MOULDING ── */
+.door-panels {
+  position:absolute; inset:0;
+  pointer-events:none;
+}
+/* Top panel */
+.door-panel {
+  position:absolute; left:10%; right:10%;
+  border:2px solid rgba(200,140,60,.35);
+  box-shadow:
+    inset 0 0 0 4px rgba(0,0,0,.2),
+    inset 0 0 0 6px rgba(200,140,60,.1),
+    0 2px 8px rgba(0,0,0,.4);
+}
+.door-panel::before {
+  content:'';
+  position:absolute; inset:8px;
+  border:1px solid rgba(200,140,60,.18);
+}
+/* Carved detail corners */
+.door-panel::after {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(4px 4px at 0% 0%, rgba(200,140,60,.4) 50%, transparent 51%),
+    radial-gradient(4px 4px at 100% 0%, rgba(200,140,60,.4) 50%, transparent 51%),
+    radial-gradient(4px 4px at 0% 100%, rgba(200,140,60,.4) 50%, transparent 51%),
+    radial-gradient(4px 4px at 100% 100%, rgba(200,140,60,.4) 50%, transparent 51%);
+}
+.dp-top    { top:6%;  height:28%; }
+.dp-bottom { bottom:6%; height:28%; }
+.dp-mid    { top:38%; height:20%; }
+
+/* ── VERTICAL CENTER DIVIDER ── */
+.door-divider {
+  position:absolute; top:5%; bottom:5%;
+  width:3px;
+  background:linear-gradient(to bottom,
+    rgba(180,120,40,.1),
+    rgba(200,140,60,.4) 20%,
+    rgba(220,160,70,.5) 50%,
+    rgba(200,140,60,.4) 80%,
+    rgba(180,120,40,.1)
+  );
+}
+.door-half.left  .door-divider { right:0; }
+.door-half.right .door-divider { left:0; }
+
+/* ── BRASS HANDLE ── */
+.door-handle {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:14px; height:60px;
+  z-index:10;
+}
+.door-half.left  .door-handle { right:28px; }
+.door-half.right .door-handle { left:28px; }
+
+.door-handle-bar {
+  width:14px; height:60px;
+  border-radius:7px;
+  background:linear-gradient(to right,
+    #7A5A1A 0%, #C8941A 15%, #E8C040 35%,
+    #F5D060 50%, #E0B030 65%, #C08020 80%,
+    #8A6020 100%
+  );
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.6),
+    inset 0 1px 2px rgba(255,240,180,.5),
+    inset 0 -1px 2px rgba(0,0,0,.4);
+  position:relative;
+}
+/* Handle plate */
+.door-handle::before {
+  content:'';
+  position:absolute; left:-10px; top:-12px;
+  width:34px; height:84px;
+  border-radius:4px;
+  background:linear-gradient(160deg,
+    #5A4010 0%, #9A7020 25%, #C09030 50%,
+    #9A7020 75%, #5A4010 100%
+  );
+  box-shadow:0 2px 12px rgba(0,0,0,.5);
+  z-index:-1;
+}
+/* Handle keyhole */
+.door-handle::after {
+  content:'';
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%, -50%) translateY(30px);
+  width:8px; height:12px;
+  background:radial-gradient(ellipse at 50% 30%, #1A1208 60%, transparent 61%);
+  border-radius:50% 50% 3px 3px;
+  background:#1A1208;
+  border-radius:4px 4px 3px 3px;
+  box-shadow:0 1px 3px rgba(0,0,0,.8);
+}
+
+/* ── TOP + BOTTOM ORNATE TRIM BARS ── */
+.door-trim-top, .door-trim-bottom {
+  position:absolute; left:0; right:0; height:28px;
+  background:linear-gradient(to bottom,
+    #2A1A08, #5C3818 40%, #7A5020 55%, #5C3818 70%, #2A1A08
+  );
+  z-index:4;
+}
+.door-trim-top    { top:0; }
+.door-trim-bottom { bottom:0; }
+.door-trim-top::after, .door-trim-bottom::after {
+  content:'';
+  position:absolute; left:5%; right:5%; height:2px;
+  background:linear-gradient(to right,
+    transparent, rgba(200,140,60,.5) 20%, rgba(240,190,80,.7) 50%, rgba(200,140,60,.5) 80%, transparent
+  );
+}
+.door-trim-top::after    { bottom:6px; }
+.door-trim-bottom::after { top:6px; }
+
+/* ── CENTRE JOIN LINE (where doors meet) ── */
+.door-join {
+  position:absolute; top:0; bottom:0; left:50%;
+  width:3px; transform:translateX(-50%);
+  background:linear-gradient(to bottom, #0A0806, #1A1008 10%, #0A0806 50%, #1A1008 90%, #0A0806);
+  z-index:10001;
+  pointer-events:none;
+}
+
+/* ── AMBIENT GLOW behind doors ── */
+#door-reveal::before {
+  content:'';
+  position:absolute; inset:0; z-index:-1;
+  background:radial-gradient(ellipse 60% 50% at 50% 50%, rgba(180,120,40,.08) 0%, #070606 70%);
+}
+
+/* ── BRAND WATERMARK on doors ── */
+.door-brand {
+  position:absolute;
+  left:50%; top:50%;
+  transform:translate(-50%, -50%);
+  text-align:center;
+  z-index:6; pointer-events:none;
+  white-space:nowrap;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+/* Only show on left door */
+.door-half.right .door-brand { display:none; }
+.door-half.left .door-brand {
+  left:100%; /* spans across both doors from left door */
+  width:200%; /* covers both halves */
+  transform:translate(-50%, -50%);
+}
+.db-name {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(28px, 4vw, 52px);
+  font-weight:300; font-style:italic;
+  color:rgba(220,170,80,.75);
+  letter-spacing:.08em;
+  text-shadow: 0 2px 20px rgba(0,0,0,.8), 0 0 40px rgba(180,120,30,.3);
+}
+.db-sub {
+  font-family:'Raleway', sans-serif;
+  font-size:clamp(8px, .9vw, 11px);
+  font-weight:700; letter-spacing:.4em; text-transform:uppercase;
+  color:rgba(180,130,50,.5);
+  text-shadow:0 1px 8px rgba(0,0,0,.9);
+}
+.db-line {
+  width:clamp(60px, 8vw, 120px); height:1px;
+  background:linear-gradient(to right, transparent, rgba(200,140,60,.5), transparent);
+}
+/* Knock prompt */
+.door-knock {
+  position:absolute; bottom:10%; left:50%;
+  transform:translateX(-50%);
+  font-family:'Raleway', sans-serif;
+  font-size:clamp(7px, .75vw, 9px);
+  font-weight:700; letter-spacing:.3em; text-transform:uppercase;
+  color:rgba(180,130,50,.4);
+  text-shadow:0 1px 6px rgba(0,0,0,.9);
+  z-index:6; white-space:nowrap;
+  animation:knockPulse 2.2s ease-in-out infinite;
+}
+@keyframes knockPulse {
+  0%,100%{opacity:.4} 50%{opacity:.8}
+}
+
+/* Vignette — darkens door edges for depth */
+.door-vignette {
+  position:absolute; inset:0; pointer-events:none; z-index:7;
+  background:radial-gradient(ellipse 85% 90% at 50% 50%, transparent 40%, rgba(0,0,0,.55) 100%);
+}
+/* ──────────────────────────────────────────────────────────── */
 </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     DOOR REVEAL — swings open on load, then self-removes
+═══════════════════════════════════════════════════════════════ -->
+<div id="door-reveal" style="pointer-events:auto">
+
+  <!-- LEFT DOOR -->
+  <div class="door-half left">
+    <div class="door-wood"></div>
+    <div class="door-trim-top"></div>
+    <div class="door-trim-bottom"></div>
+    <div class="door-panels">
+      <div class="door-panel dp-top"></div>
+      <div class="door-panel dp-mid"></div>
+      <div class="door-panel dp-bottom"></div>
+    </div>
+    <div class="door-divider"></div>
+    <div class="door-handle"><div class="door-handle-bar"></div></div>
+    <div class="door-edge"></div>
+    <!-- Brand spans both doors, anchored on left door -->
+    <div class="door-brand">
+      <div class="db-line"></div>
+      <div class="db-name">Antara Studios</div>
+      <div class="db-sub">Luxury Interior Design</div>
+      <div class="db-line"></div>
+    </div>
+    <div class="door-vignette"></div>
+  </div>
+
+  <!-- RIGHT DOOR -->
+  <div class="door-half right">
+    <div class="door-wood"></div>
+    <div class="door-trim-top"></div>
+    <div class="door-trim-bottom"></div>
+    <div class="door-panels">
+      <div class="door-panel dp-top"></div>
+      <div class="door-panel dp-mid"></div>
+      <div class="door-panel dp-bottom"></div>
+    </div>
+    <div class="door-divider"></div>
+    <div class="door-handle"><div class="door-handle-bar"></div></div>
+    <div class="door-edge"></div>
+    <div class="door-brand"></div>
+    <div class="door-vignette"></div>
+  </div>
+
+  <!-- Centre join shadow -->
+  <div class="door-join"></div>
+
+  <!-- Knock to enter prompt -->
+  <div class="door-knock">Tap to enter</div>
+</div>
 
 <!-- ─── TOP BAR ─────────────────────────────────────────────── -->
 <div class="topbar" id="topbar">
@@ -1774,6 +2117,77 @@ showScreen('s-hero');
     countUp($('hStatV'), 688, '',   2000);
     countUp($('hStatY'), 5,   '+',  1200);
   }, 900);
+
+})();
+
+// ══════════════════════════════════════════════════════════════════
+// DOOR REVEAL — JS trigger
+// Adds .open to #door-reveal on tap/click or after 3 s auto-timer.
+// Hides cursor during door phase, restores after.
+// Removes the door element from DOM once animation finishes.
+// ══════════════════════════════════════════════════════════════════
+(function doorReveal(){
+  const door = document.getElementById('door-reveal');
+  if (!door) return;
+
+  // Hide cursor while door is up
+  document.body.style.cursor = 'none';
+
+  let triggered = false;
+
+  function openDoor(){
+    if (triggered) return;
+    triggered = true;
+
+    // Clear auto-timer if user tapped first
+    clearTimeout(autoTimer);
+
+    // Add open class → CSS animations fire
+    door.classList.add('open');
+
+    // Restore cursor after swing completes (1.4s anim + 0.15s delay + 0.1s buffer)
+    setTimeout(() => {
+      document.body.style.cursor = '';
+    }, 1650);
+
+    // Remove door from DOM after animation fully completes
+    setTimeout(() => {
+      door.style.display = 'none';
+      door.remove();
+    }, 1750);
+  }
+
+  // Tap / click anywhere on door
+  door.addEventListener('click',     openDoor, { once: true });
+  door.addEventListener('touchstart', openDoor, { once: true, passive: true });
+
+  // Auto-open after 3 s if user doesn't interact
+  const autoTimer = setTimeout(openDoor, 3000);
+
+  // Synthesised door-creak using Web Audio API (no audio file needed)
+  (function playCreak(){
+    try {
+      const ac = new (window.AudioContext || window.webkitAudioContext)();
+      // Low-frequency rumble burst
+      const buf = ac.createBuffer(1, ac.sampleRate * 1.2, ac.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++){
+        const t   = i / ac.sampleRate;
+        const env = Math.exp(-t * 3.5);                        // decay envelope
+        data[i]   = env * (Math.random() * 2 - 1) * 0.18      // filtered noise
+                  + env * Math.sin(2 * Math.PI * 38 * t) * 0.12   // 38 Hz thud
+                  + env * Math.sin(2 * Math.PI * 82 * t) * 0.07;  // 82 Hz creak
+      }
+      const src = ac.createBufferSource();
+      src.buffer = buf;
+      // Low-pass filter to give it a wooden character
+      const lp = ac.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 320;
+      src.connect(lp); lp.connect(ac.destination);
+      // Play creak at the moment the door starts moving (0.15s delay matches CSS)
+      src.start(ac.currentTime + 0.15);
+    } catch(e){ /* AudioContext blocked — silent is fine */ }
+  })();
 
 })();
 </script>
