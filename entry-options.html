@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entry Reveal Options — Antara Studios</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0c0a09;color:#e8d5c0;font-family:'Raleway',sans-serif;min-height:100vh}
+
+/* ── PAGE HEADER ── */
+.page-header{text-align:center;padding:52px 24px 16px}
+.page-header h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(28px,4vw,44px);color:#e9b9a3;letter-spacing:.06em}
+.page-header p{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#7a6050;margin-top:10px}
+.page-header small{display:block;font-size:10px;color:#4a3828;margin-top:6px;letter-spacing:.15em}
+
+/* ── GRID ── */
+.options-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;padding:36px 32px 20px;max-width:1380px;margin:0 auto}
+
+.option-card{background:#12100d;border:1px solid #231910;border-radius:2px;overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.option-card:hover{border-color:#5a3e20;box-shadow:0 0 36px rgba(180,120,40,.10)}
+
+.option-label{padding:16px 20px 10px;display:flex;align-items:center;justify-content:space-between}
+.opt-num{font-family:'Cormorant Garamond',serif;font-size:11px;font-style:italic;color:#5a3e20;letter-spacing:.22em}
+.opt-badge{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:#e9b9a3;background:rgba(233,185,163,.09);border:1px solid rgba(233,185,163,.18);padding:3px 10px;border-radius:1px}
+
+.opt-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:22px;color:#d4a87a;padding:0 20px 3px;letter-spacing:.04em}
+.opt-desc{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#4a3020;padding:0 20px 14px}
+
+/* ── PREVIEW STAGE ── */
+.preview-stage{position:relative;width:100%;height:230px;background:#060504;overflow:hidden;cursor:pointer}
+.preview-label{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(180,130,50,.55);
+  z-index:20;white-space:nowrap;animation:kPulse 2.2s ease-in-out infinite;pointer-events:none}
+@keyframes kPulse{0%,100%{opacity:.4}50%{opacity:.9}}
+.preview-stage.played .preview-label{display:none}
+.replay-btn{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  font-family:'Raleway',sans-serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(180,130,50,.6);background:none;border:1px solid rgba(180,130,50,.25);
+  padding:4px 16px;cursor:pointer;display:none;z-index:20;border-radius:1px}
+.preview-stage.played .replay-btn{display:block}
+
+/* ── FEATURE TAGS ── */
+.opt-features{display:flex;flex-wrap:wrap;gap:6px;padding:14px 20px 20px}
+.feat-tag{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#7a5a38;
+  border:1px solid #1e1509;padding:3px 10px;border-radius:1px}
+.feat-tag.hi{color:#e9b9a3;border-color:rgba(233,185,163,.22);background:rgba(233,185,163,.05)}
+
+/* ═══════════════════════════════════════════════════════════
+   OPTION 1 — DOUBLE TEAK DOORS
+═══════════════════════════════════════════════════════════ */
+.o1{position:absolute;inset:0;perspective:1500px;perspective-origin:50% 48%;display:flex}
+.o1-door{flex:0 0 50%;height:100%;position:relative;transform-style:preserve-3d;will-change:transform;overflow:hidden}
+.o1-door.L{transform-origin:left center}
+.o1-door.R{transform-origin:right center}
+.o1-wood{position:absolute;inset:0;
+  background:repeating-linear-gradient(178.5deg,transparent 0,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px),
+  repeating-linear-gradient(180deg,transparent 0,transparent 18px,rgba(255,255,255,.025) 18px,rgba(255,255,255,.025) 19px),
+  linear-gradient(180deg,#2D1A08 0%,#4A2810 8%,#6A3C1C 18%,#5A3015 28%,#7A4820 38%,#8A5228 48%,#6A3A18 58%,#7C4620 68%,#8C5228 78%,#5A3015 88%,#3A2010 100%)}
+.o1-door.R .o1-wood{
+  background:repeating-linear-gradient(181.5deg,transparent 0,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px),
+  repeating-linear-gradient(180deg,transparent 0,transparent 18px,rgba(255,255,255,.025) 18px,rgba(255,255,255,.025) 19px),
+  linear-gradient(180deg,#3A2010 0%,#5A3015 12%,#8C5228 22%,#7C4620 32%,#6A3A18 42%,#8A5228 52%,#7A4820 62%,#5A3015 72%,#6A3C1C 82%,#4A2810 92%,#2D1A08 100%)}
+.o1-panels{position:absolute;inset:0;pointer-events:none}
+.o1-panel{position:absolute;left:9%;right:9%;border:1.5px solid rgba(200,145,55,.3);
+  box-shadow:inset 0 0 0 4px rgba(0,0,0,.18),inset 0 0 0 6px rgba(200,145,55,.07),0 2px 10px rgba(0,0,0,.5)}
+.o1-panel::before{content:'';position:absolute;inset:7px;border:1px solid rgba(200,145,55,.14)}
+.p1{top:5%;height:29%}.p2{top:37%;height:22%}.p3{bottom:5%;height:29%}
+.o1-handle{position:absolute;top:50%;transform:translateY(-50%);width:11px;height:50px;z-index:10}
+.o1-door.L .o1-handle{right:20px}.o1-door.R .o1-handle{left:20px}
+.o1-handle-bar{width:11px;height:50px;border-radius:6px;
+  background:linear-gradient(to right,#7A5A1A 0%,#C8941A 15%,#E8C040 35%,#F5D060 50%,#E0B030 65%,#C08020 80%,#8A6020 100%);
+  box-shadow:0 4px 14px rgba(0,0,0,.6),inset 0 1px 2px rgba(255,240,180,.5)}
+.o1-brand{position:absolute;left:100%;width:200%;top:50%;transform:translateY(-50%);text-align:center;z-index:6;pointer-events:none}
+.o1-door.R .o1-brand{display:none}
+.o1-bname{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:20px;color:rgba(220,170,80,.8);letter-spacing:.08em;text-shadow:0 2px 20px rgba(0,0,0,.9)}
+.o1-bsub{font-size:7px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:rgba(180,130,50,.5);margin-top:6px}
+.o1-bline{width:80px;height:1px;background:linear-gradient(to right,transparent,rgba(200,140,60,.5),transparent);margin:6px auto}
+.o1-trim{position:absolute;left:0;right:0;height:22px;background:linear-gradient(to bottom,#1A1006,#4A2E10 40%,#6A4018 55%,#4A2E10 70%,#1A1006);z-index:4}
+.o1-trim.T{top:0}.o1-trim.B{bottom:0}
+.o1-join{position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);background:#0a0806;z-index:11;pointer-events:none}
+.o1-vig{position:absolute;inset:0;pointer-events:none;z-index:7;background:radial-gradient(ellipse 90% 95% at 50% 50%,transparent 30%,rgba(0,0,0,.65) 100%)}
+/* Anim */
+.o1.open .o1-door.L{animation:sw1L 1.5s .1s cubic-bezier(.65,0,.25,1) both}
+.o1.open .o1-door.R{animation:sw1R 1.5s .1s cubic-bezier(.65,0,.25,1) both}
+@keyframes sw1L{0%{transform:rotateY(0)}100%{transform:rotateY(-115deg)}}
+@keyframes sw1R{0%{transform:rotateY(0)}100%{transform:rotateY(115deg)}}
+
+/* ═══════════════════════════════════════════════════════════
+   OPTION 2 — VELVET CURTAIN
+═══════════════════════════════════════════════════════════ */
+.o2{position:absolute;inset:0;display:flex;background:radial-gradient(ellipse 70% 60% at 50% 50%,#1a1008,#080604)}
+.o2-bg-brand{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;gap:7px}
+.o2-bg-brand .bn{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:20px;color:rgba(220,170,80,.65);letter-spacing:.08em}
+.o2-bg-brand .bs{font-size:7px;letter-spacing:.35em;text-transform:uppercase;color:rgba(180,130,50,.4)}
+.o2-bg-brand .bl{width:70px;height:1px;background:linear-gradient(to right,transparent,rgba(200,140,60,.4),transparent)}
+.o2-curtain{flex:0 0 52%;height:100%;position:relative;overflow:visible;will-change:transform}
+.o2-curtain.L{transform-origin:left center;z-index:2}
+.o2-curtain.R{transform-origin:right center;z-index:2;margin-left:-4%}
+.o2-fabric{position:absolute;inset:0;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.014) 0,rgba(255,255,255,.014) 1px,transparent 1px,transparent 5px),
+  repeating-linear-gradient(90deg,rgba(0,0,0,.04) 0,rgba(0,0,0,.04) 2px,transparent 2px,transparent 14px),
+  linear-gradient(172deg,#160c05 0%,#2a1808 20%,#381e0c 38%,#281408 58%,#341c0c 75%,#201008 90%,#140a04 100%)}
+.o2-curtain.R .o2-fabric{background:repeating-linear-gradient(180deg,rgba(255,255,255,.014) 0,rgba(255,255,255,.014) 1px,transparent 1px,transparent 5px),
+  repeating-linear-gradient(90deg,rgba(0,0,0,.04) 0,rgba(0,0,0,.04) 2px,transparent 2px,transparent 14px),
+  linear-gradient(188deg,#140a04 0%,#201008 10%,#341c0c 25%,#281408 45%,#381e0c 62%,#2a1808 80%,#160c05 100%)}
+.o2-sheen{position:absolute;inset:0;background:linear-gradient(105deg,transparent,rgba(200,150,50,.08) 35%,rgba(240,190,80,.14) 50%,rgba(200,150,50,.08) 65%,transparent);pointer-events:none}
+.o2-folds{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0,transparent 26px,rgba(0,0,0,.07) 26px,rgba(0,0,0,.07) 28px);opacity:.55;pointer-events:none}
+.o2-border{position:absolute;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,transparent,rgba(210,155,55,.65) 20%,rgba(245,195,85,.85) 50%,rgba(210,155,55,.65) 80%,transparent)}
+.o2-curtain.L .o2-border{right:0}.o2-curtain.R .o2-border{left:0}
+.o2-tassel{position:absolute;top:0;width:12px;height:26px;z-index:10}
+.o2-curtain.L .o2-tassel{right:-3px}.o2-curtain.R .o2-tassel{left:-3px}
+.o2-tassel::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:radial-gradient(circle,#F5D060,#C08020);box-shadow:0 0 6px rgba(200,150,40,.5)}
+.o2-tassel::after{content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);width:2px;height:19px;background:linear-gradient(to bottom,#C08020,rgba(180,120,30,.2))}
+/* Anim */
+.o2.open .o2-curtain.L{animation:sw2L 1.6s .05s cubic-bezier(.4,0,.2,1) both}
+.o2.open .o2-curtain.R{animation:sw2R 1.6s .05s cubic-bezier(.4,0,.2,1) both}
+@keyframes sw2L{0%{transform:translateX(0) scaleX(1)}100%{transform:translateX(-102%) scaleX(.88)}}
+@keyframes sw2R{0%{transform:translateX(0) scaleX(1)}100%{transform:translateX(102%) scaleX(.88)}}
+
+/* ═══════════════════════════════════════════════════════════
+   OPTION 3 — CAMERA APERTURE IRIS
+═══════════════════════════════════════════════════════════ */
+.o3{position:absolute;inset:0;background:#07060504;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.o3-glow{position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 50% 50%,rgba(180,120,40,.055),transparent 65%)}
+.o3-brand{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;gap:7px;pointer-events:none}
+.o3-brand .bn{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:20px;color:rgba(220,170,80,.0);letter-spacing:.08em;transition:color .9s .55s}
+.o3-brand .bs{font-size:7px;letter-spacing:.35em;text-transform:uppercase;color:rgba(180,130,50,.0);transition:color .9s .65s}
+.o3-brand .bl{width:68px;height:1px;transition:background .9s .6s;background:transparent}
+.o3.open .o3-brand .bn{color:rgba(220,170,80,.78)}
+.o3.open .o3-brand .bs{color:rgba(180,130,50,.52)}
+.o3.open .o3-brand .bl{background:linear-gradient(to right,transparent,rgba(200,140,60,.45),transparent)}
+/* Aperture blades — 8-blade version for realism */
+.o3-blades{position:absolute;inset:0;z-index:6;pointer-events:none}
+.bl8{position:absolute;top:50%;left:50%;will-change:transform}
+.bl8:nth-child(1){transform:rotate(0deg)  translateY(-50%);transform-origin:50% 100%;width:52%;height:55%;background:#080706;clip-path:polygon(0% 100%,50% 0%,100% 100%)}
+.bl8:nth-child(2){transform:rotate(45deg) translateY(-50%);transform-origin:50% 100%;width:52%;height:55%;background:#080706;clip-path:polygon(0% 100%,50% 0%,100% 100%)}
+.bl8:nth-child(3){transform:rotate(90deg) translateY(-50%);transform-origin:50% 100%;width:52%;height:55%;background:#080706;clip-path:polygon(0% 100%,50% 0%,100% 100%)}
+.bl8:nth-child(4){transform:rotate(135deg) translateY(-50%);transform-origin:50% 100%;width:52%;height:55%;background:#080706;clip-path:polygon(0% 100%,50% 0%,100% 100%)}
+.bl8:nth-child(5){transform:rotate(180deg) translateY(-50%);transform-origin:50% 100%;width:52%;height:55%;background:#080706;clip-path:polygon(0% 100%,50% 0%,100% 100%)}
+.bl8:nth-child(6){transform:rotate(225deg) translateY(-50%);transform-origin:50% 100%;width:52%;height:55%;background:#080706;clip-path:polygon(0% 100%,50% 0%,100% 100%)}
+.bl8:nth-child(7){transform:rotate(270deg) translateY(-50%);transform-origin:50% 100%;width:52%;height:55%;background:#080706;clip-path:polygon(0% 100%,50% 0%,100% 100%)}
+.bl8:nth-child(8){transform:rotate(315deg) translateY(-50%);transform-origin:50% 100%;width:52%;height:55%;background:#080706;clip-path:polygon(0% 100%,50% 0%,100% 100%)}
+/* Gold ring frame */
+.o3-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:140px;height:140px;border-radius:50%;border:1px solid rgba(200,145,55,.18);z-index:8;pointer-events:none;transition:border-color .8s .5s,box-shadow .8s .5s}
+.o3.open .o3-ring{border-color:rgba(200,145,55,.42);box-shadow:0 0 24px rgba(180,120,40,.14)}
+/* Outer vignette ring stays dark */
+.o3-vignette{position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle at 50% 50%,transparent 0,transparent 22%,rgba(8,7,6,.85) 55%,#070605 75%)}
+/* Anim */
+.o3.open .bl8{animation:irisO 1.35s cubic-bezier(.55,0,.3,1) both}
+.o3.open .bl8:nth-child(1){animation-delay:.10s}
+.o3.open .bl8:nth-child(2){animation-delay:.12s}
+.o3.open .bl8:nth-child(3){animation-delay:.10s}
+.o3.open .bl8:nth-child(4){animation-delay:.12s}
+.o3.open .bl8:nth-child(5){animation-delay:.10s}
+.o3.open .bl8:nth-child(6){animation-delay:.12s}
+.o3.open .bl8:nth-child(7){animation-delay:.10s}
+.o3.open .bl8:nth-child(8){animation-delay:.12s}
+@keyframes irisO{0%{opacity:1;scale:1}100%{opacity:0;scale:0}}
+.o3.open .o3-vignette{animation:vigFade 1.55s .1s ease both}
+@keyframes vigFade{0%{opacity:1}100%{opacity:0}}
+
+/* ═══════════════════════════════════════════════════════════
+   OPTION 4 — GRAND VERTICAL SPLIT + LIGHT BLOOM
+═══════════════════════════════════════════════════════════ */
+.o4{position:absolute;inset:0;overflow:hidden;background:#060504}
+.o4-half{position:absolute;left:0;right:0;height:50%;overflow:hidden;will-change:transform}
+.o4-half.T{top:0}
+.o4-half.B{bottom:0}
+.o4-marble{position:absolute;inset:0}
+.o4-half.T .o4-marble{background:
+  repeating-linear-gradient(102deg,transparent 0,transparent 38px,rgba(255,255,255,.011) 38px,rgba(255,255,255,.011) 39px),
+  linear-gradient(180deg,#090806 0%,#141010 30%,#1e1612 50%,#141010 70%,#090806 100%)}
+.o4-half.B .o4-marble{background:
+  repeating-linear-gradient(78deg,transparent 0,transparent 38px,rgba(255,255,255,.011) 38px,rgba(255,255,255,.011) 39px),
+  linear-gradient(180deg,#1e1612 0%,#141010 30%,#090806 100%)}
+/* Gold trim at edge */
+.o4-trim{position:absolute;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,rgba(210,158,58,.52) 15%,rgba(248,198,82,.92) 50%,rgba(210,158,58,.52) 85%,transparent)}
+.o4-half.T .o4-trim{bottom:0}.o4-half.B .o4-trim{top:0}
+/* Brand — in top half, bottom-aligned */
+.o4-brand{position:absolute;bottom:20px;left:0;right:0;text-align:center;pointer-events:none;z-index:3}
+.o4-brand .bn{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:20px;color:rgba(220,170,80,.78);letter-spacing:.08em}
+.o4-brand .bs{font-size:7px;letter-spacing:.35em;text-transform:uppercase;color:rgba(180,130,50,.5);margin-top:5px}
+.o4-brand .bl{width:70px;height:1px;background:linear-gradient(to right,transparent,rgba(200,140,60,.45),transparent);margin:6px auto}
+/* Light bloom at split */
+.o4-bloom{position:absolute;left:0;right:0;top:50%;height:6px;transform:translateY(-50%);z-index:10;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse 70% 100% at 50% 50%,rgba(255,228,148,.15),transparent)}
+/* Anim */
+.o4.open .o4-half.T{animation:sp4T 1.55s .07s cubic-bezier(.65,0,.2,1) both}
+.o4.open .o4-half.B{animation:sp4B 1.55s .07s cubic-bezier(.65,0,.2,1) both}
+.o4.open .o4-bloom{animation:sp4Bloom 1.3s .08s ease both}
+@keyframes sp4T{0%{transform:translateY(0)}100%{transform:translateY(-110%)}}
+@keyframes sp4B{0%{transform:translateY(0)}100%{transform:translateY(110%)}}
+@keyframes sp4Bloom{0%{opacity:0;height:6px}25%{opacity:1;height:90px}65%{opacity:.6;height:130px}100%{opacity:0;height:8px}}
+
+/* ── COMPARISON TABLE ── */
+.compare-section{max-width:1380px;margin:0 auto;padding:8px 32px 60px}
+.compare-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:21px;color:#d4a87a;margin-bottom:18px;letter-spacing:.05em}
+table{width:100%;border-collapse:collapse;font-size:10px;letter-spacing:.04em}
+th{font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#5a3e20;padding:10px 14px;text-align:left;border-bottom:1px solid #1a110a}
+td{padding:9px 14px;border-bottom:1px solid #13100c;color:#8a6a48;vertical-align:top;line-height:1.5}
+td:first-child{color:#c9a870;font-weight:600}
+.chk{color:#e9b9a3}
+.mid{color:#7a5a38}
+.dim{color:#3a2818}
+tr:hover td{background:rgba(40,25,12,.35)}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:28px 24px;font-size:10px;color:#2e2015;border-top:1px solid #14100c;letter-spacing:.18em;margin-top:12px}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Entry Reveal — 4 Options</h1>
+  <p>Antara Studios · Design App · Entry Experience</p>
+  <small>Click any preview to trigger · Click ↺ to replay</small>
+</div>
+
+<div class="options-grid">
+
+  <!-- ━━━━━ OPTION 1 ━━━━━ -->
+  <div class="option-card">
+    <div class="option-label">
+      <span class="opt-num">Option I</span>
+      <span class="opt-badge">Current (Upgraded)</span>
+    </div>
+    <div class="opt-title">Double Teak Doors</div>
+    <div class="opt-desc">Swing open · 3D perspective · brass hardware</div>
+
+    <div class="preview-stage" id="ps1" onclick="trigger(1)">
+      <div class="o1" id="o1">
+        <div class="o1-door L">
+          <div class="o1-wood"></div>
+          <div class="o1-trim T"></div>
+          <div class="o1-trim B"></div>
+          <div class="o1-panels"><div class="o1-panel p1"></div><div class="o1-panel p2"></div><div class="o1-panel p3"></div></div>
+          <div class="o1-handle"><div class="o1-handle-bar"></div></div>
+          <div class="o1-brand"><div class="o1-bline"></div><div class="o1-bname">Antara Studios</div><div class="o1-bsub">Luxury Interior Design</div><div class="o1-bline"></div></div>
+          <div class="o1-vig"></div>
+        </div>
+        <div class="o1-door R">
+          <div class="o1-wood"></div>
+          <div class="o1-trim T"></div>
+          <div class="o1-trim B"></div>
+          <div class="o1-panels"><div class="o1-panel p1"></div><div class="o1-panel p2"></div><div class="o1-panel p3"></div></div>
+          <div class="o1-handle"><div class="o1-handle-bar"></div></div>
+          <div class="o1-brand"></div>
+          <div class="o1-vig"></div>
+        </div>
+        <div class="o1-join"></div>
+      </div>
+      <div class="preview-label">Click to open</div>
+      <button class="replay-btn" onclick="event.stopPropagation();replay(1)">↺ Replay</button>
+    </div>
+
+    <div class="opt-features">
+      <span class="feat-tag hi">Architectural warmth</span>
+      <span class="feat-tag hi">3D depth</span>
+      <span class="feat-tag">Teak grain</span>
+      <span class="feat-tag">Brass handles</span>
+      <span class="feat-tag">Door creak SFX</span>
+      <span class="feat-tag">Already built</span>
+    </div>
+  </div>
+
+  <!-- ━━━━━ OPTION 2 ━━━━━ -->
+  <div class="option-card">
+    <div class="option-label">
+      <span class="opt-num">Option II</span>
+      <span class="opt-badge">Theatre Stage</span>
+    </div>
+    <div class="opt-title">Velvet Curtain Part</div>
+    <div class="opt-desc">Slide apart · soft shimmer · gold tassels</div>
+
+    <div class="preview-stage" id="ps2" onclick="trigger(2)">
+      <div class="o2" id="o2">
+        <div class="o2-bg-brand">
+          <div class="bl"></div>
+          <div class="bn">Antara Studios</div>
+          <div class="bs">Luxury Interior Design</div>
+          <div class="bl"></div>
+        </div>
+        <div class="o2-curtain L">
+          <div class="o2-fabric"></div><div class="o2-sheen"></div><div class="o2-folds"></div>
+          <div class="o2-border"></div><div class="o2-tassel"></div>
+        </div>
+        <div class="o2-curtain R">
+          <div class="o2-fabric"></div><div class="o2-sheen"></div><div class="o2-folds"></div>
+          <div class="o2-border"></div><div class="o2-tassel"></div>
+        </div>
+      </div>
+      <div class="preview-label">Click to open</div>
+      <button class="replay-btn" onclick="event.stopPropagation();replay(2)">↺ Replay</button>
+    </div>
+
+    <div class="opt-features">
+      <span class="feat-tag hi">Most dramatic</span>
+      <span class="feat-tag hi">Theatre luxury</span>
+      <span class="feat-tag">Velvet texture</span>
+      <span class="feat-tag">Gold tassels</span>
+      <span class="feat-tag">Brand behind curtain</span>
+    </div>
+  </div>
+
+  <!-- ━━━━━ OPTION 3 ━━━━━ -->
+  <div class="option-card">
+    <div class="option-label">
+      <span class="opt-num">Option III</span>
+      <span class="opt-badge">Cinematic Art</span>
+    </div>
+    <div class="opt-title">Camera Aperture Iris</div>
+    <div class="opt-desc">8 blades contract · Kubrick-style · brand fades in</div>
+
+    <div class="preview-stage" id="ps3" onclick="trigger(3)">
+      <div class="o3" id="o3">
+        <div class="o3-glow"></div>
+        <div class="o3-brand">
+          <div class="bl"></div>
+          <div class="bn">Antara Studios</div>
+          <div class="bs">Luxury Interior Design</div>
+          <div class="bl"></div>
+        </div>
+        <div class="o3-blades">
+          <div class="bl8"></div><div class="bl8"></div>
+          <div class="bl8"></div><div class="bl8"></div>
+          <div class="bl8"></div><div class="bl8"></div>
+          <div class="bl8"></div><div class="bl8"></div>
+        </div>
+        <div class="o3-ring"></div>
+        <div class="o3-vignette"></div>
+      </div>
+      <div class="preview-label">Click to open</div>
+      <button class="replay-btn" onclick="event.stopPropagation();replay(3)">↺ Replay</button>
+    </div>
+
+    <div class="opt-features">
+      <span class="feat-tag hi">Most unique</span>
+      <span class="feat-tag hi">Film / art direction</span>
+      <span class="feat-tag">8 aperture blades</span>
+      <span class="feat-tag">Gold circle frame</span>
+      <span class="feat-tag">Brand reveal fade</span>
+    </div>
+  </div>
+
+  <!-- ━━━━━ OPTION 4 ━━━━━ -->
+  <div class="option-card">
+    <div class="option-label">
+      <span class="opt-num">Option IV</span>
+      <span class="opt-badge">⭐ Recommended</span>
+    </div>
+    <div class="opt-title">Grand Vertical Split</div>
+    <div class="opt-desc">Top rises · bottom sinks · gold light bloom</div>
+
+    <div class="preview-stage" id="ps4" onclick="trigger(4)">
+      <div class="o4" id="o4">
+        <div class="o4-half T">
+          <div class="o4-marble"></div>
+          <div class="o4-trim"></div>
+          <div class="o4-brand">
+            <div class="bl"></div>
+            <div class="bn">Antara Studios</div>
+            <div class="bs">Luxury Interior Design</div>
+          </div>
+        </div>
+        <div class="o4-half B">
+          <div class="o4-marble"></div>
+          <div class="o4-trim"></div>
+        </div>
+        <div class="o4-bloom"></div>
+      </div>
+      <div class="preview-label">Click to open</div>
+      <button class="replay-btn" onclick="event.stopPropagation();replay(4)">↺ Replay</button>
+    </div>
+
+    <div class="opt-features">
+      <span class="feat-tag hi">Most cinematic</span>
+      <span class="feat-tag hi">Premium / minimal</span>
+      <span class="feat-tag">Gold light bloom</span>
+      <span class="feat-tag">Vertical split</span>
+      <span class="feat-tag">Fastest to build</span>
+    </div>
+  </div>
+
+</div><!-- /options-grid -->
+
+<!-- ── COMPARISON TABLE ── -->
+<div class="compare-section">
+  <div class="compare-title">Side-by-side comparison</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>I — Teak Doors</th>
+        <th>II — Velvet Curtain</th>
+        <th>III — Camera Iris</th>
+        <th>IV — Vertical Split</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Animation feel</td>
+        <td class="mid">Architectural warmth</td>
+        <td class="chk">Theatre drama</td>
+        <td class="chk">Cinematic / artsy</td>
+        <td class="chk">Pure cinema</td>
+      </tr>
+      <tr>
+        <td>Brand visibility</td>
+        <td class="mid">Centre watermark</td>
+        <td class="mid">Revealed as curtains open</td>
+        <td class="mid">Fades in at centre</td>
+        <td class="chk">Centred, prominent</td>
+      </tr>
+      <tr>
+        <td>Performance</td>
+        <td class="mid">Medium (3D perspective)</td>
+        <td class="chk">Lightweight</td>
+        <td class="mid">Medium (8 blades)</td>
+        <td class="chk">Lightest of all</td>
+      </tr>
+      <tr>
+        <td>Mobile friendly</td>
+        <td class="mid">Good</td>
+        <td class="chk">Excellent</td>
+        <td class="mid">Good</td>
+        <td class="chk">Excellent</td>
+      </tr>
+      <tr>
+        <td>Wow factor</td>
+        <td class="mid">★★★½</td>
+        <td class="chk">★★★★</td>
+        <td class="chk">★★★★</td>
+        <td class="chk">★★★★★</td>
+      </tr>
+      <tr>
+        <td>Matches brand?</td>
+        <td class="chk">Yes — warm teak luxury</td>
+        <td class="chk">Yes — theatre luxury</td>
+        <td class="mid">Partially — more film-art</td>
+        <td class="chk">Yes — silent luxury</td>
+      </tr>
+      <tr>
+        <td>Sound effect</td>
+        <td class="chk">Door creak (already built)</td>
+        <td class="mid">Soft swish (easy add)</td>
+        <td class="mid">Shutter click (easy add)</td>
+        <td class="chk">Deep tone (easy add)</td>
+      </tr>
+      <tr>
+        <td>Build effort</td>
+        <td class="chk">Done ✓</td>
+        <td class="mid">~1 hr</td>
+        <td class="mid">~1 hr</td>
+        <td class="chk">~45 min</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+const stages = {1:'ps1',2:'ps2',3:'ps3',4:'ps4'};
+const anims  = {1:'o1', 2:'o2', 3:'o3', 4:'o4'};
+
+function trigger(n){
+  const s=document.getElementById(anims[n]);
+  const p=document.getElementById(stages[n]);
+  if(s.classList.contains('open')) return;
+  s.classList.add('open');
+  p.classList.add('played');
+}
+
+function replay(n){
+  const s=document.getElementById(anims[n]);
+  const p=document.getElementById(stages[n]);
+  s.classList.remove('open');
+  p.classList.remove('played');
+  void s.offsetWidth; // force reflow to reset animations
+  setTimeout(()=>{ s.classList.add('open'); p.classList.add('played'); }, 60);
+}
+</script>
+
+<footer>Made with IBM Bob</footer>
+</body>
+</html>
