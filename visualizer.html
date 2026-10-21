@@ -1542,13 +1542,18 @@ function renderRoom(id) {
 function renderDots(surf) {
   const list = finList(surf);
   const cur  = rState[curRoom][surf === 'ceiling' ? 'ceiling' : surf === 'floor' ? 'floor' : 'wall'];
-  $('dotTrack').innerHTML = list.map(f => {
+  // material filter — curMatFilter defined later but defaults to 'all' at parse time
+  const matF = typeof curMatFilter !== 'undefined' ? curMatFilter : 'all';
+  const tags = typeof MAT_TAGS !== 'undefined' ? MAT_TAGS : {};
+  const filtered = matF === 'all' ? list : list.filter(f => tags[f.id] === matF);
+  $('dotTrack').innerHTML = (filtered.length ? filtered : list).map(f => {
     const style = `background:${f.c}`;
     return `<button class="cdot ${f.id===cur?'active':''}"
       style="${style}" data-id="${f.id}" data-tip="${f.name}"
       onclick="pickFin('${f.id}')"></button>`;
   }).join('');
   updateFinLabel(surf, cur);
+  if (typeof checkGrout === 'function') checkGrout(cur);
 }
 function updateFinLabel(surf, id) {
   const f = finObj(surf, id);
@@ -1569,6 +1574,7 @@ function pickFin(id) {
   }
   document.querySelectorAll('.cdot').forEach(d => d.classList.toggle('active', d.dataset.id === id));
   updateFinLabel(curSurf, id);
+  if (typeof checkGrout === 'function') checkGrout(id);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1742,21 +1748,7 @@ function setMatFilter(mat) {
   renderDots(curSurf);
 }
 
-// Patch renderDots to respect filter
-const _origRenderDots = renderDots;
-function renderDots(surf) {
-  const list = finList(surf);
-  const cur  = rState[curRoom][surf === 'ceiling' ? 'ceiling' : surf === 'floor' ? 'floor' : 'wall'];
-  const filtered = curMatFilter === 'all' ? list : list.filter(f => MAT_TAGS[f.id] === curMatFilter);
-  $('dotTrack').innerHTML = (filtered.length ? filtered : list).map(f => {
-    const style = `background:${f.c}`;
-    return `<button class="cdot ${f.id===cur?'active':''}"
-      style="${style}" data-id="${f.id}" data-tip="${f.name}"
-      onclick="pickFin('${f.id}')"></button>`;
-  }).join('');
-  updateFinLabel(surf, cur);
-  checkGrout(cur);
-}
+// renderDots already handles material filter inline above — no patch needed
 
 // ═══════════════════════════════════════════════════════════════
 //  SEARCH
@@ -1844,23 +1836,7 @@ function pickGrout(c) {
   toast('Grout colour updated');
 }
 
-// Patch pickFin to also check grout
-const _origPickFin = pickFin;
-function pickFin(id) {
-  const key = curSurf === 'ceiling' ? 'ceiling' : curSurf === 'floor' ? 'floor' : 'wall';
-  rState[curRoom][key] = id;
-  const bg = finBg(finList(curSurf), id);
-  if (curSurf === 'wall') {
-    ['w-back','w-left','w-right'].forEach(w => $(w).style.background = bg);
-  } else if (curSurf === 'floor') {
-    $('w-floor').style.background = bg;
-  } else {
-    $('w-ceil').style.background = bg;
-  }
-  document.querySelectorAll('.cdot').forEach(d => d.classList.toggle('active', d.dataset.id === id));
-  updateFinLabel(curSurf, id);
-  checkGrout(id);
-}
+// pickFin already calls checkGrout inline above — no patch needed
 
 // ═══════════════════════════════════════════════════════════════
 //  PRODUCT DETAIL CARD
