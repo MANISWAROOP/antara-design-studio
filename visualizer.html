@@ -731,6 +731,240 @@ a { text-decoration:none; color:inherit; }
 .sp-cta:hover { background:var(--gold-bright); box-shadow:0 8px 32px rgba(233,185,163,.3); }
 
 /* ══════════════════════════════════════════════════════════════════
+   TOOLBAR — snapshot, share, wishlist, fullscreen, before/after
+══════════════════════════════════════════════════════════════════ */
+#toolbar {
+  position:fixed; top:72px; left:50%; transform:translateX(-50%);
+  z-index:250;
+  display:flex; align-items:center; gap:6px;
+  background:rgba(13,12,11,.82);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(233,185,163,.1);
+  border-radius:2px;
+  padding:5px 8px;
+}
+.tb-tool {
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  padding:6px 14px;
+  border-radius:1px;
+  font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted2);
+  transition:var(--t) var(--ease);
+  white-space:nowrap; cursor:pointer;
+  border:1px solid transparent;
+}
+.tb-tool svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.8; flex-shrink:0; }
+.tb-tool:hover { color:var(--gold); border-color:rgba(233,185,163,.2); background:rgba(233,185,163,.06); }
+.tb-tool.active { color:var(--gold); border-color:var(--gold); background:rgba(233,185,163,.1); }
+.tb-tool.liked { color:#e9a3a3; border-color:rgba(233,163,163,.3); }
+.tb-sep { width:1px; height:22px; background:var(--dark5); margin:0 2px; flex-shrink:0; }
+
+/* ══════════════════════════════════════════════════════════════════
+   SEARCH BAR — floating above bottom panel
+══════════════════════════════════════════════════════════════════ */
+#search-bar {
+  position:fixed; bottom:170px; left:50%; transform:translateX(-50%);
+  z-index:210; width:320px;
+  display:none;
+  align-items:center; gap:8px;
+  background:rgba(13,12,11,.94);
+  border:1px solid rgba(233,185,163,.2);
+  padding:8px 14px;
+  backdrop-filter:blur(20px);
+}
+#search-bar.open { display:flex; }
+#search-input {
+  flex:1; background:none; border:none; outline:none;
+  font-family:var(--ff-head); font-size:11px; font-weight:600;
+  letter-spacing:.06em; color:var(--cream);
+}
+#search-input::placeholder { color:var(--muted2); }
+.search-icon { color:var(--gold-deep); flex-shrink:0; }
+.search-clear {
+  color:var(--muted2); font-size:14px; cursor:pointer; flex-shrink:0;
+  transition:color var(--t);
+}
+.search-clear:hover { color:var(--gold); }
+
+/* ══════════════════════════════════════════════════════════════════
+   MATERIAL TYPE FILTER — chips above dot track
+══════════════════════════════════════════════════════════════════ */
+#mat-filter {
+  display:flex; align-items:center; gap:6px; overflow-x:auto;
+  padding-bottom:2px;
+  scrollbar-width:none;
+}
+#mat-filter::-webkit-scrollbar { display:none; }
+.mf-chip {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:4px 12px; border-radius:20px;
+  font-family:var(--ff-head); font-size:8px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted2); border:1px solid var(--dark5);
+  transition:var(--t) var(--ease); cursor:pointer; white-space:nowrap;
+  flex-shrink:0;
+}
+.mf-chip:hover { border-color:var(--gold-dim); color:var(--gold-dim); }
+.mf-chip.active { border-color:var(--gold); color:var(--gold); background:rgba(233,185,163,.08); }
+
+/* ══════════════════════════════════════════════════════════════════
+   LIGHTING MODE PANEL — top-left
+══════════════════════════════════════════════════════════════════ */
+#light-panel {
+  position:fixed; left:24px; top:80px; z-index:210;
+  display:flex; flex-direction:column; gap:4px;
+}
+.lpill {
+  display:flex; align-items:center; gap:8px; padding:7px 12px;
+  border:1px solid transparent; border-radius:2px;
+  background:rgba(13,12,11,.7); backdrop-filter:blur(12px);
+  font-family:var(--ff-head); font-size:8px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted2);
+  transition:var(--t) var(--ease); cursor:pointer; white-space:nowrap;
+  overflow:hidden; max-width:30px;
+}
+.lpill:hover { max-width:160px; border-color:var(--gold-dim); color:var(--gold-dim); }
+.lpill.active { border-color:var(--gold); color:var(--gold); background:rgba(233,185,163,.1); max-width:160px; }
+.lpill-ico { font-size:12px; flex-shrink:0; }
+
+/* ══════════════════════════════════════════════════════════════════
+   GROUT PICKER — shown when a tile finish is active
+══════════════════════════════════════════════════════════════════ */
+#grout-row {
+  display:none; align-items:center; gap:10px;
+  padding-top:8px; margin-top:4px;
+  border-top:1px solid var(--dark4);
+}
+#grout-row.visible { display:flex; }
+.grout-label {
+  font-family:var(--ff-head); font-size:8px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--muted2);
+  white-space:nowrap; flex-shrink:0;
+}
+.gdot {
+  width:20px; height:20px; border-radius:50%;
+  border:2px solid transparent; outline:2px solid transparent;
+  outline-offset:2px; cursor:pointer;
+  transition:var(--t) var(--ease); flex-shrink:0;
+}
+.gdot:hover { transform:scale(1.2); }
+.gdot.active { outline-color:var(--gold); transform:scale(1.22); }
+
+/* ══════════════════════════════════════════════════════════════════
+   PRODUCT DETAIL CARD — slides up from bottom when finish clicked
+══════════════════════════════════════════════════════════════════ */
+#product-card {
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%) translateY(100%);
+  z-index:350; width:min(420px, 96vw);
+  background:rgba(13,12,11,.97);
+  border:1px solid rgba(233,185,163,.15);
+  border-bottom:none;
+  backdrop-filter:blur(32px);
+  transition:transform .4s cubic-bezier(.4,0,.2,1);
+  padding:0;
+}
+#product-card.open { transform:translateX(-50%) translateY(0); }
+.pc-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px 12px;
+  border-bottom:1px solid rgba(233,185,163,.08);
+}
+.pc-eyebrow {
+  font-family:var(--ff-head); font-size:8px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep);
+}
+.pc-close {
+  width:28px; height:28px; border-radius:50%;
+  border:1px solid rgba(255,248,240,.1); color:var(--muted);
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; cursor:pointer;
+  transition:var(--t) var(--ease);
+}
+.pc-close:hover { border-color:var(--gold); color:var(--gold); }
+.pc-body { display:flex; gap:16px; padding:16px 20px 20px; }
+.pc-swatch {
+  width:72px; height:72px; flex-shrink:0; border-radius:2px;
+  border:1px solid rgba(255,255,255,.08);
+}
+.pc-info { flex:1; }
+.pc-name {
+  font-family:var(--ff-display); font-size:20px; font-weight:300;
+  font-style:italic; color:var(--cream); margin-bottom:4px;
+}
+.pc-sub-label {
+  font-family:var(--ff-head); font-size:9px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--gold-deep);
+  margin-bottom:10px;
+}
+.pc-specs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.pc-spec {
+  font-family:var(--ff-head); font-size:8px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:3px 10px; background:rgba(255,248,240,.05);
+  border:1px solid rgba(255,248,240,.1); color:var(--muted2);
+}
+.pc-actions { display:flex; gap:8px; padding:0 20px 20px; }
+.pc-btn {
+  flex:1; padding:10px; border-radius:1px;
+  font-family:var(--ff-head); font-size:9px; font-weight:800;
+  letter-spacing:.12em; text-transform:uppercase;
+  transition:var(--t) var(--ease); cursor:pointer;
+}
+.pc-btn.primary { background:var(--gold); color:var(--plum); }
+.pc-btn.primary:hover { background:var(--gold-bright); box-shadow:0 6px 20px rgba(233,185,163,.3); }
+.pc-btn.ghost { border:1px solid rgba(233,185,163,.2); color:var(--gold); background:transparent; }
+.pc-btn.ghost:hover { border-color:var(--gold); background:rgba(233,185,163,.06); }
+
+/* ══════════════════════════════════════════════════════════════════
+   BEFORE / AFTER SLIDER
+══════════════════════════════════════════════════════════════════ */
+#ba-overlay {
+  position:fixed; inset:0; z-index:500;
+  display:none; pointer-events:none;
+}
+#ba-overlay.active { display:block; pointer-events:auto; }
+#ba-before, #ba-after {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+#ba-before { clip-path:inset(0 50% 0 0); }
+.ba-label {
+  position:absolute; top:20px;
+  font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase;
+  padding:4px 12px; background:rgba(13,12,11,.8);
+  border:1px solid rgba(233,185,163,.2); color:var(--gold);
+  z-index:2; pointer-events:none;
+}
+#ba-before .ba-label { left:20px; }
+#ba-after  .ba-label { right:20px; }
+#ba-divider {
+  position:absolute; top:0; bottom:0; left:50%; width:2px;
+  background:var(--gold); z-index:3; cursor:ew-resize;
+  transform:translateX(-50%);
+}
+#ba-handle {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:36px; height:36px; border-radius:50%;
+  background:var(--gold); border:3px solid white;
+  display:flex; align-items:center; justify-content:center;
+  cursor:ew-resize; z-index:4;
+  box-shadow:0 4px 12px rgba(0,0,0,.5);
+}
+#ba-handle svg { width:16px; height:16px; fill:var(--plum); }
+#ba-close {
+  position:absolute; top:16px; left:50%; transform:translateX(-50%);
+  padding:6px 20px; z-index:10;
+  background:rgba(13,12,11,.9); border:1px solid rgba(233,185,163,.25);
+  font-family:var(--ff-head); font-size:9px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--gold);
+  cursor:pointer; backdrop-filter:blur(12px);
+}
+
+/* ══════════════════════════════════════════════════════════════════
    TOAST
 ══════════════════════════════════════════════════════════════════ */
 #toast {
@@ -769,6 +1003,12 @@ a { text-decoration:none; color:inherit; }
 /* ══════════════════════════════════════════════════════════════════
    MOBILE
 ══════════════════════════════════════════════════════════════════ */
+@media(max-width:900px) {
+  #toolbar { top:68px; padding:4px 6px; gap:4px; }
+  .tb-tool span { display:none; }
+  .tb-tool { padding:6px 10px; }
+  #light-panel { display:none; }
+}
 @media(max-width:900px) {
   #room { width:720px; height:440px; }
   #w-back  { width:720px; height:440px; }
@@ -823,6 +1063,92 @@ a { text-decoration:none; color:inherit; }
     <button class="tb-btn tb-ghost" onclick="toggleSpec()">✦ Specifications</button>
     <a href="index.html" class="tb-btn tb-ghost">← Designer</a>
     <button class="tb-btn tb-cta" onclick="bookNow()">Book Consultation</button>
+  </div>
+</div>
+
+<!-- ═══ TOOLBAR ═══════════════════════════════════════════════════ -->
+<div id="toolbar">
+  <button class="tb-tool" id="btnSearch" onclick="toggleSearch()" title="Search finishes">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+    <span>Search</span>
+  </button>
+  <div class="tb-sep"></div>
+  <button class="tb-tool" id="btnBA" onclick="openBA()" title="Before / After">
+    <svg viewBox="0 0 24 24"><path d="M3 12h18M12 3v18"/><path d="M3 12l4-4M3 12l4 4"/><path d="M21 12l-4-4M21 12l-4 4"/></svg>
+    <span>Before / After</span>
+  </button>
+  <div class="tb-sep"></div>
+  <button class="tb-tool" id="btnSnap" onclick="takeSnapshot()" title="Download snapshot">
+    <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    <span>Snapshot</span>
+  </button>
+  <div class="tb-sep"></div>
+  <button class="tb-tool" id="btnShare" onclick="shareLink()" title="Share link">
+    <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+    <span>Share</span>
+  </button>
+  <div class="tb-sep"></div>
+  <button class="tb-tool" id="btnLike" onclick="toggleLike()" title="Wishlist">
+    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    <span>Wishlist</span>
+  </button>
+  <div class="tb-sep"></div>
+  <button class="tb-tool" id="btnFull" onclick="toggleFullscreen()" title="Fullscreen">
+    <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3M16 3h3a2 2 0 012 2v3M21 16v3a2 2 0 01-2 2h-3M3 16v3a2 2 0 002 2h3"/></svg>
+    <span>Fullscreen</span>
+  </button>
+</div>
+
+<!-- ═══ SEARCH BAR ════════════════════════════════════════════════ -->
+<div id="search-bar">
+  <svg class="search-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+  <input id="search-input" type="text" placeholder="Search finishes…" oninput="filterFinishes(this.value)">
+  <span class="search-clear" onclick="clearSearch()">✕</span>
+</div>
+
+<!-- ═══ LIGHTING PANEL ════════════════════════════════════════════ -->
+<div id="light-panel">
+  <button class="lpill active" data-light="warm" onclick="setLight('warm')"><span class="lpill-ico">🕯</span><span>Warm White</span></button>
+  <button class="lpill" data-light="soft"        onclick="setLight('soft')"><span class="lpill-ico">💡</span><span>Soft White</span></button>
+  <button class="lpill" data-light="day"         onclick="setLight('day')"><span class="lpill-ico">☀</span><span>Daylight</span></button>
+  <button class="lpill" data-light="night"       onclick="setLight('night')"><span class="lpill-ico">🌙</span><span>Night Mode</span></button>
+</div>
+
+<!-- ═══ BEFORE / AFTER OVERLAY ══════════════════════════════════ -->
+<div id="ba-overlay">
+  <div id="ba-after">
+    <div class="ba-label">After</div>
+    <!-- filled by JS with current room snapshot canvas -->
+  </div>
+  <div id="ba-before">
+    <div class="ba-label">Before</div>
+    <!-- filled by JS with default room snapshot canvas -->
+  </div>
+  <div id="ba-divider">
+    <div id="ba-handle">
+      <svg viewBox="0 0 24 24"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg>
+    </div>
+  </div>
+  <button id="ba-close" onclick="closeBA()">✕ Close Comparison</button>
+</div>
+
+<!-- ═══ PRODUCT DETAIL CARD ══════════════════════════════════════ -->
+<div id="product-card">
+  <div class="pc-header">
+    <div class="pc-eyebrow">Surface Finish Details</div>
+    <button class="pc-close" onclick="closeProductCard()">✕</button>
+  </div>
+  <div class="pc-body">
+    <div class="pc-swatch" id="pcSwatch"></div>
+    <div class="pc-info">
+      <div class="pc-name" id="pcName"></div>
+      <div class="pc-sub-label" id="pcSub"></div>
+      <div class="pc-specs" id="pcSpecs"></div>
+    </div>
+  </div>
+  <div class="pc-actions">
+    <button class="pc-btn primary" onclick="bookNow()">Book Consultation →</button>
+    <button class="pc-btn ghost" onclick="toggleLike();closeProductCard()">♡ Save</button>
   </div>
 </div>
 
@@ -941,6 +1267,17 @@ a { text-decoration:none; color:inherit; }
     <button class="room-tab"        data-room="pooja"    onclick="switchRoom('pooja')"><span class="ico">🪔</span>Pooja</button>
   </div>
 
+  <!-- Material type filter chips -->
+  <div id="mat-filter">
+    <button class="mf-chip active" data-mat="all"     onclick="setMatFilter('all')">All</button>
+    <button class="mf-chip" data-mat="paint"          onclick="setMatFilter('paint')">Paint</button>
+    <button class="mf-chip" data-mat="stone"          onclick="setMatFilter('stone')">Stone / Marble</button>
+    <button class="mf-chip" data-mat="wood"           onclick="setMatFilter('wood')">Wood</button>
+    <button class="mf-chip" data-mat="tiles"          onclick="setMatFilter('tiles')">Tiles</button>
+    <button class="mf-chip" data-mat="panel"          onclick="setMatFilter('panel')">Panel</button>
+    <button class="mf-chip" data-mat="special"        onclick="setMatFilter('special')">Special</button>
+  </div>
+
   <!-- Finish selector -->
   <div class="finish-row">
     <!-- Surface tabs -->
@@ -957,11 +1294,22 @@ a { text-decoration:none; color:inherit; }
 
     <div class="fin-divider"></div>
 
-    <!-- Finish name -->
-    <div>
-      <div class="fin-name" id="finName">Warm Ivory</div>
-      <div class="fin-sub"  id="finSub">Smooth Plaster</div>
+    <!-- Finish name + info icon -->
+    <div style="display:flex;align-items:center;gap:10px">
+      <div>
+        <div class="fin-name" id="finName">Warm Ivory</div>
+        <div class="fin-sub"  id="finSub">Smooth Plaster</div>
+      </div>
+      <button class="tb-tool" style="padding:5px 10px;min-width:32px" onclick="openProductCard()" title="Details">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      </button>
     </div>
+  </div>
+
+  <!-- Grout picker — visible only for tile finishes -->
+  <div id="grout-row">
+    <span class="grout-label">Grout Colour:</span>
+    <div id="grout-dots" style="display:flex;gap:6px;align-items:center"></div>
   </div>
 </div>
 
@@ -1373,6 +1721,368 @@ setTimeout(() => {
 const P = new URLSearchParams(location.search);
 if (P.get('room'))   switchRoom(P.get('room'));
 if (P.get('preset')) setTimeout(() => applyPreset(P.get('preset')), 900);
+
+// ═══════════════════════════════════════════════════════════════
+//  MATERIAL TYPE FILTER
+// ═══════════════════════════════════════════════════════════════
+const MAT_TAGS = {
+  ivory:'paint', taupe:'paint', sage:'paint', charcoal:'paint', navy:'paint',
+  terracotta:'special', blush:'paint', forest:'paint',
+  marble:'stone', gold_tx:'special', wood_pnl:'panel', jaipur:'paint',
+  oak:'wood', walnut:'wood', marble_f:'stone', granite:'stone',
+  herring:'wood', cement:'special', tiles:'tiles', vitrified:'tiles',
+  white_c:'paint', cream_c:'paint', grey_c:'paint', dark_c:'paint',
+  wood_c:'wood', coffer_c:'panel',
+};
+let curMatFilter = 'all';
+
+function setMatFilter(mat) {
+  curMatFilter = mat;
+  document.querySelectorAll('.mf-chip').forEach(c => c.classList.toggle('active', c.dataset.mat === mat));
+  renderDots(curSurf);
+}
+
+// Patch renderDots to respect filter
+const _origRenderDots = renderDots;
+function renderDots(surf) {
+  const list = finList(surf);
+  const cur  = rState[curRoom][surf === 'ceiling' ? 'ceiling' : surf === 'floor' ? 'floor' : 'wall'];
+  const filtered = curMatFilter === 'all' ? list : list.filter(f => MAT_TAGS[f.id] === curMatFilter);
+  $('dotTrack').innerHTML = (filtered.length ? filtered : list).map(f => {
+    const style = `background:${f.c}`;
+    return `<button class="cdot ${f.id===cur?'active':''}"
+      style="${style}" data-id="${f.id}" data-tip="${f.name}"
+      onclick="pickFin('${f.id}')"></button>`;
+  }).join('');
+  updateFinLabel(surf, cur);
+  checkGrout(cur);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SEARCH
+// ═══════════════════════════════════════════════════════════════
+let searchOpen = false;
+function toggleSearch() {
+  searchOpen = !searchOpen;
+  $('search-bar').classList.toggle('open', searchOpen);
+  $('btnSearch').classList.toggle('active', searchOpen);
+  if (searchOpen) setTimeout(() => $('search-input').focus(), 80);
+}
+function filterFinishes(q) {
+  const list = finList(curSurf);
+  const lower = q.toLowerCase();
+  const filtered = q ? list.filter(f => f.name.toLowerCase().includes(lower) || (f.sub||'').toLowerCase().includes(lower)) : list;
+  const cur = rState[curRoom][curSurf === 'ceiling' ? 'ceiling' : curSurf === 'floor' ? 'floor' : 'wall'];
+  $('dotTrack').innerHTML = filtered.map(f =>
+    `<button class="cdot ${f.id===cur?'active':''}" style="background:${f.c}" data-id="${f.id}" data-tip="${f.name}" onclick="pickFin('${f.id}')"></button>`
+  ).join('');
+  if (!filtered.length) $('dotTrack').innerHTML = '<span style="font-family:var(--ff-head);font-size:9px;color:var(--muted2);letter-spacing:.1em">No results</span>';
+}
+function clearSearch() {
+  $('search-input').value = '';
+  filterFinishes('');
+  $('search-bar').classList.remove('open');
+  $('btnSearch').classList.remove('active');
+  searchOpen = false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  LIGHTING MODES
+// ═══════════════════════════════════════════════════════════════
+const LIGHT_MODES = {
+  warm:  { main:'rgba(255,210,140,.10)', accent:'rgba(233,185,163,.07)', left:'rgba(255,240,200,.05)', filter:'brightness(1) saturate(1.1)' },
+  soft:  { main:'rgba(240,230,200,.07)', accent:'rgba(220,200,180,.05)', left:'rgba(255,255,240,.04)', filter:'brightness(1.05) saturate(.95)' },
+  day:   { main:'rgba(220,235,255,.08)', accent:'rgba(200,220,240,.05)', left:'rgba(240,248,255,.06)', filter:'brightness(1.12) saturate(.9)' },
+  night: { main:'rgba(60,40,80,.12)',   accent:'rgba(100,60,120,.06)',   left:'rgba(40,30,60,.08)',   filter:'brightness(.72) saturate(1.3)' },
+};
+function setLight(mode) {
+  document.querySelectorAll('.lpill').forEach(b => b.classList.toggle('active', b.dataset.light === mode));
+  const m = LIGHT_MODES[mode];
+  $('ls-main').style.background   = `radial-gradient(ellipse, ${m.main} 0%, transparent 65%)`;
+  $('ls-accent').style.background = `radial-gradient(ellipse, ${m.accent} 0%, transparent 65%)`;
+  $('ls-left').style.background   = `radial-gradient(ellipse, ${m.left} 0%, transparent 70%)`;
+  $('scene').style.filter = m.filter;
+  const names = { warm:'Warm White', soft:'Soft White', day:'Daylight', night:'Night Mode' };
+  toast(`Lighting: ${names[mode]}`);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  GROUT PICKER
+// ═══════════════════════════════════════════════════════════════
+const TILE_IDS = new Set(['tiles','vitrified','herring']);
+const GROUT_COLOURS = [
+  { c:'#F5F2EC', name:'White' },
+  { c:'#D0CCC4', name:'Light Grey' },
+  { c:'#8A8680', name:'Mid Grey' },
+  { c:'#2A2826', name:'Charcoal' },
+  { c:'#C8A870', name:'Sand' },
+  { c:'#1A1208', name:'Dark' },
+];
+let curGrout = '#D0CCC4';
+
+function checkGrout(finId) {
+  const row = $('grout-row');
+  if (TILE_IDS.has(finId) && curSurf !== 'ceiling') {
+    row.classList.add('visible');
+    renderGroutDots();
+  } else {
+    row.classList.remove('visible');
+  }
+}
+function renderGroutDots() {
+  $('grout-dots').innerHTML = GROUT_COLOURS.map(g =>
+    `<button class="gdot ${g.c===curGrout?'active':''}" style="background:${g.c}" data-tip="${g.name}" title="${g.name}" onclick="pickGrout('${g.c}')"></button>`
+  ).join('');
+}
+function pickGrout(c) {
+  curGrout = c;
+  renderGroutDots();
+  // Overlay grout on the current tile finish via box-shadow trick
+  const key = curSurf === 'floor' ? 'floor' : 'wall';
+  const faces = curSurf === 'wall' ? ['w-back','w-left','w-right'] : ['w-floor'];
+  faces.forEach(id => { $(id).style.outlineColor = c; });
+  toast('Grout colour updated');
+}
+
+// Patch pickFin to also check grout
+const _origPickFin = pickFin;
+function pickFin(id) {
+  const key = curSurf === 'ceiling' ? 'ceiling' : curSurf === 'floor' ? 'floor' : 'wall';
+  rState[curRoom][key] = id;
+  const bg = finBg(finList(curSurf), id);
+  if (curSurf === 'wall') {
+    ['w-back','w-left','w-right'].forEach(w => $(w).style.background = bg);
+  } else if (curSurf === 'floor') {
+    $('w-floor').style.background = bg;
+  } else {
+    $('w-ceil').style.background = bg;
+  }
+  document.querySelectorAll('.cdot').forEach(d => d.classList.toggle('active', d.dataset.id === id));
+  updateFinLabel(curSurf, id);
+  checkGrout(id);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  PRODUCT DETAIL CARD
+// ═══════════════════════════════════════════════════════════════
+const FIN_META = {
+  ivory:     { size:'N/A', finish:'Smooth Plaster', cost:'₹18–28/sqft', brand:'Asian Paints' },
+  taupe:     { size:'N/A', finish:'Textured Plaster',cost:'₹22–32/sqft', brand:'Birla White' },
+  sage:      { size:'N/A', finish:'Matte Paint',    cost:'₹15–22/sqft', brand:'Dulux' },
+  charcoal:  { size:'N/A', finish:'Matte Paint',    cost:'₹15–22/sqft', brand:'Nerolac' },
+  navy:      { size:'N/A', finish:'Satin Paint',    cost:'₹18–26/sqft', brand:'Asian Paints' },
+  terracotta:{ size:'N/A', finish:'Lime Wash',      cost:'₹25–38/sqft', brand:'Artha' },
+  blush:     { size:'N/A', finish:'Silk Plaster',   cost:'₹28–42/sqft', brand:'Veneziano' },
+  forest:    { size:'N/A', finish:'Matte Paint',    cost:'₹15–22/sqft', brand:'Dulux' },
+  marble:    { size:'Custom slab', finish:'Stone Cladding', cost:'₹85–140/sqft', brand:'Rajputana Marble' },
+  gold_tx:   { size:'N/A', finish:'Metallic Finish',cost:'₹45–70/sqft', brand:'Royale Glitz' },
+  wood_pnl:  { size:'6mm panel', finish:'Wood Veneer', cost:'₹55–90/sqft', brand:'Merino' },
+  jaipur:    { size:'N/A', finish:'Heritage Lime',  cost:'₹30–45/sqft', brand:'Artha' },
+  oak:       { size:'120×800mm', finish:'Solid Wood',  cost:'₹95–140/sqft', brand:'Pergo' },
+  walnut:    { size:'90×600mm',  finish:'Solid Wood',  cost:'₹110–160/sqft', brand:'Kahrs' },
+  marble_f:  { size:'Custom slab', finish:'Natural Stone', cost:'₹110–180/sqft', brand:'Rajputana Marble' },
+  granite:   { size:'Custom slab', finish:'Polished Stone', cost:'₹70–110/sqft', brand:'Antora Granite' },
+  herring:   { size:'70×280mm', finish:'Parquet Oak', cost:'₹85–120/sqft', brand:'Quick-Step' },
+  cement:    { size:'N/A', finish:'Polished Concrete', cost:'₹40–60/sqft', brand:'Laticrete' },
+  tiles:     { size:'300×300mm', finish:'Ceramic',  cost:'₹35–60/sqft', brand:'Kajaria' },
+  vitrified: { size:'600×600mm', finish:'Vitrified', cost:'₹45–80/sqft', brand:'Somany' },
+  white_c:   { size:'N/A', finish:'Smooth Plaster', cost:'₹12–18/sqft', brand:'Asian Paints' },
+  cream_c:   { size:'N/A', finish:'Matte Paint',    cost:'₹12–18/sqft', brand:'Dulux' },
+  grey_c:    { size:'N/A', finish:'Matte Paint',    cost:'₹12–18/sqft', brand:'Nerolac' },
+  dark_c:    { size:'N/A', finish:'Velvet Paint',   cost:'₹22–35/sqft', brand:'Asian Paints' },
+  wood_c:    { size:'90×12mm slat', finish:'Timber Slat', cost:'₹65–95/sqft', brand:'Greenlam' },
+  coffer_c:  { size:'600×600mm',  finish:'GRC Panel', cost:'₹55–85/sqft', brand:'Custom Fab' },
+};
+
+function openProductCard() {
+  const key = curSurf === 'ceiling' ? 'ceiling' : curSurf === 'floor' ? 'floor' : 'wall';
+  const finId = rState[curRoom][key];
+  const f  = finObj(curSurf, finId);
+  const m  = FIN_META[finId] || {};
+  if (!f) return;
+  $('pcSwatch').style.background = f.g || f.c;
+  $('pcName').textContent  = f.name;
+  $('pcSub').textContent   = f.sub || '';
+  $('pcSpecs').innerHTML = [
+    m.finish  && `<span class="pc-spec">${m.finish}</span>`,
+    m.size    && `<span class="pc-spec">${m.size}</span>`,
+    m.cost    && `<span class="pc-spec">${m.cost}</span>`,
+    m.brand   && `<span class="pc-spec">${m.brand}</span>`,
+  ].filter(Boolean).join('');
+  $('product-card').classList.add('open');
+}
+function closeProductCard() {
+  $('product-card').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  WISHLIST / LIKE
+// ═══════════════════════════════════════════════════════════════
+const wishlist = new Set();
+function toggleLike() {
+  const key = curSurf === 'ceiling' ? 'ceiling' : curSurf === 'floor' ? 'floor' : 'wall';
+  const finId = rState[curRoom][key];
+  const f = finObj(curSurf, finId);
+  if (!f) return;
+  const id = `${curRoom}-${finId}`;
+  if (wishlist.has(id)) {
+    wishlist.delete(id);
+    $('btnLike').classList.remove('liked');
+    toast(`Removed ${f.name} from wishlist`);
+  } else {
+    wishlist.add(id);
+    $('btnLike').classList.add('liked');
+    toast(`♡ ${f.name} saved to wishlist`);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SNAPSHOT / DOWNLOAD
+// ═══════════════════════════════════════════════════════════════
+function takeSnapshot() {
+  // Use html2canvas-style approach — build a share card as PNG via canvas
+  const canvas = document.createElement('canvas');
+  canvas.width  = 900; canvas.height = 560;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#0A0908';
+  ctx.fillRect(0, 0, 900, 560);
+
+  // Room surfaces from state
+  const rs = rState[curRoom];
+  const wc = finObj('wall',    rs.wall)?.c    || '#EDE8DC';
+  const fc = finObj('floor',   rs.floor)?.c   || '#B89060';
+  const cc = finObj('ceiling', rs.ceiling)?.c || '#F4F2EC';
+
+  // Draw simplified room box
+  ctx.fillStyle = cc;
+  ctx.fillRect(100, 40, 700, 120);  // ceiling strip
+  ctx.fillStyle = wc;
+  ctx.fillRect(100, 155, 700, 270); // back wall
+  ctx.fillStyle = fc;
+  ctx.fillRect(100, 420, 700, 100); // floor strip
+  // Side shadow vignettes
+  const lg = ctx.createLinearGradient(100,0,250,0);
+  lg.addColorStop(0,'rgba(0,0,0,.45)'); lg.addColorStop(1,'transparent');
+  ctx.fillStyle = lg; ctx.fillRect(100,155,160,270);
+  const rg = ctx.createLinearGradient(850,0,700,0);
+  rg.addColorStop(0,'rgba(0,0,0,.45)'); rg.addColorStop(1,'transparent');
+  ctx.fillStyle = rg; ctx.fillRect(690,155,160,270);
+
+  // Room name
+  ctx.font = 'italic 300 36px Cormorant Garamond, serif';
+  ctx.fillStyle = '#E9B9A3';
+  ctx.textAlign = 'center';
+  ctx.fillText(ROOMS[curRoom].name, 450, 510);
+
+  // Brand
+  ctx.font = '700 10px Raleway, sans-serif';
+  ctx.fillStyle = 'rgba(233,185,163,.45)';
+  ctx.letterSpacing = '0.2em';
+  ctx.fillText('ANTARA STUDIOS · BANGALORE', 450, 540);
+
+  // Download
+  const a = document.createElement('a');
+  a.download = `antara-${curRoom}-design.png`;
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+  toast('Snapshot downloaded ↓');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SHARE LINK
+// ═══════════════════════════════════════════════════════════════
+function shareLink() {
+  const rs = rState[curRoom];
+  const url = `${location.origin}${location.pathname}?room=${curRoom}&wall=${rs.wall}&floor=${rs.floor}&ceil=${rs.ceiling}`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => toast('Link copied to clipboard ✓'));
+  } else {
+    prompt('Copy this link:', url);
+  }
+}
+// Apply wall/floor/ceil from URL params on load
+if (P.get('wall'))  { const r=P.get('room')||'living'; rState[r].wall    = P.get('wall'); }
+if (P.get('floor')) { const r=P.get('room')||'living'; rState[r].floor   = P.get('floor'); }
+if (P.get('ceil'))  { const r=P.get('room')||'living'; rState[r].ceiling = P.get('ceil'); }
+
+// ═══════════════════════════════════════════════════════════════
+//  FULLSCREEN
+// ═══════════════════════════════════════════════════════════════
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+    $('btnFull').classList.add('active');
+    toast('Fullscreen — press Esc to exit');
+  } else {
+    document.exitFullscreen?.();
+    $('btnFull').classList.remove('active');
+  }
+}
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) $('btnFull').classList.remove('active');
+});
+
+// ═══════════════════════════════════════════════════════════════
+//  BEFORE / AFTER SLIDER
+// ═══════════════════════════════════════════════════════════════
+let baSnapshotBefore = null;
+
+function openBA() {
+  // Capture current room colours as "before" (default preset)
+  const def = PRESETS.contemporary;
+  const beforeWall  = finBg(WALL,  def.wall);
+  const beforeFloor = finBg(FLOOR, def.floor);
+  const beforeCeil  = finBg(CEIL,  def.ceiling);
+  const afterWall   = finBg(WALL,  rState[curRoom].wall);
+  const afterFloor  = finBg(FLOOR, rState[curRoom].floor);
+  const afterCeil   = finBg(CEIL,  rState[curRoom].ceiling);
+
+  // Build mini room HTML for before & after panels
+  function miniRoom(wc, fc, cc, label) {
+    return `<div style="position:absolute;inset:0;background:#0A0908;display:flex;align-items:center;justify-content:center">
+      <div style="position:relative;width:600px;height:360px;transform-style:preserve-3d;perspective:1200px">
+        <div style="position:absolute;inset:0;background:${wc}"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:36%;background:${fc}"></div>
+        <div style="position:absolute;top:0;left:0;right:0;height:18%;background:${cc};opacity:.8"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 50%,rgba(0,0,0,.4) 100%)"></div>
+        <div style="position:absolute;bottom:12px;left:0;right:0;text-align:center;font-family:Cormorant Garamond,serif;font-style:italic;font-size:20px;color:rgba(233,185,163,.7)">${label}</div>
+      </div>
+    </div>`;
+  }
+
+  $('ba-after').innerHTML  = `<div class="ba-label">After — Your Design</div>` + miniRoom(afterWall,  afterFloor,  afterCeil,  ROOMS[curRoom].name);
+  $('ba-before').innerHTML = `<div class="ba-label">Before — Default</div>`    + miniRoom(beforeWall, beforeFloor, beforeCeil, ROOMS[curRoom].name);
+
+  $('ba-overlay').classList.add('active');
+  $('btnBA').classList.add('active');
+  initBASlider();
+}
+function closeBA() {
+  $('ba-overlay').classList.remove('active');
+  $('btnBA').classList.remove('active');
+}
+function initBASlider() {
+  const overlay = $('ba-overlay');
+  const divider = $('ba-divider');
+  const before  = $('ba-before');
+  let dragging = false;
+
+  function setPos(x) {
+    const rect = overlay.getBoundingClientRect();
+    const pct  = Math.max(5, Math.min(95, ((x - rect.left) / rect.width) * 100));
+    divider.style.left = pct + '%';
+    before.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+  }
+
+  divider.addEventListener('mousedown',  () => dragging = true);
+  divider.addEventListener('touchstart', () => dragging = true, { passive:true });
+  overlay.addEventListener('mousemove',  e => { if (dragging) setPos(e.clientX); });
+  overlay.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, { passive:true });
+  window.addEventListener('mouseup',  () => dragging = false);
+  window.addEventListener('touchend', () => dragging = false);
+}
 </script>
 </body>
 </html>
