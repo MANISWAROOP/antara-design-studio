@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Antara Studios — Digital Platform Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;600;700;800&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#E9B9A3; --gold2:#D4A87A; --gold3:#C8903A;
+  --plum:#3B2D35; --ink:#0A0908; --dark:#0F0D0C; --dark2:#161310; --dark3:#1E1A17;
+  --dark4:#2C2722; --dark5:#3A342E;
+  --cream:#FFF8F0; --cream2:#F2E8DE; --muted:rgba(255,248,240,.55); --muted2:rgba(255,248,240,.25);
+  --green:#6BAF7A; --amber:#E8A840; --blue:#6A9FCA;
+  --ff1:'Cormorant Garamond',serif; --ff2:'Raleway',sans-serif; --ff3:'Golos Text',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font-family:var(--ff3);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+/* ── COVER ── */
+#cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;position:relative;overflow:hidden}
+#cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(200,144,58,.08),transparent 70%)}
+#cover::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,248,240,.012) 60px,rgba(255,248,240,.012) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,248,240,.012) 60px,rgba(255,248,240,.012) 61px)}
+.cover-eyebrow{font-family:var(--ff2);font-size:9px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--gold3);margin-bottom:28px}
+.cover-title{font-family:var(--ff1);font-size:clamp(44px,7vw,96px);font-weight:300;line-height:.95;letter-spacing:-.01em;color:var(--cream);margin-bottom:16px}
+.cover-title em{font-style:italic;color:var(--gold)}
+.cover-sub{font-family:var(--ff2);font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:48px}
+.cover-line{width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--gold3),transparent);margin:0 auto 48px}
+.cover-meta{display:flex;gap:48px;justify-content:center;flex-wrap:wrap}
+.cm-item{text-align:center}
+.cm-val{font-family:var(--ff1);font-size:28px;font-weight:300;font-style:italic;color:var(--gold)}
+.cm-lbl{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted2);margin-top:4px}
+
+/* ── SHARED ── */
+section{padding:100px 48px;max-width:1200px;margin:0 auto}
+.sec-eyebrow{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--gold3);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.sec-eyebrow::before{content:'';width:32px;height:1px;background:var(--gold3)}
+.sec-title{font-family:var(--ff1);font-size:clamp(36px,5vw,64px);font-weight:300;line-height:1;letter-spacing:-.01em;color:var(--cream);margin-bottom:16px}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-sub{font-family:var(--ff3);font-size:15px;color:var(--muted);line-height:1.7;max-width:680px;margin-bottom:56px}
+.divider{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(233,185,163,.15),transparent);margin:0}
+
+/* ── LIVE URLS BAND ── */
+#urls{background:var(--dark2);padding:32px 48px;border-top:1px solid rgba(233,185,163,.1);border-bottom:1px solid rgba(233,185,163,.1)}
+.url-grid{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center}
+.url-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border:1px solid rgba(233,185,163,.2);background:rgba(233,185,163,.05);border-radius:2px;font-family:var(--ff2);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);transition:.25s}
+.url-pill:hover{background:rgba(233,185,163,.12);border-color:var(--gold)}
+.url-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+/* ── WHAT WE BUILT ── */
+.built-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:rgba(233,185,163,.08);border:1px solid rgba(233,185,163,.08)}
+.built-card{background:var(--dark2);padding:32px 28px;transition:.3s}
+.built-card:hover{background:var(--dark3)}
+.bc-ico{font-size:28px;margin-bottom:16px}
+.bc-title{font-family:var(--ff1);font-size:22px;font-weight:300;color:var(--cream);margin-bottom:8px}
+.bc-sub{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold3);margin-bottom:16px}
+.bc-list{display:flex;flex-direction:column;gap:6px}
+.bc-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--muted);line-height:1.4}
+.bc-item::before{content:'✦';color:var(--gold3);font-size:8px;flex-shrink:0;margin-top:3px}
+
+/* ── FEATURE COMPARISON TABLE ── */
+.compare-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold3);padding:14px 16px;text-align:left;border-bottom:1px solid rgba(233,185,163,.15);white-space:nowrap}
+td{padding:13px 16px;border-bottom:1px solid rgba(255,248,240,.05);color:var(--muted);vertical-align:middle;line-height:1.4}
+td:first-child{color:var(--cream2);font-weight:500}
+tr:hover td{background:rgba(233,185,163,.03)}
+.tag-yes{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;background:rgba(107,175,122,.12);border:1px solid rgba(107,175,122,.3);color:var(--green);border-radius:20px;font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.tag-no{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;background:rgba(255,248,240,.04);border:1px solid rgba(255,248,240,.1);color:var(--muted2);border-radius:20px;font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.tag-partial{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;background:rgba(232,168,64,.1);border:1px solid rgba(232,168,64,.3);color:var(--amber);border-radius:20px;font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+
+/* ── ROADMAP ── */
+.roadmap{display:flex;flex-direction:column;gap:0}
+.phase{border-left:2px solid var(--dark5);padding-left:32px;position:relative;padding-bottom:48px}
+.phase:last-child{border-left-color:transparent;padding-bottom:0}
+.phase-dot{position:absolute;left:-9px;top:4px;width:16px;height:16px;border-radius:50%;border:2px solid var(--dark5);background:var(--ink)}
+.phase.done .phase-dot{background:var(--green);border-color:var(--green);box-shadow:0 0 12px rgba(107,175,122,.4)}
+.phase.active .phase-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 12px rgba(233,185,163,.4);animation:pulseDot 2s ease-in-out infinite}
+.phase.next .phase-dot{background:var(--dark3);border-color:var(--gold3)}
+.phase.future .phase-dot{background:var(--dark3);border-color:var(--dark5)}
+@keyframes pulseDot{0%,100%{box-shadow:0 0 12px rgba(233,185,163,.4)}50%{box-shadow:0 0 24px rgba(233,185,163,.7)}}
+.phase-badge{display:inline-flex;align-items:center;gap:6px;margin-bottom:12px}
+.pb-tag{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:3px 12px;border-radius:20px}
+.pb-tag.done{background:rgba(107,175,122,.12);color:var(--green);border:1px solid rgba(107,175,122,.3)}
+.pb-tag.active{background:rgba(233,185,163,.12);color:var(--gold);border:1px solid rgba(233,185,163,.3)}
+.pb-tag.next{background:rgba(200,144,58,.1);color:var(--gold3);border:1px solid rgba(200,144,58,.3)}
+.pb-tag.future{background:rgba(106,159,202,.1);color:var(--blue);border:1px solid rgba(106,159,202,.25)}
+.phase-num{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.15em;color:var(--muted2)}
+.phase-title{font-family:var(--ff1);font-size:28px;font-weight:300;color:var(--cream);margin-bottom:6px}
+.phase-title em{font-style:italic;color:var(--gold)}
+.phase-period{font-family:var(--ff2);font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold3);margin-bottom:16px}
+.phase-desc{font-size:13px;color:var(--muted);line-height:1.7;max-width:620px;margin-bottom:20px}
+.feat-chips{display:flex;flex-wrap:wrap;gap:8px}
+.fc{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:2px;white-space:nowrap}
+.fc.green{background:rgba(107,175,122,.1);color:var(--green);border:1px solid rgba(107,175,122,.25)}
+.fc.gold{background:rgba(233,185,163,.1);color:var(--gold);border:1px solid rgba(233,185,163,.25)}
+.fc.amber{background:rgba(232,168,64,.1);color:var(--amber);border:1px solid rgba(232,168,64,.25)}
+.fc.blue{background:rgba(106,159,202,.1);color:var(--blue);border:1px solid rgba(106,159,202,.25)}
+.fc.purple{background:rgba(160,110,200,.1);color:#C088E8;border:1px solid rgba(160,110,200,.25)}
+
+/* ── AI VISION SECTION ── */
+.ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.ai-card{background:var(--dark2);border:1px solid rgba(233,185,163,.08);padding:28px 24px;transition:.3s;position:relative;overflow:hidden}
+.ai-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold3),transparent);opacity:0;transition:.3s}
+.ai-card:hover{border-color:rgba(233,185,163,.2);background:var(--dark3)}
+.ai-card:hover::before{opacity:1}
+.ai-ico{font-size:32px;margin-bottom:16px}
+.ai-title{font-family:var(--ff1);font-size:20px;font-weight:300;color:var(--cream);margin-bottom:8px}
+.ai-sub{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold3);margin-bottom:12px}
+.ai-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.ai-tag{display:inline-block;margin-top:14px;font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;background:rgba(160,110,200,.1);color:#C088E8;border:1px solid rgba(160,110,200,.25);border-radius:1px}
+
+/* ── WEB SOURCES VISION ── */
+.ws-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.ws-card{background:var(--dark2);border:1px solid rgba(255,248,240,.06);padding:22px 20px;transition:.28s}
+.ws-card:hover{border-color:rgba(233,185,163,.18);background:var(--dark3)}
+.ws-num{font-family:var(--ff1);font-size:40px;font-weight:300;font-style:italic;color:rgba(233,185,163,.15);line-height:1;margin-bottom:8px}
+.ws-title{font-family:var(--ff2);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cream2);margin-bottom:8px}
+.ws-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.ws-src{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px}
+.ws-tag{font-family:var(--ff2);font-size:8px;font-weight:600;letter-spacing:.08em;padding:2px 8px;border:1px solid rgba(233,185,163,.15);color:var(--muted2);border-radius:20px}
+
+/* ── INVESTMENT ── */
+.inv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(233,185,163,.08);border:1px solid rgba(233,185,163,.08)}
+.inv-card{background:var(--dark2);padding:32px 24px;text-align:center}
+.inv-card.highlight{background:linear-gradient(135deg,rgba(233,185,163,.08),rgba(200,144,58,.06))}
+.inv-phase{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold3);margin-bottom:12px}
+.inv-title{font-family:var(--ff1);font-size:20px;font-weight:300;font-style:italic;color:var(--cream);margin-bottom:6px}
+.inv-price{font-family:var(--ff1);font-size:36px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px}
+.inv-period{font-family:var(--ff2);font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-bottom:18px}
+.inv-list{text-align:left;display:flex;flex-direction:column;gap:6px}
+.inv-item{font-size:11px;color:var(--muted);display:flex;align-items:flex-start;gap:6px;line-height:1.4}
+.inv-item::before{content:'✓';color:var(--green);flex-shrink:0;font-size:10px;margin-top:1px}
+
+/* ── NEXT STEPS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
+.step-card{background:var(--dark2);border:1px solid rgba(255,248,240,.06);padding:28px 22px;position:relative}
+.step-n{font-family:var(--ff1);font-size:52px;font-weight:300;font-style:italic;color:rgba(233,185,163,.12);line-height:1;position:absolute;top:16px;right:20px}
+.step-title{font-family:var(--ff2);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.step-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.step-when{font-family:var(--ff2);font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold3);margin-top:14px}
+
+/* ── FOOTER ── */
+#pf{text-align:center;padding:60px 24px;border-top:1px solid rgba(233,185,163,.1)}
+.pf-brand{font-family:var(--ff1);font-size:28px;font-weight:300;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);margin-bottom:6px}
+.pf-brand em{color:var(--gold);font-style:normal}
+.pf-sub{font-family:var(--ff2);font-size:9px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--muted2);margin-bottom:28px}
+.pf-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.pf-link{font-family:var(--ff2);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);transition:.25s;padding:6px 16px;border:1px solid rgba(233,185,163,.1)}
+.pf-link:hover{color:var(--gold);border-color:rgba(233,185,163,.3)}
+.pf-made{font-size:10px;color:rgba(255,248,240,.15);letter-spacing:.1em}
+</style>
+</head>
+<body>
+
+<!-- ══════════ COVER ══════════ -->
+<div id="cover">
+  <div class="cover-eyebrow">Confidential · Client Proposal · October 2025</div>
+  <h1 class="cover-title">Antara <em>Studios</em><br>Digital Platform</h1>
+  <div class="cover-sub">Interior Design Visualizer &amp; Customer Experience Platform</div>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <div class="cm-item"><div class="cm-val">4</div><div class="cm-lbl">Pages Live</div></div>
+    <div class="cm-item"><div class="cm-val">10+</div><div class="cm-lbl">Features Built</div></div>
+    <div class="cm-item"><div class="cm-val">6</div><div class="cm-lbl">Room Types</div></div>
+    <div class="cm-item"><div class="cm-val">2</div><div class="cm-lbl">Live Deployments</div></div>
+  </div>
+</div>
+
+<!-- ══════════ LIVE URLS ══════════ -->
+<div id="urls">
+  <div class="url-grid">
+    <div style="font-family:var(--ff2);font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted2)">Live Now →</div>
+    <a class="url-pill" href="https://antara-design-studio.vercel.app/home.html" target="_blank"><span class="url-dot"></span>Homepage</a>
+    <a class="url-pill" href="https://antara-design-studio.vercel.app/index.html" target="_blank"><span class="url-dot"></span>Design App</a>
+    <a class="url-pill" href="https://antara-design-studio.vercel.app/visualizer.html" target="_blank"><span class="url-dot"></span>3D Visualizer</a>
+    <a class="url-pill" href="https://antara-design-studio.vercel.app/modern-indian.html" target="_blank"><span class="url-dot"></span>Indian Styles</a>
+    <a class="url-pill" href="https://antara-design-studio.vercel.app/entry-options.html" target="_blank"><span class="url-dot"></span>Entry Options</a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════ WHAT WE BUILT ══════════ -->
+<section>
+  <div class="sec-eyebrow">Phase 1 — Delivered</div>
+  <h2 class="sec-title">What We <em>Built</em></h2>
+  <p class="sec-sub">A fully functional, brand-accurate interior design platform deployed on Vercel and GitHub Pages — zero dependencies, single HTML files, instant load.</p>
+
+  <div class="built-grid">
+    <div class="built-card">
+      <div class="bc-ico">🏠</div>
+      <div class="bc-title">Homepage</div>
+      <div class="bc-sub">home.html</div>
+      <div class="bc-list">
+        <div class="bc-item">Cinematic hero with parallax + grain + light shaft</div>
+        <div class="bc-item">Floating polaroid card stack (3 room photos)</div>
+        <div class="bc-item">Clip-path word reveal headline animation</div>
+        <div class="bc-item">5 full-viewport room panels (Living → Pooja)</div>
+        <div class="bc-item">Count-up stats (500+ projects, 4.9★, 5+ yrs)</div>
+        <div class="bc-item">Dual auto-scroll testimonial marquee</div>
+        <div class="bc-item">4-step process section</div>
+        <div class="bc-item">Book Consultation CTA → antarastudios.com</div>
+        <div class="bc-item">Client pooja room photo integrated</div>
+      </div>
+    </div>
+    <div class="built-card">
+      <div class="bc-ico">🎨</div>
+      <div class="bc-title">Design App</div>
+      <div class="bc-sub">index.html</div>
+      <div class="bc-list">
+        <div class="bc-item">Grand vertical split entry reveal + gold bloom</div>
+        <div class="bc-item">Screen 1: 8 style cards (Contemporary → Art Déco)</div>
+        <div class="bc-item">Screen 2: 6 room selector cards</div>
+        <div class="bc-item">Screen 3: Full-screen 3D CSS room designer</div>
+        <div class="bc-item">15 wall + 9 floor + 6 ceiling finishes</div>
+        <div class="bc-item">Furniture toggle + palette picker</div>
+        <div class="bc-item">Screen 4: Moodboard with compare modal</div>
+        <div class="bc-item">Custom gold cursor across all screens</div>
+      </div>
+    </div>
+    <div class="built-card">
+      <div class="bc-ico">🔭</div>
+      <div class="bc-title">3D Visualizer</div>
+      <div class="bc-sub">visualizer.html</div>
+      <div class="bc-list">
+        <div class="bc-item">Drag-to-rotate 3D room (mouse + touch)</div>
+        <div class="bc-item">6 rooms × 3 surfaces × 26 finishes</div>
+        <div class="bc-item">Clickable hotspots with editorial cards</div>
+        <div class="bc-item">Room specifications panel (cost, materials)</div>
+        <div class="bc-item">5 style presets (one-click room transform)</div>
+        <div class="bc-item">Material type filter (Paint/Stone/Wood/Tiles…)</div>
+        <div class="bc-item">Search finishes by name</div>
+        <div class="bc-item">4 lighting modes (Warm/Soft/Daylight/Night)</div>
+        <div class="bc-item">Grout colour picker for tile finishes</div>
+        <div class="bc-item">Product detail card (size, brand, cost/sqft)</div>
+        <div class="bc-item">Before / After split slider</div>
+        <div class="bc-item">Snapshot download (branded PNG)</div>
+        <div class="bc-item">Share link (URL with design state encoded)</div>
+        <div class="bc-item">Wishlist / like per finish</div>
+        <div class="bc-item">Fullscreen mode</div>
+      </div>
+    </div>
+    <div class="built-card">
+      <div class="bc-ico">🪔</div>
+      <div class="bc-title">Indian Styles Guide</div>
+      <div class="bc-sub">modern-indian.html</div>
+      <div class="bc-list">
+        <div class="bc-item">8 regional styles (Rajasthani, Mughal, Kerala…)</div>
+        <div class="bc-item">40+ authentic CSS-textured material gradients</div>
+        <div class="bc-item">3D interactive room configurator</div>
+        <div class="bc-item">Regional colour palette library</div>
+        <div class="bc-item">Deep-dive room cards per region</div>
+        <div class="bc-item">Material encyclopedia (Walls/Floors/Ceilings)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ FEATURE COMPARISON ══════════ -->
+<section>
+  <div class="sec-eyebrow">Competitive Benchmark</div>
+  <h2 class="sec-title">Us vs <em>The Market</em></h2>
+  <p class="sec-sub">Benchmarked against Tilesview (visualizemywallsandfloors.com), Livspace, and typical Bangalore studio websites.</p>
+
+  <div class="compare-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Antara Studios (Now)</th>
+          <th>Tilesview</th>
+          <th>Livspace</th>
+          <th>Typical Studio Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>3D Room Visualizer</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-partial">~ Basic</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Drag to Rotate Room</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Before / After Slider</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Lighting Mode Switcher</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Material Type Filter</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-partial">~ Category</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Grout Colour Picker</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Product Detail Card (price/brand)</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-partial">~ Partial</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Snapshot Download</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Shareable Design Link</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-partial">~ Login needed</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Wishlist / Save Finish</td><td><span class="tag-yes">✓ Built</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>India-specific Room Types</td><td><span class="tag-yes">✓ Pooja Room</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-partial">~ Limited</span></td><td><span class="tag-partial">~ Images</span></td></tr>
+        <tr><td>Regional Indian Style Guide</td><td><span class="tag-yes">✓ 8 Regions</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Cinematic Brand Entry</td><td><span class="tag-yes">✓ Vertical Split</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Design Reference from Web</td><td><span class="tag-partial">~ Coming Soon</span></td><td><span class="tag-partial">~ Upload only</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>AI Style Generation</td><td><span class="tag-partial">~ Roadmap</span></td><td><span class="tag-no">✗ No</span></td><td><span class="tag-partial">~ Beta</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>AR / Mobile Preview</td><td><span class="tag-partial">~ Roadmap</span></td><td><span class="tag-yes">✓ Yes</span></td><td><span class="tag-partial">~ App only</span></td><td><span class="tag-no">✗ No</span></td></tr>
+        <tr><td>Zero Login Required</td><td><span class="tag-yes">✓ Always</span></td><td><span class="tag-no">✗ Login wall</span></td><td><span class="tag-no">✗ Login wall</span></td><td><span class="tag-yes">✓ Yes</span></td></tr>
+        <tr><td>Instant Load (no app download)</td><td><span class="tag-yes">✓ URL share</span></td><td><span class="tag-partial">~ Slow SPA</span></td><td><span class="tag-partial">~ App needed</span></td><td><span class="tag-yes">✓ Yes</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ ROADMAP ══════════ -->
+<section>
+  <div class="sec-eyebrow">Development Roadmap</div>
+  <h2 class="sec-title">Present &amp; <em>Future</em></h2>
+  <p class="sec-sub">A phased plan — each phase is independently valuable and can be delivered and reviewed before the next begins.</p>
+
+  <div class="roadmap">
+
+    <!-- PHASE 0 -->
+    <div class="phase done">
+      <div class="phase-dot"></div>
+      <div class="phase-badge"><span class="pb-tag done">✓ Complete</span><span class="phase-num">Phase 0</span></div>
+      <div class="phase-title">Foundation &amp; <em>Brand</em></div>
+      <div class="phase-period">Delivered — October 2025</div>
+      <div class="phase-desc">Full brand system, 4 deployed pages, CSS 3D room engine, Indian room types, custom cursor, cinematic entry animation.</div>
+      <div class="feat-chips">
+        <span class="fc green">Homepage</span><span class="fc green">Design App</span><span class="fc green">3D Visualizer</span><span class="fc green">Indian Styles</span><span class="fc green">Vertical Split Entry</span><span class="fc green">Brand Tokens</span><span class="fc green">Vercel + GitHub Deploy</span>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase active">
+      <div class="phase-dot"></div>
+      <div class="phase-badge"><span class="pb-tag active">● In Progress</span><span class="phase-num">Phase 1</span></div>
+      <div class="phase-title">Visualizer <em>Parity</em></div>
+      <div class="phase-period">Now — 2 Weeks</div>
+      <div class="phase-desc">Close remaining gaps vs Tilesview. Add real material images, upload-your-own texture, tile size selector, and grout preview on room faces.</div>
+      <div class="feat-chips">
+        <span class="fc gold">Real material photos (not CSS gradients)</span>
+        <span class="fc gold">Upload your own texture</span>
+        <span class="fc gold">Tile size selector (300×300, 600×600, 800×800)</span>
+        <span class="fc gold">Grout preview on actual room surface</span>
+        <span class="fc gold">Design save to localStorage</span>
+        <span class="fc gold">PDF quote sheet export</span>
+        <span class="fc gold">WhatsApp share integration</span>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase next">
+      <div class="phase-dot"></div>
+      <div class="phase-badge"><span class="pb-tag next">→ Next</span><span class="phase-num">Phase 2</span></div>
+      <div class="phase-title">Web Reference <em>Import</em></div>
+      <div class="phase-period">Month 2</div>
+      <div class="phase-desc">Let customers pick design inspiration from anywhere on the web — Pinterest, Instagram, Houzz, Architectural Digest — and extract the dominant colours and material palette automatically. The visualizer then applies that palette to the 3D room instantly.</div>
+      <div class="feat-chips">
+        <span class="fc amber">Paste any image URL → extract palette</span>
+        <span class="fc amber">Pinterest / Houzz embed picker</span>
+        <span class="fc amber">Colour extraction (5 dominant swatches)</span>
+        <span class="fc amber">Auto-match to nearest Antara finishes</span>
+        <span class="fc amber">Apply extracted palette to 3D room</span>
+        <span class="fc amber">Save reference board per project</span>
+        <span class="fc amber">"Inspired by" tag on moodboard export</span>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase future">
+      <div class="phase-dot"></div>
+      <div class="phase-badge"><span class="pb-tag future">◇ Planned</span><span class="phase-num">Phase 3</span></div>
+      <div class="phase-title">Gen AI <em>Style Engine</em></div>
+      <div class="phase-period">Month 3–4</div>
+      <div class="phase-desc">Customer describes their dream room in plain language — "warm Rajasthani bedroom with gold accents and marble floors" — and the AI generates a full room configuration: wall finish, floor, ceiling, palette, furniture suggestions, and an estimated cost range. No design knowledge needed.</div>
+      <div class="feat-chips">
+        <span class="fc purple">Natural language room prompt</span>
+        <span class="fc purple">AI → room configuration mapping</span>
+        <span class="fc purple">GPT-4 / Gemini API integration</span>
+        <span class="fc purple">Suggested palette + finishes + furniture</span>
+        <span class="fc purple">Style quiz → auto-configure room</span>
+        <span class="fc purple">AI moodboard generation</span>
+        <span class="fc purple">Budget-aware suggestions (₹ range)</span>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase future">
+      <div class="phase-dot"></div>
+      <div class="phase-badge"><span class="pb-tag future">◇ Planned</span><span class="phase-num">Phase 4</span></div>
+      <div class="phase-title">AI Image <em>Render</em></div>
+      <div class="phase-period">Month 4–5</div>
+      <div class="phase-desc">Generate a photorealistic render of the designed room using Stable Diffusion or DALL-E 3 — not a CSS box, a real image. Customer sees exactly what their finished room will look like before work begins. This is the single biggest conversion driver in premium design.</div>
+      <div class="feat-chips">
+        <span class="fc purple">3D room → AI render prompt</span>
+        <span class="fc purple">Stable Diffusion / DALL-E 3 API</span>
+        <span class="fc purple">Photorealistic room render (10–20s)</span>
+        <span class="fc purple">Style transfer from reference image</span>
+        <span class="fc purple">Multiple render angles (day / night / wide)</span>
+        <span class="fc purple">Download render as client deliverable</span>
+        <span class="fc purple">Render included in consultation PDF</span>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase future">
+      <div class="phase-dot"></div>
+      <div class="phase-badge"><span class="pb-tag future">◇ Planned</span><span class="phase-num">Phase 5</span></div>
+      <div class="phase-title">AR &amp; <em>Mobile</em></div>
+      <div class="phase-period">Month 6+</div>
+      <div class="phase-desc">Point your phone at any wall in your home and see the new finish applied in real time. No app download required — WebXR runs in Safari and Chrome on any modern phone. The customer experiences the design in their actual room.</div>
+      <div class="feat-chips">
+        <span class="fc blue">WebXR augmented reality</span>
+        <span class="fc blue">Point phone at wall → apply finish</span>
+        <span class="fc blue">No app download (browser-native)</span>
+        <span class="fc blue">Floor material AR overlay</span>
+        <span class="fc blue">Furniture placement in AR</span>
+        <span class="fc blue">Share AR view as video</span>
+        <span class="fc blue">iOS + Android + iPad support</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ AI VISION ══════════ -->
+<section>
+  <div class="sec-eyebrow">Gen AI Features — Deep Dive</div>
+  <h2 class="sec-title">The AI <em>Advantage</em></h2>
+  <p class="sec-sub">How generative AI transforms the customer journey — from 45-minute discovery calls to 5-minute self-serve design sessions that qualify leads automatically.</p>
+
+  <div class="ai-grid">
+    <div class="ai-card">
+      <div class="ai-ico">💬</div>
+      <div class="ai-title">Natural Language Room Design</div>
+      <div class="ai-sub">Prompt → Configuration</div>
+      <div class="ai-desc">Customer types: <em>"Modern Bangalore apartment, master bedroom, warm colours, marble, no white walls."</em> AI maps this to wall finish, floor, palette, furniture — and renders it in the 3D room instantly. Zero clicks on colour swatches.</div>
+      <div class="ai-tag">GPT-4 / Gemini</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-ico">🖼</div>
+      <div class="ai-title">Reference Image → Room Design</div>
+      <div class="ai-sub">Web Image → Palette Extract</div>
+      <div class="ai-desc">Customer pastes a Pinterest URL or uploads a photo they love. The system extracts the 5 dominant colours and 3 material types, matches them to Antara's finish library, and applies them to the 3D room — your actual materials, inspired by their reference.</div>
+      <div class="ai-tag">Colour Extraction API</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-ico">🎨</div>
+      <div class="ai-title">Photorealistic AI Render</div>
+      <div class="ai-sub">Design → Real Image</div>
+      <div class="ai-desc">The designed room becomes a photorealistic image — not a CSS box. Customers see their actual home, with their chosen finishes, rendered as a professional photograph. Delivered in 15–20 seconds. Included in every consultation PDF.</div>
+      <div class="ai-tag">Stable Diffusion · DALL-E 3</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-ico">📋</div>
+      <div class="ai-title">AI Style Quiz</div>
+      <div class="ai-sub">5 Questions → Full Room</div>
+      <div class="ai-desc">5 curated questions (lifestyle, budget, city, family size, one word for your home) map to a complete room configuration via a trained style model. Generates a personalised moodboard and estimated cost range before the first call.</div>
+      <div class="ai-tag">Custom Fine-tuned Model</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-ico">💰</div>
+      <div class="ai-title">AI Cost Estimator</div>
+      <div class="ai-sub">Design → ₹ Range</div>
+      <div class="ai-desc">Every material selection feeds a real-time cost model. Customer sees a live ₹ range as they pick finishes — "Living Room: ₹6.2L – ₹8.8L turnkey." Builds trust, pre-qualifies leads, and sets budget expectations before the consultation.</div>
+      <div class="ai-tag">Rule Engine + ML Pricing</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-ico">📱</div>
+      <div class="ai-title">WhatsApp Design Sharing</div>
+      <div class="ai-sub">One tap → Client's phone</div>
+      <div class="ai-desc">Designer or customer taps "Send to WhatsApp" — a branded image of the 3D room, the finish list, and a consultation link are sent directly. No email, no PDF attachment, no friction. Works on any phone.</div>
+      <div class="ai-tag">WhatsApp Business API</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ WEB SOURCES ══════════ -->
+<section>
+  <div class="sec-eyebrow">Phase 2 Deep Dive — Web Reference Import</div>
+  <h2 class="sec-title">Design from <em>Anywhere</em></h2>
+  <p class="sec-sub">Customers don't think in finish codes — they save images. This feature bridges their inspiration to your actual material library in one step.</p>
+
+  <div class="ws-grid">
+    <div class="ws-card">
+      <div class="ws-num">01</div>
+      <div class="ws-title">Paste Any Image URL</div>
+      <div class="ws-desc">Customer finds a room they love on Instagram, Pinterest, or Architectural Digest. They paste the image URL into the visualizer. No screenshot, no upload needed.</div>
+      <div class="ws-src"><span class="ws-tag">Pinterest</span><span class="ws-tag">Instagram</span><span class="ws-tag">Houzz</span><span class="ws-tag">Any URL</span></div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-num">02</div>
+      <div class="ws-title">Colour Palette Extraction</div>
+      <div class="ws-desc">The platform analyses the image and extracts 5 dominant colours using a Canvas-based colour quantisation algorithm — no server, runs in the browser in under 1 second.</div>
+      <div class="ws-src"><span class="ws-tag">Browser-native</span><span class="ws-tag">Canvas API</span><span class="ws-tag">0 server cost</span></div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-num">03</div>
+      <div class="ws-title">Auto-Match to Antara Finishes</div>
+      <div class="ws-desc">Each extracted colour is matched to the nearest finish in the Antara library using Delta-E colour distance. "Warm cream wall in reference" → Warm Ivory plaster. "Dark brown floor" → Dark Walnut wood.</div>
+      <div class="ws-src"><span class="ws-tag">Delta-E matching</span><span class="ws-tag">Antara finish library</span></div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-num">04</div>
+      <div class="ws-title">Apply to 3D Room Instantly</div>
+      <div class="ws-desc">One click applies the matched palette to the live 3D room — walls, floor, ceiling updated simultaneously. Customer immediately sees their reference translated into a real Antara design.</div>
+      <div class="ws-src"><span class="ws-tag">Real-time 3D update</span><span class="ws-tag">One click</span></div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-num">05</div>
+      <div class="ws-title">Side-by-Side Comparison</div>
+      <div class="ws-desc">The reference image and the 3D room sit side by side. Customer can fine-tune — "make the floor warmer" — and the designer knows exactly what they're aiming for before the site visit.</div>
+      <div class="ws-src"><span class="ws-tag">Split view</span><span class="ws-tag">Fine-tune</span></div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-num">06</div>
+      <div class="ws-title">Save to Project Board</div>
+      <div class="ws-desc">All reference images and their matched palettes save to a project board. Customer arrives at the consultation with a fully defined brief — reference, palette, room, budget — reducing discovery time from 45 minutes to 5.</div>
+      <div class="ws-src"><span class="ws-tag">Project board</span><span class="ws-tag">PDF export</span><span class="ws-tag">WhatsApp share</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ INVESTMENT ══════════ -->
+<section>
+  <div class="sec-eyebrow">Investment</div>
+  <h2 class="sec-title">Phased <em>Investment</em></h2>
+  <p class="sec-sub">Each phase is a standalone deliverable. You pay only for what you approve. No lock-in, no hidden retainers.</p>
+
+  <div class="inv-grid">
+    <div class="inv-card">
+      <div class="inv-phase">Phase 0</div>
+      <div class="inv-title">Foundation</div>
+      <div class="inv-price">POC</div>
+      <div class="inv-period">Delivered</div>
+      <div class="inv-list">
+        <div class="inv-item">4 pages live on Vercel</div>
+        <div class="inv-item">Full brand system</div>
+        <div class="inv-item">3D CSS room engine</div>
+        <div class="inv-item">10+ visualizer features</div>
+        <div class="inv-item">Indian style encyclopedia</div>
+      </div>
+    </div>
+    <div class="inv-card">
+      <div class="inv-phase">Phase 1</div>
+      <div class="inv-title">Visualizer Parity</div>
+      <div class="inv-price">₹ TBD</div>
+      <div class="inv-period">2 Weeks</div>
+      <div class="inv-list">
+        <div class="inv-item">Real material photos</div>
+        <div class="inv-item">Upload own texture</div>
+        <div class="inv-item">Tile size selector</div>
+        <div class="inv-item">PDF quote export</div>
+        <div class="inv-item">WhatsApp share</div>
+      </div>
+    </div>
+    <div class="inv-card highlight">
+      <div class="inv-phase">Phase 2</div>
+      <div class="inv-title">Web Reference Import</div>
+      <div class="inv-price">₹ TBD</div>
+      <div class="inv-period">Month 2</div>
+      <div class="inv-list">
+        <div class="inv-item">Paste image URL → extract palette</div>
+        <div class="inv-item">Auto-match to Antara finishes</div>
+        <div class="inv-item">Apply to 3D room instantly</div>
+        <div class="inv-item">Project reference board</div>
+        <div class="inv-item">Share with designer</div>
+      </div>
+    </div>
+    <div class="inv-card highlight">
+      <div class="inv-phase">Phase 3 + 4</div>
+      <div class="inv-title">Gen AI Engine</div>
+      <div class="inv-price">₹ TBD</div>
+      <div class="inv-period">Month 3–5</div>
+      <div class="inv-list">
+        <div class="inv-item">Natural language room design</div>
+        <div class="inv-item">AI style quiz</div>
+        <div class="inv-item">Photorealistic AI render</div>
+        <div class="inv-item">AI cost estimator</div>
+        <div class="inv-item">GPT-4 / Stable Diffusion integration</div>
+      </div>
+    </div>
+    <div class="inv-card">
+      <div class="inv-phase">Phase 5</div>
+      <div class="inv-title">AR + Mobile</div>
+      <div class="inv-price">₹ TBD</div>
+      <div class="inv-period">Month 6+</div>
+      <div class="inv-list">
+        <div class="inv-item">WebXR augmented reality</div>
+        <div class="inv-item">Point phone at wall → apply finish</div>
+        <div class="inv-item">No app download</div>
+        <div class="inv-item">iOS + Android</div>
+        <div class="inv-item">AR furniture placement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ NEXT STEPS ══════════ -->
+<section>
+  <div class="sec-eyebrow">Immediate Next Steps</div>
+  <h2 class="sec-title">How We <em>Proceed</em></h2>
+  <p class="sec-sub">Four actions to move from POC to production platform.</p>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-n">1</div>
+      <div class="step-title">Client Sign-off on Phase 1</div>
+      <div class="step-desc">Review this POC, confirm the feature set for Phase 1 (real photos, upload, PDF export, WhatsApp share), and agree scope.</div>
+      <div class="step-when">This Week</div>
+    </div>
+    <div class="step-card">
+      <div class="step-n">2</div>
+      <div class="step-title">Provide Real Material Images</div>
+      <div class="step-desc">Share high-quality photos of the actual materials Antara uses — tiles, marble, wood, paint colours. We replace CSS gradients with real photos across all 26 finishes.</div>
+      <div class="step-when">Week 1</div>
+    </div>
+    <div class="step-card">
+      <div class="step-n">3</div>
+      <div class="step-title">Approve Phase 2 Scope</div>
+      <div class="step-desc">Confirm web reference import feature set — Pinterest integration, colour extraction, auto-match to Antara library, project board.</div>
+      <div class="step-when">Week 2</div>
+    </div>
+    <div class="step-card">
+      <div class="step-n">4</div>
+      <div class="step-title">Domain + Custom Branding</div>
+      <div class="step-desc">Move from antara-design-studio.vercel.app to design.antarastudios.com. Add client logo, real room photos, and production content.</div>
+      <div class="step-when">Week 2</div>
+    </div>
+    <div class="step-card">
+      <div class="step-n">5</div>
+      <div class="step-title">AI API Keys</div>
+      <div class="step-desc">For Phase 3, we'll need OpenAI or Gemini API access. We handle integration — client provides billing account or we set one up together.</div>
+      <div class="step-when">Month 2</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<div id="pf">
+  <div class="pf-brand">ANTARA <em>STUDIOS</em></div>
+  <div class="pf-sub">Digital Platform Proposal · October 2025 · Confidential</div>
+  <div class="pf-links">
+    <a class="pf-link" href="https://antara-design-studio.vercel.app/home.html" target="_blank">Homepage</a>
+    <a class="pf-link" href="https://antara-design-studio.vercel.app/index.html" target="_blank">Design App</a>
+    <a class="pf-link" href="https://antara-design-studio.vercel.app/visualizer.html" target="_blank">3D Visualizer</a>
+    <a class="pf-link" href="https://antara-design-studio.vercel.app/modern-indian.html" target="_blank">Indian Styles</a>
+    <a class="pf-link" href="https://antarastudios.com" target="_blank">Book Consultation</a>
+  </div>
+  <div class="pf-made">Made with IBM Bob</div>
+</div>
+
+</body>
+</html>
